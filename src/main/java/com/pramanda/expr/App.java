@@ -1,14 +1,23 @@
 package com.pramanda.expr;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class App {
 	
-    public static void main(String[] args) {
+	public static final BufferedReader BR = new BufferedReader(new InputStreamReader(System.in));
+	
+	
+    public static void main(String[] args) throws IOException {
+    	
+    	System.out.print("Enter expression: ");
+    	String expr = BR.readLine().replaceAll("\\s+", "");
     	
     	ShuntingYard sy = new ShuntingYard();
+    	double result = sy.evaluate(expr);
     	
-    	double result = sy.evaluate("5+3/cossin-6^0.25");
-    	
-    	System.out.println(result);
+    	System.out.println("Result: " + result);
     	
     }
     
