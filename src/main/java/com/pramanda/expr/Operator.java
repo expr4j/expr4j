@@ -32,6 +32,9 @@ public class Operator extends Token implements Comparable<Operator> {
 		OPERATORS.put("sin", new Properties(1, 4));
 		OPERATORS.put("cos", new Properties(1, 4));
 		OPERATORS.put("tan", new Properties(1, 4));
+		OPERATORS.put("round", new Properties(1, 4));
+		OPERATORS.put("floor", new Properties(1, 4));
+		OPERATORS.put("ceil", new Properties(1, 4));
 	}
 
 	public Operator(String value) {
@@ -63,6 +66,9 @@ public class Operator extends Token implements Comparable<Operator> {
 			case "sin": return new Operand(String.valueOf(Math.sin(operands[0].toDouble())));
 			case "cos": return new Operand(String.valueOf(Math.cos(operands[0].toDouble())));
 			case "tan": return new Operand(String.valueOf(Math.tan(operands[0].toDouble())));
+			case "round": return new Operand(String.valueOf(Math.round(operands[0].toDouble())));
+			case "floor": return new Operand(String.valueOf(Math.floor(operands[0].toDouble())));
+			case "ceil": return new Operand(String.valueOf(Math.ceil(operands[0].toDouble())));
 			default: throw new RuntimeException("Unsupported operator");
 		}
 	}
