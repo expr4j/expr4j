@@ -30,7 +30,14 @@ public class ShuntingYard {
 				// add to operator stack
 				Operator op = new Operator(token + ch);
 				
-				if (op.value.equals("(")) {
+				if (op.getOperandCount() == 0) {
+					Operand eval = op.evaluate();
+					postfix.push(eval);
+					lastToken = eval.value;
+					token = new String();
+					continue;
+				}
+				else if (op.value.equals("(")) {
 					opStack.push(op);
 				}
 				else if (op.value.equals(")")) {
@@ -57,7 +64,7 @@ public class ShuntingYard {
 				lastToken = token + ch;
 				token = new String();
 			}
-			else if (Operand.isOperand(token + ch) && (chNext == '\u0000' || !Operand.isOperand(token + ch + chNext))) {
+			else if (Operand.isOperand(token + ch) && (chNext != 'e' && chNext != 'E') && (chNext == '\u0000' || !Operand.isOperand(token + ch + chNext))) {
 				// add to postfix
 				postfix.push(new Operand(token + ch));
 				
@@ -137,40 +144,49 @@ public class ShuntingYard {
 				root = node;
 			}
 			else {
-				formTree(root, token);
+				boolean flag = formTree(root, token);
+				
+				if (!flag) {
+					throw new RuntimeException("Invalid expression");
+				}
 			}
 		}
 	}
 	
-	private Operand evaluate(Node node) {
-		Operator operator = (Operator) node.token;
-		
-		boolean unary = false;
-		if (operator.getOperandCount() == 1) {
-			unary = true;
+	protected Operand evaluate(Node node) {
+		if (node.token instanceof Operator) {
+			Operator operator = (Operator) node.token;
+			
+			boolean unary = false;
+			if (operator.getOperandCount() == 1) {
+				unary = true;
+			}
+			
+			if (node.left == null) {
+				throw new RuntimeException("Invalid expression");
+			}
+			
+			Operand leftOp = null;
+			if (node.left.token instanceof Operand) {
+				leftOp = (Operand) node.left.token;
+			}
+			else if (node.left.token instanceof Operator) {
+				leftOp = evaluate(node.left);
+			}
+			
+			Operand rightOp = null;
+			if (!unary && node.right.token instanceof Operand) {
+				rightOp = (Operand) node.right.token;
+			}
+			else if (!unary && node.right.token instanceof Operator) {
+				rightOp = evaluate(node.right);
+			}
+			
+			return operator.evaluate(leftOp, rightOp);
 		}
-		
-		if (node.left == null) {
-			throw new RuntimeException("Invalid expression");
+		else {
+			return (Operand) node.token;
 		}
-		
-		Operand leftOp = null;
-		if (node.left.token instanceof Operand) {
-			leftOp = (Operand) node.left.token;
-		}
-		else if (node.left.token instanceof Operator) {
-			leftOp = evaluate(node.left);
-		}
-		
-		Operand rightOp = null;
-		if (!unary && node.right.token instanceof Operand) {
-			rightOp = (Operand) node.right.token;
-		}
-		else if (!unary && node.right.token instanceof Operator) {
-			rightOp = evaluate(node.right);
-		}
-		
-		return operator.evaluate(leftOp, rightOp);
 	}
 	
 	public double evaluate(String expr) {

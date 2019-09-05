@@ -35,6 +35,9 @@ public class Operator extends Token implements Comparable<Operator> {
 		OPERATORS.put("round", new Properties(1, 4));
 		OPERATORS.put("floor", new Properties(1, 4));
 		OPERATORS.put("ceil", new Properties(1, 4));
+		
+		// zero argument - 5
+		OPERATORS.put("rand", new Properties(0, 5));
 	}
 
 	public Operator(String value) {
@@ -57,6 +60,7 @@ public class Operator extends Token implements Comparable<Operator> {
 	
 	public Operand evaluate(Operand ... operands) {
 		switch (value) {
+			case "rand": return new Operand(String.valueOf(Math.random()));
 			case "+": return new Operand(String.valueOf(operands[0].toDouble() + operands[1].toDouble()));
 			case "-": return new Operand(String.valueOf(operands[0].toDouble() - operands[1].toDouble()));
 			case "*": return new Operand(String.valueOf(operands[0].toDouble() * operands[1].toDouble()));
