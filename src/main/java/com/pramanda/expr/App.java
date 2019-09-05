@@ -12,7 +12,7 @@ public class App {
     public static void main(String[] args) throws IOException {
     	
     	System.out.print("Enter expression: ");
-    	String expr = BR.readLine().replaceAll("\\s+", "");
+    	String expr = BR.readLine();
     	
     	ShuntingYard sy = new ShuntingYard();
     	double result = sy.evaluate(expr);

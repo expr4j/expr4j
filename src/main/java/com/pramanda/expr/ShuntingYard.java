@@ -14,6 +14,8 @@ public class ShuntingYard {
 	protected Stack<Token> postfix;
 	
 	protected void init(String expr) {
+		expr = expr.replaceAll("\\s+", "");
+		
 		Stack<Token> postfix = new Stack<>();
 		Stack<Operator> opStack = new Stack<>();
 		
