@@ -10,7 +10,8 @@ public class ShuntingYardDualStack extends ShuntingYard {
 	private Stack<Operator> operatorStack;
 	
 	protected Operand evaluateExpr(String expr) {
-		expr = expr.replaceAll("\\s+", "");
+		// remove all whitespace except if whitespace is present between operands
+		expr = expr.replaceAll("(?!\\d|\\+|\\-)\\s+(?!\\d|\\.)", "");
 		
 		operandStack = new Stack<>();
 		operatorStack = new Stack<>();
@@ -22,7 +23,9 @@ public class ShuntingYardDualStack extends ShuntingYard {
 			char ch = expr.charAt(i);
 			char chNext = (i + 1 < expr.length()) ? expr.charAt(i + 1) : '\u0000';
 			
-			if (Operator.isOperator(token + ch) && !((ch == '-' || ch == '+') && (lastToken == null || (Operator.isOperator(lastToken) && !lastToken.equals(")"))))) {
+			if (Operator.isOperator(token + ch) &&
+				!((ch == '-' || ch == '+') && (Character.isDigit(chNext) || chNext == '.') &&
+					(lastToken == null || (Operator.isOperator(lastToken) && !lastToken.equals(")"))))) {
 				// add to operator stack
 				Operator op = new Operator(token + ch);
 				
