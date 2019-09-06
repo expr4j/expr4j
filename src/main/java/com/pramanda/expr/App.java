@@ -19,7 +19,7 @@ public class App {
     	Runtime runtime = Runtime.getRuntime();
         long usedMemoryBefore = runtime.totalMemory() - runtime.freeMemory();
     	
-    	ShuntingYard sy = new ShuntingYardTree();
+    	ShuntingYard sy = new ShuntingYardDualStack();
     	double result = sy.evaluate(expr);
     	
         long usedMemoryAfter = runtime.totalMemory() - runtime.freeMemory();
