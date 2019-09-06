@@ -73,7 +73,8 @@ public class ShuntingYardDualStack extends ShuntingYard {
 				lastToken = token + ch;
 				token = new String();
 			}
-			else if (Operand.isOperand(token + ch) && (chNext != 'e' && chNext != 'E') && (chNext == '\u0000' || !Operand.isOperand(token + ch + chNext))) {
+			else if (Operand.isOperand(token + ch) && (chNext != 'e' && chNext != 'E') &&
+						(chNext == '\u0000' || !Operand.isOperand(token + ch + chNext))) {
 				// add to operandStack
 				operandStack.push(new Operand(token + ch));
 				
