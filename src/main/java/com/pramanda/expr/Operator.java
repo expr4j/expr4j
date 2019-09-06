@@ -3,6 +3,8 @@ package com.pramanda.expr;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.pramanda.expr.Operator.Properties.Associativity;
+
 public class Operator extends Token implements Comparable<Operator> {
 	
 	protected static final Map<String, Properties> OPERATORS;
@@ -29,15 +31,15 @@ public class Operator extends Token implements Comparable<Operator> {
 		OPERATORS.put("^", new Properties(2, 3));
 		
 		// unary - 4
-		OPERATORS.put("sin", new Properties(1, 4));
-		OPERATORS.put("cos", new Properties(1, 4));
-		OPERATORS.put("tan", new Properties(1, 4));
-		OPERATORS.put("round", new Properties(1, 4));
-		OPERATORS.put("floor", new Properties(1, 4));
-		OPERATORS.put("ceil", new Properties(1, 4));
+		OPERATORS.put("sin", new Properties(1, 4, Associativity.NO));
+		OPERATORS.put("cos", new Properties(1, 4, Associativity.NO));
+		OPERATORS.put("tan", new Properties(1, 4, Associativity.NO));
+		OPERATORS.put("round", new Properties(1, 4, Associativity.NO));
+		OPERATORS.put("floor", new Properties(1, 4, Associativity.NO));
+		OPERATORS.put("ceil", new Properties(1, 4, Associativity.NO));
 		
 		// zero argument - 5
-		OPERATORS.put("rand", new Properties(0, 5));
+		OPERATORS.put("rand", new Properties(0, 5, Associativity.NO));
 	}
 
 	public Operator(String value) {
@@ -46,6 +48,10 @@ public class Operator extends Token implements Comparable<Operator> {
 	
 	public int getOperandCount() {
 		return OPERATORS.get(value).params;
+	}
+	
+	public Associativity getAssociativity() {
+		return OPERATORS.get(value).associativity;
 	}
 
 	@Override
@@ -77,14 +83,24 @@ public class Operator extends Token implements Comparable<Operator> {
 		}
 	}
 	
-	protected static class Properties {
+	public static class Properties {
 
 		protected int params;
 		protected int precendence;
+		protected Associativity associativity;
 		
 		protected Properties(int params, int precendence) {
+			this(params, precendence, Associativity.LEFT);
+		}
+		
+		protected Properties(int params, int precendence, Associativity associativity) {
 			this.params = params;
 			this.precendence = precendence;
+			this.associativity = associativity;
+		}
+		
+		public static enum Associativity {
+			LEFT, RIGHT, NO
 		}
 		
 	}
