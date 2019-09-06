@@ -14,24 +14,10 @@ public class App {
     	System.out.print("Enter expression: ");
     	String expr = BR.readLine();
     	
-    	long startTime = System.nanoTime();
-    	
-    	Runtime runtime = Runtime.getRuntime();
-        long usedMemoryBefore = runtime.totalMemory() - runtime.freeMemory();
-    	
     	ShuntingYard sy = new ShuntingYardDualStack();
     	double result = sy.evaluate(expr);
     	
-        long usedMemoryAfter = runtime.totalMemory() - runtime.freeMemory();
-    	long endTime = System.nanoTime();
-
-    	long duration = (endTime - startTime) / 1000000;
-    	long memoryUsed = (usedMemoryAfter - usedMemoryBefore);
-    	
     	System.out.println("Result: " + result);
-    	
-    	System.out.println("\nTime taken: " + duration);
-    	System.out.println("Memory utilized: " + memoryUsed);
     	
     }
     
