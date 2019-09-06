@@ -35,4 +35,10 @@ public class ShuntingYardDualStackTest extends TestCase {
         assertEquals(expected, actual);
     }
     
+    public void test4() {
+    	double expected = -1.0;
+    	double actual = sy.evaluate("floor -rand");
+        assertEquals(expected, actual);
+    }
+    
 }

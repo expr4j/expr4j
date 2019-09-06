@@ -29,11 +29,16 @@ public class ShuntingYardTree extends ShuntingYard {
 			char ch = expr.charAt(i);
 			char chNext = (i + 1 < expr.length()) ? expr.charAt(i + 1) : '\u0000';
 			
-			if (Operator.isOperator(token + ch) &&
-				!((ch == '-' || ch == '+') && (Character.isDigit(chNext) || chNext == '.') &&
-					(lastToken == null || (Operator.isOperator(lastToken) && !lastToken.equals(")"))))) {
+			if (Operator.isOperator(token + ch)) {
 				// add to operator stack
 				Operator op = new Operator(token + ch);
+				
+				// handle unary - and + operators
+				if (((ch == '-' || ch == '+') && chNext != ' ' &&
+					(lastToken == null || (Operator.isOperator(lastToken) && !lastToken.equals(")"))))) {
+					if (ch == '-') op = new Operator("uminus");
+					if (ch == '+') op = new Operator("uplus");
+				}
 				
 				if (op.getOperandCount() == 0) {
 					Operand eval = op.evaluate();
