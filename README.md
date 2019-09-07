@@ -1,10 +1,8 @@
 # Expression Evaluator
 
 ## Introduction
-This is a simple Java library to evaluate mathematical expressions.
-
-The expressions are evaluated using Shunting Yard algorithm.
-
+This is a simple Java library to evaluate mathematical expressions.<br/>
+The expressions are evaluated using Shunting Yard algorithm.<br/>
 https://en.wikipedia.org/wiki/Shunting-yard_algorithm
 
 <br/>
