@@ -7,7 +7,7 @@ https://en.wikipedia.org/wiki/Shunting-yard_algorithm
 
 <br/>
 Two implementations of the Shunting Yard algorithm are provided:
-
+<br/>
 <br/>
 
 | Implementation | Description |
