@@ -19,11 +19,11 @@ Two implementations of the Shunting Yard algorithm are provided:
 
 <br/>
 
-## Supported Operators
+## Operators
 
 
 | Operator | Description    |
-| -------- | -------------- |
+| :------: | -------------- |
 | ( )      | Parenthesis    |
 | +        | Unary Plus     |
 | -        | Unary Minus    |
@@ -36,11 +36,11 @@ Two implementations of the Shunting Yard algorithm are provided:
 
 <br/>
 
-## Supported Varibles & Constants
+## Variables & Constants
 
 
-| Varible / Constant | Description                                       |
-| ------------------ | ------------------------------------------------- |
-| rand               | Random number between 0 and 1                     |
-| pi                 | Ratio of a circle's circumference to its diameter |
-| e                  | Euler's number                                    |
+| Variable / Constant | Description                                       |
+| ------------------- | ------------------------------------------------- |
+| rand                | Random number between 0 and 1                     |
+| pi                  | Ratio of a circle's circumference to its diameter |
+| e                   | Euler's number                                    |
