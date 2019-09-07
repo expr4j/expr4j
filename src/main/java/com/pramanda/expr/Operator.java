@@ -18,6 +18,9 @@ public class Operator extends Token implements Comparable<Operator> {
 		OPERATORS.put("(", new Properties(1, 0));
 		OPERATORS.put(")", new Properties(1, 0));
 		
+		// no argument - 0
+		OPERATORS.put(",", new Properties(0, 0));
+		
 		// binary - 1
 		OPERATORS.put("+", new Properties(2, 1));
 		OPERATORS.put("-", new Properties(2, 1));
@@ -57,8 +60,9 @@ public class Operator extends Token implements Comparable<Operator> {
 		OPERATORS.put("floor", new Properties(1, 4, true));
 		OPERATORS.put("ceil", new Properties(1, 4, true));
 		
-		OPERATORS.put("log", new Properties(1, 4, true));
+		OPERATORS.put("ln", new Properties(1, 4, true));
 		OPERATORS.put("log10", new Properties(1, 4, true));
+		OPERATORS.put("log", new Properties(2, 4, true));
 		
 		OPERATORS.put("sqrt", new Properties(1, 4, true));
 		OPERATORS.put("cbrt", new Properties(1, 4, true));
@@ -135,8 +139,9 @@ public class Operator extends Token implements Comparable<Operator> {
 			case "floor": return new Operand(String.valueOf(Math.floor(operands[0].toDouble())));
 			case "ceil": return new Operand(String.valueOf(Math.ceil(operands[0].toDouble())));
 			
-			case "log": return new Operand(String.valueOf(Math.log(operands[0].toDouble())));
+			case "ln": return new Operand(String.valueOf(Math.log(operands[0].toDouble())));
 			case "log10": return new Operand(String.valueOf(Math.log10(operands[0].toDouble())));
+			case "log": return new Operand(String.valueOf(MathExtras.log(operands[0].toDouble(), operands[1].toDouble())));
 			
 			case "sqrt": return new Operand(String.valueOf(Math.sqrt(operands[0].toDouble())));
 			case "cbrt": return new Operand(String.valueOf(Math.cbrt(operands[0].toDouble())));

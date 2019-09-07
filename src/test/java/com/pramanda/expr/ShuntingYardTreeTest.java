@@ -47,4 +47,10 @@ public class ShuntingYardTreeTest extends TestCase {
         assertEquals(expected, actual);
     }
     
+    public void test6() {
+    	double expected = 0.3722236412;
+    	double actual = sy.evaluate("log(2, (ln(2 + 3) * 4))");
+        assertEquals(expected, actual);
+    }
+    
 }

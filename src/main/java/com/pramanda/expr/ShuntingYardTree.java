@@ -27,6 +27,9 @@ public class ShuntingYardTree extends ShuntingYard {
 		String token = new String();
 		String lastToken = null;
 		
+		Stack<Operator> functions = new Stack<>();
+		Stack<Integer> functionParams = new Stack<>();
+		
 		for (int i = 0; i < expr.length(); i++) {
 			char ch = expr.charAt(i);
 			char chNext = (i + 1 < expr.length()) ? expr.charAt(i + 1) : '\u0000';
@@ -43,14 +46,32 @@ public class ShuntingYardTree extends ShuntingYard {
 				}
 				
 				if (op.getOperandCount() == 0) {
-					Operand eval = op.evaluate();
-					postfix.push(eval);
-					lastToken = eval.value;
-					token = new String();
-					continue;
+					if (op.value.equals(",")) {
+						if (functions.isEmpty() || functionParams.peek() >= functions.peek().getOperandCount() - 1) {
+							throw new RuntimeException("Invalid expression");
+						}
+						else {
+							functionParams.push(functionParams.pop() + 1);
+						}
+					}
+					else {
+						Operand eval = op.evaluate();
+						postfix.push(eval);
+						lastToken = eval.value;
+						token = new String();
+						continue;
+					}
 				}
 				else if (op.value.equals("(")) {
 					opStack.push(op);
+					if (Operator.isFunction(lastToken)) {
+						functions.push(new Operator(lastToken));
+						functionParams.push(0);
+					}
+					else if (!functions.isEmpty()) {
+						functions.push(functions.peek());
+						functionParams.push(0);
+					}
 				}
 				else if (op.value.equals(")")) {
 					boolean flag = false;
@@ -64,6 +85,10 @@ public class ShuntingYardTree extends ShuntingYard {
 					}
 					if (!flag) {
 						throw new RuntimeException("Unmatched number of paranthesis");
+					}
+					if (!functions.empty()) {
+						functions.pop();
+						functionParams.pop();
 					}
 				}
 				else {
