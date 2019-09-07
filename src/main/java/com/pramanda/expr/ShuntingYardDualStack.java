@@ -1,5 +1,7 @@
 package com.pramanda.expr;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Stack;
 
 import com.pramanda.expr.Operator.Properties.Associativity;
@@ -23,7 +25,7 @@ public class ShuntingYardDualStack extends ShuntingYard {
 			char ch = expr.charAt(i);
 			char chNext = (i + 1 < expr.length()) ? expr.charAt(i + 1) : '\u0000';
 			
-			if (Operator.isOperator(token + ch) && (chNext == '\u0000' || !Operator.isOperator(token + ch + chNext))) {
+			if (Operator.isOperator(token + ch) && (!Operator.isFunction(token + ch) || chNext == '(')) {
 				// add to operator stack
 				Operator op = new Operator(token + ch);
 				
@@ -127,7 +129,16 @@ public class ShuntingYardDualStack extends ShuntingYard {
 	public double evaluate(String expr) {
 		try {
 			// evaluate the expression
-			return this.evaluateExpr(expr).toDouble();
+			double result = this.evaluateExpr(expr).toDouble();
+			
+			if (!Double.isFinite(result)) return result;
+			
+			// round to n decimal places to preserve accuracy
+			BigDecimal bd = BigDecimal.valueOf(result);
+	    	bd = bd.setScale(Constants.PRECISION, RoundingMode.HALF_UP);
+	    	
+	    	// return the result
+	    	return bd.doubleValue();
 		}
 		finally {
 			// expression evaluation can be a memory expensive process

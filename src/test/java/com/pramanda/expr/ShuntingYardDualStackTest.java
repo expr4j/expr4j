@@ -18,8 +18,8 @@ public class ShuntingYardDualStackTest extends TestCase {
     }
     
     public void test1() {
-    	double expected = 8.029813637262905;
-    	double actual = sy.evaluate("5+3/cossin-6^0.25");
+    	double expected = 8.0298136373;
+    	double actual = sy.evaluate("5+3/cos(sin(-6))^0.25");
         assertEquals(expected, actual);
     }
     
@@ -31,13 +31,19 @@ public class ShuntingYardDualStackTest extends TestCase {
     
     public void test3() {
     	double expected = 1.0;
-    	double actual = sy.evaluate("ceil rand");
+    	double actual = sy.evaluate("ceil(rand)");
         assertEquals(expected, actual);
     }
     
     public void test4() {
     	double expected = -1.0;
-    	double actual = sy.evaluate("floor -rand");
+    	double actual = sy.evaluate("floor(-rand)");
+        assertEquals(expected, actual);
+    }
+    
+    public void test5() {
+    	double expected = 30.0;
+    	double actual = sy.evaluate("deg(asin(sin(rad(30))))");
         assertEquals(expected, actual);
     }
     
