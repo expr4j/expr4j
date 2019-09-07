@@ -1,10 +1,10 @@
-package com.pramanda.expr;
+package com.pratman.expr;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Stack;
 
-import com.pramanda.expr.Operator.Properties.Associativity;
+import com.pratman.expr.Operator.Properties.Associativity;
 
 public class ShuntingYardDualStack extends ShuntingYard {
 	

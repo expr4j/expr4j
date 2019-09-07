@@ -1,4 +1,4 @@
-package com.pramanda.expr;
+package com.pratman.expr;
 
 public class Operand extends Token {
 

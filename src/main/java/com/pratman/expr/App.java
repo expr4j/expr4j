@@ -1,4 +1,4 @@
-package com.pramanda.expr;
+package com.pratman.expr;
 
 import java.io.BufferedReader;
 import java.io.IOException;

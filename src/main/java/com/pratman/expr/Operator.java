@@ -1,9 +1,9 @@
-package com.pramanda.expr;
+package com.pratman.expr;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.pramanda.expr.Operator.Properties.Associativity;
+import com.pratman.expr.Operator.Properties.Associativity;
 
 public class Operator extends Token implements Comparable<Operator> {
 	
