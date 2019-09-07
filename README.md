@@ -1,5 +1,6 @@
 # Expression Evaluator
-A simple java library to evaluate mathematical expressions.
+#### A simple java library to evaluate mathematical expressions
+
 <br/>
 <br/>
 
