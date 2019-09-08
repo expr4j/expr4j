@@ -1,23 +1,23 @@
-package com.pratman.expr4j;
+package com.pratanumandal.expr4j;
 
-import com.pratman.expr4j.ShuntingYard;
-import com.pratman.expr4j.ShuntingYardDualStack;
+import com.pratanumandal.expr4j.ShuntingYard;
+import com.pratanumandal.expr4j.ShuntingYardTree;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-public class ShuntingYardDualStackTest extends TestCase {
+public class ShuntingYardTreeTest extends TestCase {
 	
 	private ShuntingYard sy;
 	
-    public ShuntingYardDualStackTest(String testName) {
+    public ShuntingYardTreeTest(String testName) {
         super(testName);
-        sy = new ShuntingYardDualStack();
+        sy = new ShuntingYardTree();
     }
     
     public static Test suite() {
-        return new TestSuite(ShuntingYardDualStackTest.class);
+        return new TestSuite(ShuntingYardTreeTest.class);
     }
     
     public void test1() {
