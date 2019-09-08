@@ -9,7 +9,30 @@
 	<packaging>jar</packaging>
 
 	<name>expr4j</name>
-	<url>http://maven.apache.org</url>
+	<url>https://github.com/prat-man/expr4j</url>
+	<description>Simple Java library to evaluate mathematical expressions</description>
+
+	<developers>
+		<developer>
+			<name>Pratanu Mandal</name>
+			<email>pratanu.mandal@gmail.com</email>
+			<url>https://pratanumandal.tk/</url>
+		</developer>
+	</developers>
+	
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>https://opensource.org/licenses/mit-license</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	
+	<scm>
+		<url>https://github.com/prat-man/expr4j</url>
+		<connection>scm:git:https://github.com/prat-man/expr4j.git</connection>
+		<developerConnection>scm:git:https://github.com/prat-man/expr4j.git</developerConnection>
+	</scm>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
