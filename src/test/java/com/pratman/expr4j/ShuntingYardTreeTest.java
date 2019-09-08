@@ -1,7 +1,7 @@
-package com.pratman.expr;
+package com.pratman.expr4j;
 
-import com.pratman.expr.ShuntingYard;
-import com.pratman.expr.ShuntingYardTree;
+import com.pratman.expr4j.ShuntingYard;
+import com.pratman.expr4j.ShuntingYardTree;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

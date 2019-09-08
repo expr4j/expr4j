@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.pratman</groupId>
-	<artifactId>expr</artifactId>
+	<artifactId>expr4j</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>expr</name>
+	<name>expr4j</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>

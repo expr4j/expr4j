@@ -1,4 +1,4 @@
-package com.pratman.expr;
+package com.pratman.expr4j;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
