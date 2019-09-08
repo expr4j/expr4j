@@ -1,4 +1,8 @@
-# Expression Evaluator
+# Expression Evaluator for Java
+
+![expr4j logo](expr4j.png)
+
+<br/>
 
 ## Introduction
 This is a simple Java library to evaluate mathematical expressions.
