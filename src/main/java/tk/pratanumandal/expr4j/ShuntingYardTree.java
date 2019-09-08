@@ -328,10 +328,10 @@ public class ShuntingYardTree extends ShuntingYard {
 			
 			// round to n decimal places to preserve accuracy
 			BigDecimal bd = BigDecimal.valueOf(result);
-	    	bd = bd.setScale(Constants.PRECISION, RoundingMode.HALF_UP);
-	    	
-	    	// return the result
-	    	return bd.doubleValue();
+			bd = bd.setScale(Constants.PRECISION, RoundingMode.HALF_UP);
+			
+			// return the result
+			return bd.doubleValue();
 		}
 		finally {
 			// expression evaluation can be a memory expensive process

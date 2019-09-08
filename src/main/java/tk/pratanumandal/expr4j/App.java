@@ -60,16 +60,16 @@ public class App {
 	 * @param args Command line arguments
 	 * @throws IOException expression is thrown for invalid input
 	 */
-    public static void main(String[] args) throws IOException {
-    	
-    	System.out.print("Enter expression: ");
-    	String expr = BR.readLine();
-    	
-    	ShuntingYard sy = new ShuntingYardDualStack();
-    	double result = sy.evaluate(expr);
-    	
-    	System.out.println("Result: " + result);
-    	
-    }
-    
+	public static void main(String[] args) throws IOException {
+		
+		System.out.print("Enter expression: ");
+		String expr = BR.readLine();
+		
+		ShuntingYard sy = new ShuntingYardDualStack();
+		double result = sy.evaluate(expr);
+		
+		System.out.println("Result: " + result);
+		
+	}
+	
 }
