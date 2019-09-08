@@ -37,6 +37,8 @@ public class Operator extends Token implements Comparable<Operator> {
 		OPERATORS.put("uminus", new Properties(1, 4, Associativity.NO));
 		OPERATORS.put("uplus", new Properties(1, 4, Associativity.NO));
 		
+		OPERATORS.put("abs", new Properties(1, 4, true));
+		
 		OPERATORS.put("sin", new Properties(1, 4, true));
 		OPERATORS.put("cos", new Properties(1, 4, true));
 		OPERATORS.put("tan", new Properties(1, 4, true));
@@ -115,6 +117,8 @@ public class Operator extends Token implements Comparable<Operator> {
 			
 			case "uminus": return new Operand(String.valueOf(-operands[0].toDouble()));
 			case "uplus": return new Operand(String.valueOf(+operands[0].toDouble()));
+			
+			case "abs": return new Operand(String.valueOf(Math.abs(operands[0].toDouble())));
 			
 			case "sin": return new Operand(String.valueOf(Math.sin(operands[0].toDouble())));
 			case "cos": return new Operand(String.valueOf(Math.cos(operands[0].toDouble())));

@@ -57,6 +57,7 @@ Two implementations of the Shunting Yard algorithm are provided:
 
 | Function  | Description                   |
 | --------- | ----------------------------- |
+| abs(x)    | Absolute value                |
 | sin(x)    | Sine                          |
 | cos(x)    | Cosine                        |
 | tan(x)    | Tangent                       |
