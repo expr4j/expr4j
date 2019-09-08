@@ -1,10 +1,10 @@
-package com.pratanumandal.expr4j;
+package tk.pratanumandal.expr4j;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Stack;
 
-import com.pratanumandal.expr4j.Operator.Properties.Associativity;
+import tk.pratanumandal.expr4j.Operator.Properties.Associativity;
 
 public class ShuntingYardTree extends ShuntingYard {
 	

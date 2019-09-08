@@ -1,4 +1,4 @@
-package com.pratanumandal.expr4j;
+package tk.pratanumandal.expr4j;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

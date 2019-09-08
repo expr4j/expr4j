@@ -1,9 +1,9 @@
-package com.pratanumandal.expr4j;
+package tk.pratanumandal.expr4j;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.pratanumandal.expr4j.Operator.Properties.Associativity;
+import tk.pratanumandal.expr4j.Operator.Properties.Associativity;
 
 public class Operator extends Token implements Comparable<Operator> {
 	
