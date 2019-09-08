@@ -6,11 +6,33 @@ import java.util.Stack;
 
 import tk.pratanumandal.expr4j.Operator.Properties.Associativity;
 
+/**
+ * The <code>ShuntingYardDualStack</code> class provides an implementation of the Shunting Yard algorithm using Dual Stacks.<br><br>
+ * 
+ * Two stacks are used to immediately evaluate the expression without generating the postfix (or RPN) expression.<br>
+ * This is the recommended implementation since theoretically it should use less memory and require less time due to lesser complexity.
+ * 
+ * @author Pratanu Mandal
+ *
+ */
 public class ShuntingYardDualStack extends ShuntingYard {
 	
-	private Stack<Operand> operandStack;
-	private Stack<Operator> operatorStack;
+	/**
+	 * Stack to hold the operands.
+	 */
+	protected Stack<Operand> operandStack;
 	
+	/**
+	 * Stack to hold the operators.
+	 */
+	protected Stack<Operator> operatorStack;
+	
+	/**
+	 * Method to evaluate the expression string and return the result as an operand.
+	 * 
+	 * @param expr Expression string
+	 * @return Result of expression evaluation as an operand
+	 */
 	protected Operand evaluateExpr(String expr) {
 		// remove all whitespace except if whitespace is present between operands
 		expr = expr.replaceAll("(?!\\d|\\+|\\-)\\s+(?!\\d|\\.)", "");
@@ -132,6 +154,9 @@ public class ShuntingYardDualStack extends ShuntingYard {
 		return operandStack.pop();
 	}
 	
+	/**
+	 * Method to evaluate the operator at the top of the operator stack.
+	 */
 	protected void evaluateTOS() {
 		
 		Operator operator = operatorStack.pop();
@@ -150,6 +175,13 @@ public class ShuntingYardDualStack extends ShuntingYard {
 		operandStack.push(operand);
 	}
 	
+	/**
+	 * Method to evaluate an expression.<br>
+	 * This method acts as the single point of access for expression evaluation.
+	 * 
+	 * @param expr Expression string
+	 * @return Result of expression evaluation as a double
+	 */
 	@Override
 	public double evaluate(String expr) {
 		try {

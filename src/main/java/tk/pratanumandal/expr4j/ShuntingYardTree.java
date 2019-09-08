@@ -6,17 +6,56 @@ import java.util.Stack;
 
 import tk.pratanumandal.expr4j.Operator.Properties.Associativity;
 
+/**
+ * The <code>ShuntingYardDualStack</code> class provides an implementation of the Shunting Yard algorithm using Expression Tree.<br><br>
+ * 
+ * An expression tree is created from the postfix (or RPN) expression.<br>
+ * The expression tree is then parsed to evaluate the expression.
+ * 
+ * @author Pratanu Mandal
+ *
+ */
 public class ShuntingYardTree extends ShuntingYard {
 	
+	/**
+	 * The <code>Node</code> class represents a node of the expression tree.<br><br>
+	 * 
+	 * @author Pratanu Mandal
+	 *
+	 */
 	protected class Node {
+		/**
+		 * Left child of this node.
+		 */
 		protected Node left;
+		
+		/**
+		 * Right child of this node.
+		 */
 		protected Node right;
+		
+		/**
+		 * Token contained in this node.<br>
+		 * A token can be an operand, operator, function, variable, or constant.
+		 */
 		protected Token token;
 	}
 	
+	/**
+	 * Root node of the expression tree.
+	 */
 	protected Node root;
+	
+	/**
+	 * Stack containing the postfix expression.
+	 */
 	protected Stack<Token> postfix;
 	
+	/**
+	 * Method to create the postfix expression from the infix expression.
+	 * 
+	 * @param expr Expression string
+	 */
 	protected void init(String expr) {
 		// remove all whitespace except if whitespace is present between operands
 		expr = expr.replaceAll("(?!\\d|\\+|\\-)\\s+(?!\\d|\\.)", "");
@@ -129,6 +168,13 @@ public class ShuntingYardTree extends ShuntingYard {
 		}
 	}
 	
+	/**
+	 * Method to form the expression tree recursively.
+	 * 
+	 * @param node Current node of the expression tree
+	 * @param token Token to be inserted
+	 * @return true if token could be inserted, otherwise false
+	 */
 	protected boolean formTree(Node node, Token token) {
 		if (node.token instanceof Operator) {
 			Operator operator = (Operator) node.token;
@@ -173,6 +219,9 @@ public class ShuntingYardTree extends ShuntingYard {
 		return false;
 	}
 	
+	/**
+	 * Method to form the expression tree.
+	 */
 	protected void formTree() {
 		while (!postfix.isEmpty()) {
 			Token token = postfix.pop();
@@ -192,6 +241,12 @@ public class ShuntingYardTree extends ShuntingYard {
 		}
 	}
 	
+	/**
+	 * Method to recursively evaluate the expression tree and return the result as an operand.
+	 * 
+	 * @param node Current node of the expression tree
+	 * @return Result of expression evaluation as an operand
+	 */
 	protected Operand evaluate(Node node) {
 		if (node.token instanceof Operator) {
 			Operator operator = (Operator) node.token;
@@ -228,6 +283,13 @@ public class ShuntingYardTree extends ShuntingYard {
 		}
 	}
 	
+	/**
+	 * Method to evaluate an expression.<br>
+	 * This method acts as the single point of access for expression evaluation.
+	 * 
+	 * @param expr Expression string
+	 * @return Result of expression evaluation as a double
+	 */
 	@Override
 	public double evaluate(String expr) {
 		try {

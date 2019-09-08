@@ -5,8 +5,20 @@ import java.util.Map;
 
 import tk.pratanumandal.expr4j.Operator.Properties.Associativity;
 
+/**
+ * The <code>Operator</code> class represents the operators, functions, variables, and constants in the expression.<br><br>
+ * 
+ * It provides implementation for evaluation of the operators, functions, variables, and constants.<br>
+ * Functions, variables, and constants are treated as operators as well with specialized evaluation techniques in order to maintain precedence and associativity.
+ * 
+ * @author Pratanu Mandal
+ *
+ */
 public class Operator extends Token implements Comparable<Operator> {
 	
+	/**
+	 * A map of all operators and functions supported.
+	 */
 	protected static final Map<String, Properties> OPERATORS;
 	
 	static {
@@ -75,36 +87,69 @@ public class Operator extends Token implements Comparable<Operator> {
 		OPERATORS.put("e", new Properties(0, 5, Associativity.NO));
 	}
 
+	/**
+	 * Parameterized constructor.
+	 * 
+	 * @param value The operator, function, variable, or constant as a string
+	 */
 	public Operator(String value) {
 		super(value);
 	}
 	
+	/**
+	 * Get count of operands supported by this operator.
+	 * 
+	 * @return number of operands supported by this operator
+	 */
 	public int getOperandCount() {
 		return OPERATORS.get(value).params;
 	}
 	
+	/**
+	 * Get associativity information of this operator.
+	 * 
+	 * @return Associativity of this operator
+	 */
 	public Associativity getAssociativity() {
 		return OPERATORS.get(value).associativity;
 	}
 	
+	/**
+	 * Determine if this operator is a function or not.
+	 * 
+	 * @return true if this operator is a function, otherwise false
+	 */
 	public boolean isFunction() {
 		return OPERATORS.get(value).function;
 	}
-
-	@Override
-	public int compareTo(Operator other) {
-		// compare the precedences of the two operators
-		return OPERATORS.get(this.value).precendence - OPERATORS.get(other.value).precendence;
-	}
 	
+	/**
+	 * Utility method to determine if a string is a supported operator.
+	 * 
+	 * @param op The string to check
+	 * @return true if the string is a supported operator, false otherwise
+	 */
 	public static boolean isOperator(String op) {
 		return OPERATORS.containsKey(op);
 	}
 	
+	/**
+	 * Utility method to determine if a string is a supported function.
+	 * 
+	 * @param op The string to check
+	 * @return true if the string is a supported function, false otherwise
+	 */
 	public static boolean isFunction(String op) {
 		return OPERATORS.get(op).function;
 	}
 	
+	/**
+	 * Method to evaluate this operator, function, variable, or constant.<br>
+	 * It takes a variable number of operands as parameter depending on the number of operands required for this operator.
+	 * 
+	 * @param operands Variable number of operands required by this operator
+	 * @return The evaluated result as another operand
+	 */
 	public Operand evaluate(Operand ... operands) {
 		switch (value) {
 			case "+": return new Operand(String.valueOf(operands[0].toDouble() + operands[1].toDouble()));
@@ -158,34 +203,121 @@ public class Operator extends Token implements Comparable<Operator> {
 		}
 	}
 	
+	/**
+	 * Method to compare this operator to another operator on the basis of precedence.
+	 */
+	@Override
+	public int compareTo(Operator other) {
+		// compare the precedences of the two operators
+		return OPERATORS.get(this.value).precedence - OPERATORS.get(other.value).precedence;
+	}
+	
+	/**
+	 * The <code>Properties</code> class represents the properties of an operator.<br>
+	 * It contains information about the number of parameters supported, the precedence, and the associativity.<br>
+	 * It also helps determine if an operator is a function or not.
+	 * 
+	 * @author Pratanu Mandal
+	 *
+	 */
 	public static class Properties {
 
+		/**
+		 * Number of parameters required by this operator.
+		 */
 		protected int params;
-		protected int precendence;
+		
+		/**
+		 * The precedence of this operator.<br>
+		 * Precedence ranges from 1 to infinity, in ascending order, i.e, with 1 being lowest precedence possible.<br>
+		 * Although parenthesis and comma have 0 precedence, they are a special case and are evaluated separately.
+		 */
+		protected int precedence;
+		
+		/**
+		 * The associativity of this operator.
+		 */
 		protected Associativity associativity;
+		
+		/**
+		 * Boolean flag to determine if this operator is a function or not.<br>
+		 * True if this operator is a function, false otherwise.
+		 */
 		protected boolean function;
 		
-		protected Properties(int params, int precendence) {
-			this(params, precendence, Associativity.LEFT, false);
+		/**
+		 * Parameterized constructor taking number of parameters and precedence.<br>
+		 * Associativity is set to LEFT and function flag is set to false.
+		 * 
+		 * @param params Number if parameters required by this operator
+		 * @param precedence The precedence value of this operator
+		 */
+		protected Properties(int params, int precedence) {
+			this(params, precedence, Associativity.LEFT, false);
 		}
 		
-		protected Properties(int params, int precendence, Associativity associativity) {
-			this(params, precendence, associativity, false);
+		/**
+		 * Parameterized constructor taking number of parameters, precedence, and associativity.<br>
+		 * Function flag is set to false.
+		 * 
+		 * @param params Number if parameters required by this operator
+		 * @param precedence The precedence value of this operator
+		 * @param associativity The associativity of this operator
+		 */
+		protected Properties(int params, int precedence, Associativity associativity) {
+			this(params, precedence, associativity, false);
 		}
 		
-		protected Properties(int params, int precendence, boolean function) {
-			this(params, precendence, function ? Associativity.NO : Associativity.LEFT, function);
+		/**
+		 * Parameterized constructor taking number of parameters, precedence, and function flag.<br>
+		 * If function flag is true, associativity is set to NO, otherwise LEFT.
+		 * 
+		 * @param params Number if parameters required by this operator
+		 * @param precedence The precedence value of this operator
+		 * @param function The function flag of this operator (true if this operator is a function, false otherwise)
+		 */
+		protected Properties(int params, int precedence, boolean function) {
+			this(params, precedence, function ? Associativity.NO : Associativity.LEFT, function);
 		}
 		
-		protected Properties(int params, int precendence, Associativity associativity, boolean function) {
+		/**
+		 * Parameterized constructor taking number of parameters, precedence, associativity, and function flag.<br>
+		 * It is recommended not to use this constructor, instead using one of the preset constructors if possible.
+		 * 
+		 * @param params Number if parameters required by this operator
+		 * @param precedence The precedence value of this operator
+		 * @param associativity The associativity of this operator
+		 * @param function The function flag of this operator (true if this operator is a function, false otherwise)
+		 */
+		protected Properties(int params, int precedence, Associativity associativity, boolean function) {
 			this.params = params;
-			this.precendence = precendence;
+			this.precedence = precedence;
 			this.associativity = associativity;
 			this.function = function;
 		}
 		
+		/**
+		 * The <code>Associativity</code> enum represents the associativity property of an operator.<br>
+		 * It can be of three types: LEFT associative, RIGHT associative and NO associative.
+		 * 
+		 * @author Pratanu Mandal
+		 *
+		 */
 		public static enum Associativity {
-			LEFT, RIGHT, NO
+			/**
+			 * Left associativity.
+			 */
+			LEFT,
+			
+			/**
+			 * Right associativity.
+			 */
+			RIGHT,
+			
+			/**
+			 * No associativity.
+			 */
+			NO
 		}
 		
 	}
