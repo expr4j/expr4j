@@ -24,6 +24,7 @@
  * The <code>tk.pratanumandal.expr4j</code> package is the root package of expr4j library.
  * 
  * @author Pratanu Mandal
+ * @since 0.0.1
  *
  */
 package tk.pratanumandal.expr4j;

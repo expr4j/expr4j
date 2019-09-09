@@ -24,6 +24,7 @@
  * The <code>tk.pratanumandal.expr4j.common</code> package is a group of constants and common utils.
  * 
  * @author Pratanu Mandal
+ * @since 0.0.2
  *
  */
 package tk.pratanumandal.expr4j.common;

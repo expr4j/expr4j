@@ -24,6 +24,7 @@
  * The <code>tk.pratanumandal.expr4j.token</code> package contains all the tokens that form an expression.
  * 
  * @author Pratanu Mandal
+ * @since 0.0.2
  *
  */
 package tk.pratanumandal.expr4j.token;

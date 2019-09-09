@@ -24,6 +24,7 @@
  * The <code>tk.pratanumandal.expr4j.shuntingyard</code> package contains Shunting Yard implementations for expression evaluation.
  * 
  * @author Pratanu Mandal
+ * @since 0.0.2
  *
  */
 package tk.pratanumandal.expr4j.shuntingyard;
