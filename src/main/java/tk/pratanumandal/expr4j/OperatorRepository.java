@@ -37,7 +37,7 @@ import tk.pratanumandal.expr4j.token.Operator.Properties.Associativity;
 /**
  * The <code>OperatorRepository</code> class is the repository of all operators, functions, variables, and constants in the environment.<br><br>
  * 
- * This class can be used to create user defined functions. For example, we can create a function si(principle, rate, time) to calculate simple interest in the following manner:
+ * This class can be used to create user defined functions. For example, we can create a function si(principle, rate, time) to calculate simple interest in the following manner:<br>
  * 
  * <pre>
  *	// using lambda expression
