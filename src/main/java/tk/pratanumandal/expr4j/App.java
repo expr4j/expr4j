@@ -65,6 +65,10 @@ public class App {
 		System.out.print("Enter expression: ");
 		String expr = BR.readLine();
 		
+		OperatorRepository.addFunction("max3", 3, (ops) -> {
+			return new Operand(Math.max(Math.max(ops[0].toDouble(), ops[1].toDouble()), ops[2].toDouble()));
+		});
+		
 		ShuntingYard sy = new ShuntingYardDualStack();
 		double result = sy.evaluate(expr);
 		

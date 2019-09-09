@@ -23,54 +23,22 @@
 package tk.pratanumandal.expr4j;
 
 /**
- * The <code>Operand</code> class represents the operands in the expression.<br>
- * It acts as a wrapper for double value operands.
+ * The <code>Function</code> interface represents functions in the expression.<br><br>
+ * 
+ * It is a functional interface and provides only one method evaluate() which shall be invoked to evaluate the function.<br>
+ * The evaluate() method must be overridden by any implementing class.
  * 
  * @author Pratanu Mandal
  *
  */
-public class Operand extends Token {
+public interface Function {
+	
+	/**
+	 * Method invoked to evaluate the function.
+	 * 
+	 * @param operands Variable number of operands required by this operator
+	 * @return The evaluated result as another operand
+	 */
+	public Operand evaluate(Operand ... operands); 
 
-	/**
-	 * Parameterized constructor.
-	 * 
-	 * @param value The double value operand as a String
-	 */
-	public Operand(String value) {
-		super(value);
-	}
-	
-	/**
-	 * Parameterized constructor.
-	 * 
-	 * @param value The double value operand
-	 */
-	public Operand(double value) {
-		super(String.valueOf(value));
-	}
-
-	/**
-	 * Convert operand String to double.
-	 * 
-	 * @return the double value of the operand
-	 */
-	public double toDouble() {
-		return Double.parseDouble(value);
-	}
-	
-	/**
-	 * Utility method to determine if a string is an operand.
-	 * 
-	 * @param op Operand value as a string
-	 * @return true if op is an operand, otherwise false
-	 */
-	public static boolean isOperand(String op) {
-		try {
-			Double.parseDouble(op);
-			return true;
-		} catch (NumberFormatException e) {
-			return false;
-		}
-	}
-	
 }

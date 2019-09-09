@@ -95,13 +95,13 @@ public class ShuntingYardTree extends ShuntingYard {
 			char ch = expr.charAt(i);
 			char chNext = (i + 1 < expr.length()) ? expr.charAt(i + 1) : '\u0000';
 			
-			if (Operator.isOperator(token + ch) && (!Operator.isFunction(token + ch) || chNext == '(')) {
+			if (OperatorRepository.isOperator(token + ch) && (!OperatorRepository.isFunction(token + ch) || chNext == '(')) {
 				// add to operator stack
 				Operator op = new Operator(token + ch);
 				
 				// handle unary - and + operators
 				if (((ch == '-' || ch == '+') && chNext != ' ' &&
-					(lastToken == null || (Operator.isOperator(lastToken) && !lastToken.equals(")"))))) {
+					(lastToken == null || (OperatorRepository.isOperator(lastToken) && !lastToken.equals(")"))))) {
 					if (ch == '-') op = new Operator("uminus");
 					if (ch == '+') op = new Operator("uplus");
 				}
@@ -125,7 +125,7 @@ public class ShuntingYardTree extends ShuntingYard {
 				}
 				else if (op.value.equals("(")) {
 					opStack.push(op);
-					if (Operator.isFunction(lastToken)) {
+					if (lastToken != null && OperatorRepository.isFunction(lastToken)) {
 						functions.push(new Operator(lastToken));
 						functionParams.push(0);
 					}

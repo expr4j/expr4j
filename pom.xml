@@ -5,7 +5,7 @@
 
 	<groupId>tk.pratanumandal</groupId>
 	<artifactId>expr4j</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 	<packaging>jar</packaging>
 
 	<name>expr4j</name>
