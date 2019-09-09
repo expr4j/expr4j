@@ -28,6 +28,7 @@ package tk.pratanumandal.expr4j.shuntingyard;
  * This evaluate() method should act as the single point of access for the implementation.
  * 
  * @author Pratanu Mandal
+ * @since 0.0.1
  *
  */
 public abstract class ShuntingYard {

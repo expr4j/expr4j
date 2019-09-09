@@ -26,6 +26,7 @@ package tk.pratanumandal.expr4j.common;
  * The <code>Constants</code> class provides all the application wide constants.
  * 
  * @author Pratanu Mandal
+ * @since 0.0.1
  *
  */
 public final class Constants {

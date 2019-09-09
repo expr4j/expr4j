@@ -29,6 +29,7 @@ package tk.pratanumandal.expr4j.token;
  * The evaluate() method must be overridden by any implementing class.
  * 
  * @author Pratanu Mandal
+ * @since 0.0.2
  *
  */
 public interface Function {

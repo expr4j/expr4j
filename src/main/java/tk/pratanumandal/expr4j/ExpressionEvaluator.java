@@ -50,6 +50,7 @@ import tk.pratanumandal.expr4j.shuntingyard.ShuntingYardExpressionTree;
  * </pre>
  * 
  * @author Pratanu Mandal
+ * @since 0.0.2
  *
  */
 public class ExpressionEvaluator {

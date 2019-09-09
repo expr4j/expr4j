@@ -27,6 +27,7 @@ package tk.pratanumandal.expr4j.token;
  * It acts as a wrapper for double value operands.
  * 
  * @author Pratanu Mandal
+ * @since 0.0.1
  *
  */
 public class Operand extends Token {

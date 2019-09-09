@@ -28,6 +28,7 @@ package tk.pratanumandal.expr4j.token;
  * Tokens can be operands, operators, functions, variables, or constants.
  * 
  * @author Pratanu Mandal
+ * @since 0.0.1
  *
  */
 public abstract class Token {

@@ -39,6 +39,7 @@ import tk.pratanumandal.expr4j.token.Operator.Properties.Associativity;
  * This is the recommended implementation since theoretically it should use less memory and require less time due to lesser complexity.
  * 
  * @author Pratanu Mandal
+ * @since 0.0.1
  *
  */
 public class ShuntingYardDualStack extends ShuntingYard {

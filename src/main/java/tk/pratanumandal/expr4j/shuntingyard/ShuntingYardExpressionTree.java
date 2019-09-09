@@ -40,6 +40,7 @@ import tk.pratanumandal.expr4j.token.Operator.Properties.Associativity;
  * The expression tree is then parsed to evaluate the expression.
  * 
  * @author Pratanu Mandal
+ * @since 0.0.2
  *
  */
 public class ShuntingYardExpressionTree extends ShuntingYard {

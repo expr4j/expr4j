@@ -26,6 +26,7 @@ package tk.pratanumandal.expr4j.common;
  * The <code>MathExtras</code> class provides extra math functionality not available in java.lang.Math.
  * 
  * @author Pratanu Mandal
+ * @since 0.0.1
  *
  */
 public class MathExtras {

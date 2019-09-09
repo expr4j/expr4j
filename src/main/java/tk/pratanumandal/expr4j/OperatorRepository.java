@@ -35,9 +35,29 @@ import tk.pratanumandal.expr4j.token.Operator.Properties;
 import tk.pratanumandal.expr4j.token.Operator.Properties.Associativity;
 
 /**
- * The <code>OperatorRepository</code> class is the repository of all operators, functions, variables, and constants in the environment.
+ * The <code>OperatorRepository</code> class is the repository of all operators, functions, variables, and constants in the environment.<br><br>
+ * 
+ * This class can be used to create user defined functions. For example, we can create a function si(principle, rate, time) to calculate simple interest in the following manner:
+ * 
+ * <pre>
+ *	// using lambda expression
+ * 	OperatorRepository.addFunction("si", 3, (ops) -&gt; {
+ * 		return new Operand((ops[0].toDouble() * ops[1].toDouble() * ops[2].toDouble()) / 100.0);
+ * 	});
+ * 	
+ * 	// using anonymous class
+ * 	OperatorRepository.addFunction("si", 3,
+ * 		new Function() {
+ * 			&#64;Override
+ * 			public Operand evaluate(Operand ... ops) {
+ * 				return new Operand((ops[0].toDouble() * ops[1].toDouble() * ops[2].toDouble()) / 100.0);
+ * 			}
+ * 		}
+ * 	);
+ * </pre>
  * 
  * @author Pratanu Mandal
+ * @since 0.0.2
  *
  */
 public class OperatorRepository {
@@ -114,6 +134,9 @@ public class OperatorRepository {
 		
 		OPERATORS.put("sqrt", new Properties(1, 4, (operands) -> {return new Operand(Math.sqrt(operands[0].toDouble()));}));
 		OPERATORS.put("cbrt", new Properties(1, 4, (operands) -> {return new Operand(Math.cbrt(operands[0].toDouble()));}));
+		
+		OPERATORS.put("max", new Properties(2, 4, (operands) -> {return new Operand(Math.max(operands[0].toDouble(), operands[1].toDouble()));}));
+		OPERATORS.put("min", new Properties(2, 4, (operands) -> {return new Operand(Math.min(operands[0].toDouble(), operands[1].toDouble()));}));
 		
 		// zero argument - 5
 		OPERATORS.put("rand", new Properties(0, 5, Associativity.NO));

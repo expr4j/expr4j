@@ -32,6 +32,7 @@ import tk.pratanumandal.expr4j.token.Operator.Properties.Associativity;
  * Functions, variables, and constants are treated as operators as well with specialized evaluation techniques in order to maintain precedence and associativity.
  * 
  * @author Pratanu Mandal
+ * @since 0.0.1
  *
  */
 public class Operator extends Token implements Comparable<Operator> {
@@ -123,6 +124,7 @@ public class Operator extends Token implements Comparable<Operator> {
 	 * It also helps determine if an operator is a function or not and provides the function implementation.
 	 * 
 	 * @author Pratanu Mandal
+	 * @since 0.0.1
 	 *
 	 */
 	public static class Properties {
@@ -206,6 +208,7 @@ public class Operator extends Token implements Comparable<Operator> {
 		 * It can be of three types: LEFT associative, RIGHT associative and NO associative.
 		 * 
 		 * @author Pratanu Mandal
+		 * @since 0.0.1
 		 *
 		 */
 		public static enum Associativity {
