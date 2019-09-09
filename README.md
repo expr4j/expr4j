@@ -80,3 +80,5 @@ Two implementations of the Shunting Yard algorithm are provided:
 | log(x, b) | Log of x to the base b        |
 | sqrt(x)   | Square root                   |
 | cbrt(x)   | Cube root                     |
+| max(x, y) | Maximum of x and y            |
+| min(x, y) | Minimum of x and y            |
