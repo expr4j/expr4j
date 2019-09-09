@@ -25,8 +25,8 @@ package tk.pratanumandal.expr4j;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import tk.pratanumandal.expr4j.ShuntingYard;
-import tk.pratanumandal.expr4j.ShuntingYardDualStack;
+import tk.pratanumandal.expr4j.shuntingyard.ShuntingYard;
+import tk.pratanumandal.expr4j.shuntingyard.ShuntingYardDualStack;
 
 public class ShuntingYardDualStackTest extends TestCase {
 	

@@ -20,13 +20,17 @@
  * 
  */
 
-package tk.pratanumandal.expr4j;
+package tk.pratanumandal.expr4j.shuntingyard;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Stack;
 
-import tk.pratanumandal.expr4j.Operator.Properties.Associativity;
+import tk.pratanumandal.expr4j.OperatorRepository;
+import tk.pratanumandal.expr4j.common.Constants;
+import tk.pratanumandal.expr4j.token.Operand;
+import tk.pratanumandal.expr4j.token.Operator;
+import tk.pratanumandal.expr4j.token.Operator.Properties.Associativity;
 
 /**
  * The <code>ShuntingYardDualStack</code> class provides an implementation of the Shunting Yard algorithm using Dual Stacks.<br><br>

@@ -25,20 +25,20 @@ package tk.pratanumandal.expr4j;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import tk.pratanumandal.expr4j.ShuntingYard;
-import tk.pratanumandal.expr4j.ShuntingYardTree;
+import tk.pratanumandal.expr4j.shuntingyard.ShuntingYard;
+import tk.pratanumandal.expr4j.shuntingyard.ShuntingYardExpressionTree;
 
-public class ShuntingYardTreeTest extends TestCase {
+public class ShuntingYardExpressionTreeTest extends TestCase {
 	
 	private ShuntingYard sy;
 	
-    public ShuntingYardTreeTest(String testName) {
+    public ShuntingYardExpressionTreeTest(String testName) {
         super(testName);
-        sy = new ShuntingYardTree();
+        sy = new ShuntingYardExpressionTree();
     }
     
     public static Test suite() {
-        return new TestSuite(ShuntingYardTreeTest.class);
+        return new TestSuite(ShuntingYardExpressionTreeTest.class);
     }
     
     public void test1() {

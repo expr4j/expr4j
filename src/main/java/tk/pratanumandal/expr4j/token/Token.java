@@ -20,55 +20,41 @@
  * 
  */
 
-package tk.pratanumandal.expr4j;
+package tk.pratanumandal.expr4j.token;
 
 /**
- * The <code>MathExtras</code> class provides extra math functionality not available in java.lang.Math.
+ * The <code>Token</code> class represents any token in expressions.<br><br>
+ * A token is the smallest indivisible unit of any expression.<br>
+ * Tokens can be operands, operators, functions, variables, or constants.
  * 
  * @author Pratanu Mandal
  *
  */
-public class MathExtras {
-	
-	/**
-	 * Calculate the area hyperbolic sine
-	 * 
-	 * @param x the operand
-	 * @return area hyperbolic sine of x
-	 */
-	public static double asinh(double x) {
-		return Math.log(x + Math.sqrt(x * x + 1));
-	}
-	
-	/**
-	 * Calculate the area hyperbolic cosine
-	 * 
-	 * @param x the operand
-	 * @return area hyperbolic cosine of x
-	 */
-	public static double acosh(double x) {
-		return Math.log(x + Math.sqrt(x * x - 1));
-	}
-	
-	/**
-	 * Calculate the area hyperbolic tangent
-	 * 
-	 * @param x the operand
-	 * @return area hyperbolic tangent of x
-	 */
-	public static double atanh(double x) {
-		return 0.5 * Math.log((1 + x) / (1 - x));
-	}
-	
-	/**
-	 * Calculate the log of x to the base b
-	 * 
-	 * @param x the operand
-	 * @param b the base or radix
-	 * @return log of x to the base b
-	 */
-	public static double log(double x, double b) {
-		return Math.log(x) / Math.log(b);
-	}
+public abstract class Token {
 
+	/**
+	 * The string value of the token.
+	 */
+	public String value;
+
+	/**
+	 * Parameterized constructor.
+	 * 
+	 * @param value The value of the token as a String
+	 */
+	public Token(String value) {
+		super();
+		this.value = value;
+	}
+	
+	/**
+	 * Method to convert token object to string.
+	 * 
+	 * @return The string value of this token
+	 */
+	@Override
+	public String toString() {
+		return value;
+	}
+	
 }

@@ -20,13 +20,18 @@
  * 
  */
 
-package tk.pratanumandal.expr4j;
+package tk.pratanumandal.expr4j.shuntingyard;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Stack;
 
-import tk.pratanumandal.expr4j.Operator.Properties.Associativity;
+import tk.pratanumandal.expr4j.OperatorRepository;
+import tk.pratanumandal.expr4j.common.Constants;
+import tk.pratanumandal.expr4j.token.Operand;
+import tk.pratanumandal.expr4j.token.Operator;
+import tk.pratanumandal.expr4j.token.Token;
+import tk.pratanumandal.expr4j.token.Operator.Properties.Associativity;
 
 /**
  * The <code>ShuntingYardDualStack</code> class provides an implementation of the Shunting Yard algorithm using Expression Tree.<br><br>
@@ -37,7 +42,7 @@ import tk.pratanumandal.expr4j.Operator.Properties.Associativity;
  * @author Pratanu Mandal
  *
  */
-public class ShuntingYardTree extends ShuntingYard {
+public class ShuntingYardExpressionTree extends ShuntingYard {
 	
 	/**
 	 * The <code>Node</code> class represents a node of the expression tree.<br><br>
@@ -47,20 +52,30 @@ public class ShuntingYardTree extends ShuntingYard {
 	 */
 	protected class Node {
 		/**
-		 * Left child of this node.
+		 * Children of this node.
 		 */
-		protected Node left;
-		
-		/**
-		 * Right child of this node.
-		 */
-		protected Node right;
+		protected final Node[] children;
 		
 		/**
 		 * Token contained in this node.<br>
 		 * A token can be an operand, operator, function, variable, or constant.
 		 */
-		protected Token token;
+		protected final Token token;
+
+		/**
+		 * Parameterized constructor.
+		 * 
+		 * @param token The token in this node
+		 */
+		public Node(Token token) {
+			this.token = token;
+			if (token instanceof Operator) {
+				this.children = new Node[((Operator) token).getOperandCount()];
+			}
+			else {
+				this.children = null;
+			}
+		}
 	}
 	
 	/**
@@ -201,38 +216,12 @@ public class ShuntingYardTree extends ShuntingYard {
 		if (node.token instanceof Operator) {
 			Operator operator = (Operator) node.token;
 			
-			boolean unary = false;
-			if (operator.getOperandCount() == 1) {
-				unary = true;
-			} else {
-				unary = false;
-			}
-			
-			if (unary) {
-				if (node.left == null) {
-					node.left = new Node();
-					node.left.token = token;
+			for (int i = operator.getOperandCount() - 1; i >= 0; i--) {
+				if (node.children[i] == null) {
+					node.children[i] = new Node(token);
 					return true;
 				}
-				else {
-					return formTree(node.left, token);
-				}
-			}
-			else {
-				if (node.right == null) {
-					node.right = new Node();
-					node.right.token = token;
-					return true;
-				}
-				else if (formTree(node.right, token)) {
-					return true;
-				}
-				else if (node.left == null) {
-					node.left = new Node();
-					node.left.token = token;
-					return true;
-				}
-				else if (formTree(node.left, token)) {
+				else if (formTree(node.children[i], token)) {
 					return true;
 				}
 			}
@@ -249,8 +238,7 @@ public class ShuntingYardTree extends ShuntingYard {
 			Token token = postfix.pop();
 			
 			if (root == null) {
-				Node node = new Node();
-				node.token = token;
+				Node node = new Node(token);
 				root = node;
 			}
 			else {
@@ -273,32 +261,21 @@ public class ShuntingYardTree extends ShuntingYard {
 		if (node.token instanceof Operator) {
 			Operator operator = (Operator) node.token;
 			
-			boolean unary = false;
-			if (operator.getOperandCount() == 1) {
-				unary = true;
+			Operand[] operands = new Operand[operator.getOperandCount()];
+			
+			for (int i = 0; i < operator.getOperandCount(); i++) {
+				if (node.children[i] == null) {
+					throw new RuntimeException("Invalid expression");
+				}
+				else if (node.children[i].token instanceof Operand) {
+					operands[i] = (Operand) node.children[i].token;
+				}
+				else if (node.children[i].token instanceof Operator) {
+					operands[i] = evaluate(node.children[i]);
+				}
 			}
 			
-			if (node.left == null) {
-				throw new RuntimeException("Invalid expression");
-			}
-			
-			Operand leftOp = null;
-			if (node.left.token instanceof Operand) {
-				leftOp = (Operand) node.left.token;
-			}
-			else if (node.left.token instanceof Operator) {
-				leftOp = evaluate(node.left);
-			}
-			
-			Operand rightOp = null;
-			if (!unary && node.right.token instanceof Operand) {
-				rightOp = (Operand) node.right.token;
-			}
-			else if (!unary && node.right.token instanceof Operator) {
-				rightOp = evaluate(node.right);
-			}
-			
-			return operator.evaluate(leftOp, rightOp);
+			return operator.evaluate(operands);
 		}
 		else {
 			return (Operand) node.token;

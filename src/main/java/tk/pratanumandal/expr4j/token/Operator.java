@@ -20,9 +20,10 @@
  * 
  */
 
-package tk.pratanumandal.expr4j;
+package tk.pratanumandal.expr4j.token;
 
-import tk.pratanumandal.expr4j.Operator.Properties.Associativity;
+import tk.pratanumandal.expr4j.OperatorRepository;
+import tk.pratanumandal.expr4j.token.Operator.Properties.Associativity;
 
 /**
  * The <code>Operator</code> class represents the operators, functions, variables, and constants in the expression.<br><br>
@@ -129,25 +130,25 @@ public class Operator extends Token implements Comparable<Operator> {
 		/**
 		 * Number of parameters required by this operator.
 		 */
-		protected int params;
+		public int params;
 		
 		/**
 		 * The precedence of this operator.<br>
 		 * Precedence ranges from 1 to infinity, in ascending order, i.e, with 1 being lowest precedence possible.<br>
 		 * Although parenthesis and comma have 0 precedence, they are a special case and are evaluated separately.
 		 */
-		protected int precedence;
+		public int precedence;
 		
 		/**
 		 * The associativity of this operator.
 		 */
-		protected Associativity associativity;
+		public Associativity associativity;
 		
 		/**
 		 * Function implementation if this operator is a function.<br>
 		 * Otherwise null.
 		 */
-		protected Function function;
+		public Function function;
 		
 		/**
 		 * Parameterized constructor taking number of parameters and precedence.<br>
@@ -156,7 +157,7 @@ public class Operator extends Token implements Comparable<Operator> {
 		 * @param params Number of parameters required by this operator
 		 * @param precedence The precedence value of this operator
 		 */
-		protected Properties(int params, int precedence) {
+		public Properties(int params, int precedence) {
 			this(params, precedence, Associativity.LEFT, null);
 		}
 		
@@ -168,7 +169,7 @@ public class Operator extends Token implements Comparable<Operator> {
 		 * @param precedence The precedence value of this operator
 		 * @param associativity The associativity of this operator
 		 */
-		protected Properties(int params, int precedence, Associativity associativity) {
+		public Properties(int params, int precedence, Associativity associativity) {
 			this(params, precedence, associativity, null);
 		}
 		
@@ -180,7 +181,7 @@ public class Operator extends Token implements Comparable<Operator> {
 		 * @param precedence The precedence value of this operator
 		 * @param function The function implementation for this operator
 		 */
-		protected Properties(int params, int precedence, Function function) {
+		public Properties(int params, int precedence, Function function) {
 			this(params, precedence, function != null ? Associativity.NO : Associativity.LEFT, function);
 		}
 		
@@ -193,7 +194,7 @@ public class Operator extends Token implements Comparable<Operator> {
 		 * @param associativity The associativity of this operator
 		 * @param function The function implementation for this operator
 		 */
-		protected Properties(int params, int precedence, Associativity associativity, Function function) {
+		public Properties(int params, int precedence, Associativity associativity, Function function) {
 			this.params = params;
 			this.precedence = precedence;
 			this.associativity = associativity;

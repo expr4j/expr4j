@@ -20,25 +20,20 @@
  * 
  */
 
-package tk.pratanumandal.expr4j;
+package tk.pratanumandal.expr4j.common;
 
 /**
- * The <code>Function</code> interface represents functions in the expression.<br><br>
- * 
- * It is a functional interface and provides only one method evaluate() which shall be invoked to evaluate the function.<br>
- * The evaluate() method must be overridden by any implementing class.
+ * The <code>Constants</code> class provides all the application wide constants.
  * 
  * @author Pratanu Mandal
  *
  */
-public interface Function {
-	
-	/**
-	 * Method invoked to evaluate the function.
-	 * 
-	 * @param operands Variable number of operands required by this operator
-	 * @return The evaluated result as another operand
-	 */
-	public Operand evaluate(Operand ... operands); 
+public final class Constants {
 
+	/**
+	 * The maximum number of decimal places supported.<br>
+	 * Currently this value is set to 10.
+	 */
+	public static final int PRECISION = 10;
+	
 }

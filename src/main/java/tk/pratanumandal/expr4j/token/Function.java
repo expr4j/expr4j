@@ -20,41 +20,25 @@
  * 
  */
 
-package tk.pratanumandal.expr4j;
+package tk.pratanumandal.expr4j.token;
 
 /**
- * The <code>Token</code> class represents any token in expressions.<br><br>
- * A token is the smallest indivisible unit of any expression.<br>
- * Tokens can be operands, operators, functions, variables, or constants.
+ * The <code>Function</code> interface represents functions in the expression.<br><br>
+ * 
+ * It is a functional interface and provides only one method evaluate() which shall be invoked to evaluate the function.<br>
+ * The evaluate() method must be overridden by any implementing class.
  * 
  * @author Pratanu Mandal
  *
  */
-public abstract class Token {
-
-	/**
-	 * The string value of the token.
-	 */
-	protected String value;
-
-	/**
-	 * Parameterized constructor.
-	 * 
-	 * @param value The value of the token as a String
-	 */
-	public Token(String value) {
-		super();
-		this.value = value;
-	}
+public interface Function {
 	
 	/**
-	 * Method to convert token object to string.
+	 * Method invoked to evaluate the function.
 	 * 
-	 * @return The string value of this token
+	 * @param operands Variable number of operands required by this operator
+	 * @return The evaluated result as another operand
 	 */
-	@Override
-	public String toString() {
-		return value;
-	}
-	
+	public Operand evaluate(Operand ... operands); 
+
 }

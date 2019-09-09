@@ -20,25 +20,57 @@
  * 
  */
 
-package tk.pratanumandal.expr4j;
+package tk.pratanumandal.expr4j.token;
 
 /**
- * The <code>ShuntingYard</code> abstract class provides a blueprint for ShuntingYard implementations.<br><br>
- * It provides only one method evaluate() which must be overridden by any implementing class.<br>
- * This evaluate() method should act as the single point of access for the implementation.
+ * The <code>Operand</code> class represents the operands in the expression.<br>
+ * It acts as a wrapper for double value operands.
  * 
  * @author Pratanu Mandal
  *
  */
-public abstract class ShuntingYard {
+public class Operand extends Token {
+
+	/**
+	 * Parameterized constructor.
+	 * 
+	 * @param value The double value operand as a String
+	 */
+	public Operand(String value) {
+		super(value);
+	}
 	
 	/**
-	 * Method to evaluate an expression.<br>
-	 * This method should act as the single point of access for the implementation.
+	 * Parameterized constructor.
 	 * 
-	 * @param expr Expression string
-	 * @return Result of expression evaluation as a double
+	 * @param value The double value operand
 	 */
-	public abstract double evaluate(String expr);
+	public Operand(double value) {
+		super(String.valueOf(value));
+	}
 
+	/**
+	 * Convert operand String to double.
+	 * 
+	 * @return the double value of the operand
+	 */
+	public double toDouble() {
+		return Double.parseDouble(value);
+	}
+	
+	/**
+	 * Utility method to determine if a string is an operand.
+	 * 
+	 * @param op Operand value as a string
+	 * @return true if op is an operand, otherwise false
+	 */
+	public static boolean isOperand(String op) {
+		try {
+			Double.parseDouble(op);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
+	
 }

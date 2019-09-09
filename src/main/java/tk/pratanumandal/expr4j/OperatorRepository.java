@@ -28,8 +28,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import tk.pratanumandal.expr4j.Operator.Properties;
-import tk.pratanumandal.expr4j.Operator.Properties.Associativity;
+import tk.pratanumandal.expr4j.common.MathExtras;
+import tk.pratanumandal.expr4j.token.Function;
+import tk.pratanumandal.expr4j.token.Operand;
+import tk.pratanumandal.expr4j.token.Operator.Properties;
+import tk.pratanumandal.expr4j.token.Operator.Properties.Associativity;
 
 /**
  * The <code>OperatorRepository</code> class is the repository of all operators, functions, variables, and constants in the environment.
@@ -42,7 +45,7 @@ public class OperatorRepository {
 	/**
 	 * A map of all operators, functions, variables, and constants supported.
 	 */
-	protected static final Map<String, Properties> OPERATORS;
+	public static final Map<String, Properties> OPERATORS;
 	
 	/**
 	 * A list of all predefined operators, functions, variables, and constants.
