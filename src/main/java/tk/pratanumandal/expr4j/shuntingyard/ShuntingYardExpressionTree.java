@@ -34,7 +34,7 @@ import tk.pratanumandal.expr4j.token.Token;
 import tk.pratanumandal.expr4j.token.Operator.Properties.Associativity;
 
 /**
- * The <code>ShuntingYardDualStack</code> class provides an implementation of the Shunting Yard algorithm using Expression Tree.<br><br>
+ * The <code>ShuntingYardExpressionTree</code> class provides an implementation of the Shunting Yard algorithm using Expression Tree.<br><br>
  * 
  * An expression tree is created from the postfix (or RPN) expression.<br>
  * The expression tree is then parsed to evaluate the expression.
