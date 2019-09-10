@@ -20,27 +20,11 @@
  * 
  */
 
-package tk.pratanumandal.expr4j.common;
-
 /**
- * The <code>Constants</code> class provides all the application wide constants.
+ * The <code>tk.pratanumandal.expr4j.exception</code> package contains all exception classes related to Expr4j library.
  * 
  * @author Pratanu Mandal
  * @since 0.0.1
  *
  */
-public final class Constants {
-
-	/**
-	 * The maximum number of decimal places supported.<br>
-	 * Currently this value is set to 10.
-	 */
-	public static final int PRECISION = 10;
-	
-	/**
-	 * Use variable number of parameters for function.<br>
-	 * Constant value of -1.
-	 */
-	public static final int VARIABLE_PARAMETERS = -1;
-	
-}
+package tk.pratanumandal.expr4j.exception;

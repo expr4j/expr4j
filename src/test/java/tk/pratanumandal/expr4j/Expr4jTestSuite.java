@@ -30,6 +30,6 @@ import org.junit.runners.Suite;
 	ShuntingYardDualStackTest.class,
 	ShuntingYardExpressionTreeTest.class
 })
-public class Expr4JTestSuite {
+public class Expr4jTestSuite {
 	
 }

@@ -27,7 +27,7 @@ import java.math.RoundingMode;
 import java.util.Stack;
 
 import tk.pratanumandal.expr4j.OperatorRepository;
-import tk.pratanumandal.expr4j.common.Constants;
+import tk.pratanumandal.expr4j.common.Expr4jConstants;
 import tk.pratanumandal.expr4j.exception.Expr4jException;
 import tk.pratanumandal.expr4j.token.Operand;
 import tk.pratanumandal.expr4j.token.Operator;
@@ -264,7 +264,7 @@ public class ShuntingYardDualStack extends ShuntingYard {
 			
 			// round to n decimal places to preserve accuracy
 			BigDecimal bd = BigDecimal.valueOf(result);
-			bd = bd.setScale(Constants.PRECISION, RoundingMode.HALF_UP);
+			bd = bd.setScale(Expr4jConstants.PRECISION, RoundingMode.HALF_UP);
 			
 			// return the result
 			return bd.doubleValue();
