@@ -8,7 +8,7 @@
 	<version>0.0.2</version>
 	<packaging>jar</packaging>
 
-	<name>Expr4J</name>
+	<name>Expr4j</name>
 	<url>https://github.com/prat-man/expr4j</url>
 	<description>Simple Java library to evaluate mathematical expressions</description>
 

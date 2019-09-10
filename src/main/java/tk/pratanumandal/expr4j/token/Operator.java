@@ -23,6 +23,7 @@
 package tk.pratanumandal.expr4j.token;
 
 import tk.pratanumandal.expr4j.OperatorRepository;
+import tk.pratanumandal.expr4j.exception.Expr4jException;
 import tk.pratanumandal.expr4j.token.Operator.Properties.Associativity;
 
 /**
@@ -112,7 +113,7 @@ public class Operator extends Token implements Comparable<Operator> {
 			case "pi": return new Operand(String.valueOf(Math.PI));
 			case "e": return new Operand(String.valueOf(Math.E));
 			
-			default: throw new RuntimeException("Unsupported operator");
+			default: throw new Expr4jException("Unsupported operator");
 		}
 		
 	}
@@ -212,7 +213,7 @@ public class Operator extends Token implements Comparable<Operator> {
 			this.function = function;
 			
 			if (this.params == -1 && this.function == null) {
-				throw new RuntimeException("Only functions can have variable number of parameter.");
+				throw new Expr4jException("Only functions can have variable number of parameter.");
 			}
 		}
 		

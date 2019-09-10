@@ -28,6 +28,7 @@ import java.util.Stack;
 
 import tk.pratanumandal.expr4j.OperatorRepository;
 import tk.pratanumandal.expr4j.common.Constants;
+import tk.pratanumandal.expr4j.exception.Expr4jException;
 import tk.pratanumandal.expr4j.token.Operand;
 import tk.pratanumandal.expr4j.token.Operator;
 import tk.pratanumandal.expr4j.token.Token;
@@ -128,7 +129,7 @@ public class ShuntingYardExpressionTree extends ShuntingYard {
 					if (op.value.equals(",")) {
 						if (functions.isEmpty() || (functions.peek().getOperandCount() != -1 &&
 								functionParams.peek() >= functions.peek().getOperandCount() - 1)) {
-							throw new RuntimeException("Invalid expression");
+							throw new Expr4jException("Invalid expression");
 						}
 						else {
 							functionParams.push(functionParams.pop() + 1);
@@ -148,7 +149,7 @@ public class ShuntingYardExpressionTree extends ShuntingYard {
 					if ((lastToken == null && chNext == ')') ||
 						(lastToken != null && !OperatorRepository.isFunction(realLastToken) &&
 						!OperatorRepository.isVariableOrConstant(realLastToken))) {
-						throw new RuntimeException("Invalid use of parenthesis");
+						throw new Expr4jException("Invalid use of parenthesis");
 					}
 					if (lastToken != null && OperatorRepository.isFunction(lastToken)) {
 						functions.push(new Operator(lastToken));
@@ -170,11 +171,11 @@ public class ShuntingYardExpressionTree extends ShuntingYard {
 						postfix.push(opStack.pop());
 					}
 					if (!flag) {
-						throw new RuntimeException("Unmatched number of parenthesis");
+						throw new Expr4jException("Unmatched number of parenthesis");
 					}
 					if (!functions.empty()) {
 						if (opStack.peek().value.equals("(")) {
-							throw new RuntimeException("Invalid use of parenthesis");
+							throw new Expr4jException("Invalid use of parenthesis");
 						}
 						else {
 							if (functions.peek().getOperandCount() == -1) {
@@ -224,12 +225,12 @@ public class ShuntingYardExpressionTree extends ShuntingYard {
 		}
 		
 		if (!token.isEmpty()) {
-			throw new RuntimeException("Invalid expression");
+			throw new Expr4jException("Invalid expression");
 		}
 		
 		while (!opStack.isEmpty()) {
 			if (opStack.peek().value.equals("(")) {
-				throw new RuntimeException("Unmatched number of parenthesis");
+				throw new Expr4jException("Unmatched number of parenthesis");
 			}
 			postfix.push(opStack.pop());
 		}
@@ -275,7 +276,7 @@ public class ShuntingYardExpressionTree extends ShuntingYard {
 				boolean flag = formTree(root, token);
 				
 				if (!flag) {
-					throw new RuntimeException("Invalid expression");
+					throw new Expr4jException("Invalid expression");
 				}
 			}
 		}
@@ -295,7 +296,7 @@ public class ShuntingYardExpressionTree extends ShuntingYard {
 			
 			for (int i = 0; i < operator.getOperandCount(); i++) {
 				if (node.children[i] == null) {
-					throw new RuntimeException("Invalid expression");
+					throw new Expr4jException("Invalid expression");
 				}
 				else if (node.children[i].token instanceof Operand) {
 					operands[i] = (Operand) node.children[i].token;

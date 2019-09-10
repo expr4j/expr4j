@@ -31,6 +31,7 @@ import java.util.Set;
 import org.apache.commons.math3.special.Gamma;
 
 import tk.pratanumandal.expr4j.common.MathExtras;
+import tk.pratanumandal.expr4j.exception.Expr4jException;
 import tk.pratanumandal.expr4j.token.Function;
 import tk.pratanumandal.expr4j.token.Operand;
 import tk.pratanumandal.expr4j.token.Operator.Properties;
@@ -78,8 +79,15 @@ public class OperatorRepository {
 	
 	static {
 		
+		// initialize static variables
+		
 		OPERATORS = new HashMap<>();
 		
+		PREDEFINED_OPERATORS = new ArrayList<>();
+		
+		
+		
+		// initialize predefined operators
 		// priority is in increasing order from 0 to infinity
 		
 		// parenthesis - 0
@@ -154,8 +162,6 @@ public class OperatorRepository {
 		
 		Set<String> opSet = OPERATORS.keySet();
 		
-		PREDEFINED_OPERATORS = new ArrayList<>(opSet.size());
-		
 	    for (String op : opSet) {
 	    	PREDEFINED_OPERATORS.add(op);
 	    }
@@ -202,9 +208,9 @@ public class OperatorRepository {
 	 */
 	public static void addFunction(String fName, int params, Function function) {
 		if (fName == null) throw new NullPointerException("Function name cannot be null.");
-		if (!fName.matches("[a-zA-Z0-9]+")) throw new RuntimeException("Not a valid function name: " + fName + ".");
+		if (!fName.matches("[a-zA-Z0-9]+")) throw new Expr4jException("Not a valid function name: " + fName + ".");
 		if (function == null) throw new NullPointerException("Function cannot be null.");
-		if (PREDEFINED_OPERATORS.contains(fName)) throw new RuntimeException("Cannot override predefined function: " + fName + ".");
+		if (PREDEFINED_OPERATORS.contains(fName)) throw new Expr4jException("Cannot override predefined function: " + fName + ".");
 		OPERATORS.put(fName, new Properties(params, 4, function));
 	}
 	
@@ -216,9 +222,9 @@ public class OperatorRepository {
 	 */
 	public static void removeFunction(String fName) {
 		if (fName == null) throw new NullPointerException("Function name cannot be null.");
-		if (!fName.matches("[a-zA-Z0-9]+")) throw new RuntimeException("Not a valid function name: " + fName + ".");
-		if (!isOperator(fName) || !isFunction(fName)) throw new RuntimeException("Function not found: " + fName + ".");
-		if (PREDEFINED_OPERATORS.contains(fName)) throw new RuntimeException("Cannot remove predefined function: " + fName + ".");
+		if (!fName.matches("[a-zA-Z0-9]+")) throw new Expr4jException("Not a valid function name: " + fName + ".");
+		if (!isOperator(fName) || !isFunction(fName)) throw new Expr4jException("Function not found: " + fName + ".");
+		if (PREDEFINED_OPERATORS.contains(fName)) throw new Expr4jException("Cannot remove predefined function: " + fName + ".");
 		OPERATORS.remove(fName);
 	}
 	

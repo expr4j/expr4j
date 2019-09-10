@@ -28,6 +28,7 @@ import java.util.Stack;
 
 import tk.pratanumandal.expr4j.OperatorRepository;
 import tk.pratanumandal.expr4j.common.Constants;
+import tk.pratanumandal.expr4j.exception.Expr4jException;
 import tk.pratanumandal.expr4j.token.Operand;
 import tk.pratanumandal.expr4j.token.Operator;
 import tk.pratanumandal.expr4j.token.Operator.Properties.Associativity;
@@ -94,7 +95,7 @@ public class ShuntingYardDualStack extends ShuntingYard {
 					if (op.value.equals(",")) {
 						if (functions.isEmpty() || (functions.peek().getOperandCount() != -1 &&
 								functionParams.peek() >= functions.peek().getOperandCount() - 1)) {
-							throw new RuntimeException("Invalid expression");
+							throw new Expr4jException("Invalid expression");
 						}
 						else {
 							functionParams.push(functionParams.pop() + 1);
@@ -114,7 +115,7 @@ public class ShuntingYardDualStack extends ShuntingYard {
 					if ((lastToken == null && chNext == ')') ||
 						(lastToken != null && !OperatorRepository.isFunction(realLastToken) &&
 						!OperatorRepository.isVariableOrConstant(realLastToken))) {
-						throw new RuntimeException("Invalid use of parenthesis");
+						throw new Expr4jException("Invalid use of parenthesis");
 					}
 					if (lastToken != null && OperatorRepository.isFunction(lastToken)) {
 						functions.push(new Operator(lastToken));
@@ -137,11 +138,11 @@ public class ShuntingYardDualStack extends ShuntingYard {
 						evaluateTOS();
 					}
 					if (!flag) {
-						throw new RuntimeException("Unmatched number of parenthesis");
+						throw new Expr4jException("Unmatched number of parenthesis");
 					}
 					if (!functions.empty()) {
 						if (operatorStack.peek().value.equals("(")) {
-							throw new RuntimeException("Invalid use of parenthesis");
+							throw new Expr4jException("Invalid use of parenthesis");
 						}
 						else {
 							if (functions.peek().getOperandCount() == -1) {
@@ -192,19 +193,19 @@ public class ShuntingYardDualStack extends ShuntingYard {
 		}
 		
 		if (!token.isEmpty()) {
-			throw new RuntimeException("Invalid expression");
+			throw new Expr4jException("Invalid expression");
 		}
 		
 		while (!operatorStack.isEmpty()) {
 			if (operatorStack.peek().value.equals("(")) {
-				throw new RuntimeException("Unmatched number of parenthesis");
+				throw new Expr4jException("Unmatched number of parenthesis");
 			}
 			// evaluate top of stack
 			evaluateTOS();
 		}
 		
 		if (operandStack.size() > 1) {
-			throw new RuntimeException("Invalid expression");
+			throw new Expr4jException("Invalid expression");
 		}
 		
 		return operandStack.pop();
@@ -221,7 +222,7 @@ public class ShuntingYardDualStack extends ShuntingYard {
 		
 		for (int j = 0; j < operands.length; j++) {
 			if (operandStack.empty()) {
-				throw new RuntimeException("Invalid expression");
+				throw new Expr4jException("Invalid expression");
 			}
 			
 			operands[operands.length - j - 1] = operandStack.pop();
