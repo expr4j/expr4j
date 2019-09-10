@@ -86,9 +86,14 @@ public class ShuntingYardExpressionTree extends ShuntingYard {
 	protected Node root;
 	
 	/**
-	 * Stack containing the postfix expression.
+	 * Stack to hold the postfix (RPN) expression.
 	 */
 	protected Stack<Token> postfix;
+	
+	/**
+	 * Stack to hold the operators.
+	 */
+	protected Stack<Operator> operatorStack;
 	
 	/**
 	 * Method to create the postfix expression from the infix expression.
@@ -100,7 +105,7 @@ public class ShuntingYardExpressionTree extends ShuntingYard {
 		expr = expr.replaceAll("(?!\\d|\\+|\\-)\\s+(?!\\d|\\.)", "");
 		
 		postfix = new Stack<>();
-		Stack<Operator> opStack = new Stack<>();
+		operatorStack = new Stack<>();
 		
 		String token = new String();
 		String lastToken = null;
@@ -133,6 +138,8 @@ public class ShuntingYardExpressionTree extends ShuntingYard {
 						}
 						else {
 							functionParams.push(functionParams.pop() + 1);
+							evaluateParenthesis();
+							operatorStack.push(new Operator("("));
 						}
 					}
 					else {
@@ -145,41 +152,30 @@ public class ShuntingYardExpressionTree extends ShuntingYard {
 					}
 				}
 				else if (op.value.equals("(")) {
-					opStack.push(op);
+					operatorStack.push(op);
 					if ((lastToken == null && chNext == ')') ||
 						(lastToken != null && !OperatorRepository.isFunction(realLastToken) &&
-						!OperatorRepository.isVariableOrConstant(realLastToken))) {
+						!OperatorRepository.isVariableOrConstant(realLastToken) &&
+						!realLastToken.equals("(")  && chNext == ')')) {
 						throw new Expr4jException("Invalid use of parenthesis");
 					}
 					if (lastToken != null && OperatorRepository.isFunction(lastToken)) {
 						functions.push(new Operator(lastToken));
 						functionParams.push(0);
+						operatorStack.push(new Operator("("));
 					}
 					else if (!functions.isEmpty()) {
-						functions.push(functions.peek());
+						functions.push(op);
 						functionParams.push(0);
 					}
 				}
 				else if (op.value.equals(")")) {
-					boolean flag = false;
-					while (!opStack.isEmpty()) {
-						if (opStack.peek().value.equals("(")) {
-							opStack.pop();
-							flag = true;
-							break;
-						}
-						postfix.push(opStack.pop());
-					}
-					if (!flag) {
-						throw new Expr4jException("Unmatched number of parenthesis");
-					}
+					evaluateParenthesis();
 					if (!functions.empty()) {
-						if (opStack.peek().value.equals("(")) {
-							throw new Expr4jException("Invalid use of parenthesis");
-						}
-						else {
+						if (functions.peek().isFunction()) {
+							evaluateParenthesis();
 							if (functions.peek().getOperandCount() == -1) {
-								Operator tosOp = opStack.pop();
+								Operator tosOp = operatorStack.pop();
 								int paramsCount = functionParams.peek() + 1;
 								tosOp = new Operator(tosOp.value) {
 									@Override
@@ -187,9 +183,9 @@ public class ShuntingYardExpressionTree extends ShuntingYard {
 										return paramsCount;
 									}
 								};
-								opStack.push(tosOp);
+								operatorStack.push(tosOp);
 							}
-							postfix.push(opStack.pop());
+							postfix.push(operatorStack.pop());
 						}
 						// pop function and parameter count
 						functions.pop();
@@ -197,13 +193,13 @@ public class ShuntingYardExpressionTree extends ShuntingYard {
 					}
 				}
 				else {
-					while (!opStack.isEmpty() &&
-							(opStack.peek().compareTo(op) > 0 ||
-							 (opStack.peek().compareTo(op) == 0 &&
-							  opStack.peek().getAssociativity() == Associativity.LEFT))) {
-						postfix.push(opStack.pop());
+					while (!operatorStack.isEmpty() &&
+							(operatorStack.peek().compareTo(op) > 0 ||
+							 (operatorStack.peek().compareTo(op) == 0 &&
+							  operatorStack.peek().getAssociativity() == Associativity.LEFT))) {
+						postfix.push(operatorStack.pop());
 					}
-					opStack.push(op);
+					operatorStack.push(op);
 				}
 				
 				lastToken = token + ch;
@@ -228,11 +224,31 @@ public class ShuntingYardExpressionTree extends ShuntingYard {
 			throw new Expr4jException("Invalid expression");
 		}
 		
-		while (!opStack.isEmpty()) {
-			if (opStack.peek().value.equals("(")) {
+		while (!operatorStack.isEmpty()) {
+			if (operatorStack.peek().value.equals("(")) {
 				throw new Expr4jException("Unmatched number of parenthesis");
 			}
-			postfix.push(opStack.pop());
+			postfix.push(operatorStack.pop());
+		}
+	}
+	
+	/**
+	 * Method to evaluate operators at the top of the operator stack until a left parenthesis is encountered.
+	 */
+	protected void evaluateParenthesis() {
+		boolean flag = false;
+		// pop until left parenthesis
+		while (!operatorStack.isEmpty()) {
+			if (operatorStack.peek().value.equals("(")) {
+				operatorStack.pop();
+				flag = true;
+				break;
+			}
+			// evaluate top of stack
+			postfix.push(operatorStack.pop());
+		}
+		if (!flag) {
+			throw new Expr4jException("Unmatched number of parenthesis");
 		}
 	}
 	
@@ -346,6 +362,7 @@ public class ShuntingYardExpressionTree extends ShuntingYard {
 			// clean up
 			this.root = null;
 			this.postfix = null;
+			this.operatorStack = null;
 		}
 	}
 	

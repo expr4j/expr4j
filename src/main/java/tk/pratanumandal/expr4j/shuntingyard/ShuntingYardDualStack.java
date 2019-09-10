@@ -99,6 +99,8 @@ public class ShuntingYardDualStack extends ShuntingYard {
 						}
 						else {
 							functionParams.push(functionParams.pop() + 1);
+							evaluateParenthesis();
+							operatorStack.push(new Operator("("));
 						}
 					}
 					else {
@@ -114,37 +116,25 @@ public class ShuntingYardDualStack extends ShuntingYard {
 					operatorStack.push(op);
 					if ((lastToken == null && chNext == ')') ||
 						(lastToken != null && !OperatorRepository.isFunction(realLastToken) &&
-						!OperatorRepository.isVariableOrConstant(realLastToken))) {
+						!OperatorRepository.isVariableOrConstant(realLastToken) &&
+						!realLastToken.equals("(")  && chNext == ')')) {
 						throw new Expr4jException("Invalid use of parenthesis");
 					}
 					if (lastToken != null && OperatorRepository.isFunction(lastToken)) {
 						functions.push(new Operator(lastToken));
 						functionParams.push(0);
+						operatorStack.push(new Operator("("));
 					}
 					else if (!functions.isEmpty()) {
-						functions.push(functions.peek());
+						functions.push(op);
 						functionParams.push(0);
 					}
 				}
 				else if (op.value.equals(")")) {
-					boolean flag = false;
-					while (!operatorStack.isEmpty()) {
-						if (operatorStack.peek().value.equals("(")) {
-							operatorStack.pop();
-							flag = true;
-							break;
-						}
-						// evaluate top of stack
-						evaluateTOS();
-					}
-					if (!flag) {
-						throw new Expr4jException("Unmatched number of parenthesis");
-					}
+					evaluateParenthesis();
 					if (!functions.empty()) {
-						if (operatorStack.peek().value.equals("(")) {
-							throw new Expr4jException("Invalid use of parenthesis");
-						}
-						else {
+						if (functions.peek().isFunction()) {
+							evaluateParenthesis();
 							if (functions.peek().getOperandCount() == -1) {
 								Operator tosOp = operatorStack.pop();
 								int paramsCount = functionParams.peek() + 1;
@@ -230,6 +220,26 @@ public class ShuntingYardDualStack extends ShuntingYard {
 		
 		Operand operand = operator.evaluate(operands);
 		operandStack.push(operand);
+	}
+	
+	/**
+	 * Method to evaluate operators at the top of the operator stack until a left parenthesis is encountered.
+	 */
+	protected void evaluateParenthesis() {
+		boolean flag = false;
+		// pop until left parenthesis
+		while (!operatorStack.isEmpty()) {
+			if (operatorStack.peek().value.equals("(")) {
+				operatorStack.pop();
+				flag = true;
+				break;
+			}
+			// evaluate top of stack
+			evaluateTOS();
+		}
+		if (!flag) {
+			throw new Expr4jException("Unmatched number of parenthesis");
+		}
 	}
 	
 	/**
