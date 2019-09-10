@@ -22,21 +22,14 @@
 
 package tk.pratanumandal.expr4j;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-public class Expr4JTestSuite extends TestCase {
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+	ShuntingYardDualStackTest.class,
+	ShuntingYardExpressionTreeTest.class
+})
+public class Expr4JTestSuite {
 	
-    public Expr4JTestSuite(String testName) {
-        super(testName);
-    }
-    
-    public static Test suite() {
-    	TestSuite testSuite = new TestSuite();
-    	testSuite.addTestSuite(ShuntingYardExpressionTreeTest.class);
-    	testSuite.addTestSuite(ShuntingYardDualStackTest.class);
-        return testSuite;
-    }
-    
 }

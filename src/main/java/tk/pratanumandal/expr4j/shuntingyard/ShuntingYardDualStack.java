@@ -65,6 +65,11 @@ public class ShuntingYardDualStack extends ShuntingYard {
 		// remove all whitespace except if whitespace is present between operands
 		expr = expr.replaceAll("(?!\\d|\\+|\\-)\\s+(?!\\d|\\.)", "");
 		
+		// do not allow empty expressions
+		if (expr.isEmpty()) {
+			throw new Expr4jException("Invalid expression");
+		}
+		
 		operandStack = new Stack<>();
 		operatorStack = new Stack<>();
 		
