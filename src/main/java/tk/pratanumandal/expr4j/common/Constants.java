@@ -37,4 +37,10 @@ public final class Constants {
 	 */
 	public static final int PRECISION = 10;
 	
+	/**
+	 * Use variable number of parameters for function.<br>
+	 * Constant value of -1.
+	 */
+	public static final int VARIABLE_PARAMETERS = -1;
+	
 }

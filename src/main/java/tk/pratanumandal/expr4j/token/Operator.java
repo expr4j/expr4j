@@ -74,6 +74,15 @@ public class Operator extends Token implements Comparable<Operator> {
 	}
 	
 	/**
+	 * Determine if this operator is a variable or constant, or not.
+	 * 
+	 * @return true if this operator is a variable or constant, otherwise false
+	 */
+	public boolean isVariableOrConstant() {
+		return OperatorRepository.OPERATORS.get(value) != null && OperatorRepository.OPERATORS.get(value).params == 0;
+	}
+	
+	/**
 	 * Method to evaluate this operator, function, variable, or constant.<br>
 	 * It takes a variable number of operands as parameter depending on the number of operands required for this operator.
 	 * 
@@ -132,25 +141,25 @@ public class Operator extends Token implements Comparable<Operator> {
 		/**
 		 * Number of parameters required by this operator.
 		 */
-		public int params;
+		public final int params;
 		
 		/**
 		 * The precedence of this operator.<br>
 		 * Precedence ranges from 1 to infinity, in ascending order, i.e, with 1 being lowest precedence possible.<br>
 		 * Although parenthesis and comma have 0 precedence, they are a special case and are evaluated separately.
 		 */
-		public int precedence;
+		public final int precedence;
 		
 		/**
 		 * The associativity of this operator.
 		 */
-		public Associativity associativity;
+		public final Associativity associativity;
 		
 		/**
 		 * Function implementation if this operator is a function.<br>
 		 * Otherwise null.
 		 */
-		public Function function;
+		public final Function function;
 		
 		/**
 		 * Parameterized constructor taking number of parameters and precedence.<br>
@@ -201,6 +210,10 @@ public class Operator extends Token implements Comparable<Operator> {
 			this.precedence = precedence;
 			this.associativity = associativity;
 			this.function = function;
+			
+			if (this.params == -1 && this.function == null) {
+				throw new RuntimeException("Only functions can have variable number of parameter.");
+			}
 		}
 		
 		/**

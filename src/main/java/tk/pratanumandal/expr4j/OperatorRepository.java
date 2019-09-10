@@ -166,7 +166,7 @@ public class OperatorRepository {
 	 * Utility method to determine if a string is a supported operator.
 	 * 
 	 * @param op The string to check
-	 * @return true if the string is a supported operator, false otherwise
+	 * @return true if the string is a supported operator, otherwise false
 	 */
 	public static boolean isOperator(String op) {
 		return OPERATORS.containsKey(op);
@@ -176,7 +176,7 @@ public class OperatorRepository {
 	 * Utility method to determine if a string is a supported function.
 	 * 
 	 * @param op The string to check
-	 * @return true if the string is a supported function, false otherwise
+	 * @return true if the string is a supported function, otherwise false
 	 */
 	public static boolean isFunction(String op) {
 		return OPERATORS.get(op) != null && OPERATORS.get(op).function != null;
@@ -186,7 +186,7 @@ public class OperatorRepository {
 	 * Utility method to determine if a string is a supported variable or constant.
 	 * 
 	 * @param op The string to check
-	 * @return true if the string is a supported variable or constant, false otherwise
+	 * @return true if the string is a supported variable or constant, otherwise false
 	 */
 	public static boolean isVariableOrConstant(String op) {
 		return OPERATORS.get(op) != null && OPERATORS.get(op).params == 0;

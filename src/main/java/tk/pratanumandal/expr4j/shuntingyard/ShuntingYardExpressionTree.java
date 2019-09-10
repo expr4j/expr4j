@@ -126,7 +126,8 @@ public class ShuntingYardExpressionTree extends ShuntingYard {
 				
 				if (op.getOperandCount() == 0) {
 					if (op.value.equals(",")) {
-						if (functions.isEmpty() || functionParams.peek() >= functions.peek().getOperandCount() - 1) {
+						if (functions.isEmpty() || (functions.peek().getOperandCount() != -1 &&
+								functionParams.peek() >= functions.peek().getOperandCount() - 1)) {
 							throw new RuntimeException("Invalid expression");
 						}
 						else {
@@ -172,14 +173,26 @@ public class ShuntingYardExpressionTree extends ShuntingYard {
 						throw new RuntimeException("Unmatched number of parenthesis");
 					}
 					if (!functions.empty()) {
-						functions.pop();
-						functionParams.pop();
 						if (opStack.peek().value.equals("(")) {
 							throw new RuntimeException("Invalid use of parenthesis");
 						}
 						else {
+							if (functions.peek().getOperandCount() == -1) {
+								Operator tosOp = opStack.pop();
+								int paramsCount = functionParams.peek() + 1;
+								tosOp = new Operator(tosOp.value) {
+									@Override
+									public int getOperandCount() {
+										return paramsCount;
+									}
+								};
+								opStack.push(tosOp);
+							}
 							postfix.push(opStack.pop());
 						}
+						// pop function and parameter count
+						functions.pop();
+						functionParams.pop();
 					}
 				}
 				else {
