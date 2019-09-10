@@ -179,7 +179,17 @@ public class OperatorRepository {
 	 * @return true if the string is a supported function, false otherwise
 	 */
 	public static boolean isFunction(String op) {
-		return OPERATORS.get(op).function != null;
+		return OPERATORS.get(op) != null && OPERATORS.get(op).function != null;
+	}
+	
+	/**
+	 * Utility method to determine if a string is a supported variable or constant.
+	 * 
+	 * @param op The string to check
+	 * @return true if the string is a supported variable or constant, false otherwise
+	 */
+	public static boolean isVariableOrConstant(String op) {
+		return OPERATORS.get(op) != null && OPERATORS.get(op).params == 0;
 	}
 	
 	/**

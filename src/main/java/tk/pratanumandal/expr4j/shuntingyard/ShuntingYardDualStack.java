@@ -77,7 +77,8 @@ public class ShuntingYardDualStack extends ShuntingYard {
 			char ch = expr.charAt(i);
 			char chNext = (i + 1 < expr.length()) ? expr.charAt(i + 1) : '\u0000';
 			
-			if (OperatorRepository.isOperator(token + ch) && (!OperatorRepository.isFunction(token + ch) || chNext == '(')) {
+			if (OperatorRepository.isOperator(token + ch) && (OperatorRepository.isVariableOrConstant(token + ch) ||
+					!OperatorRepository.isFunction(token + ch) || chNext == '(')) {
 				// add to operator stack
 				Operator op = new Operator(token + ch);
 				
