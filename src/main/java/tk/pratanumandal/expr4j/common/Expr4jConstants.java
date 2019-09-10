@@ -26,7 +26,7 @@ package tk.pratanumandal.expr4j.common;
  * The <code>Expr4jConstants</code> class provides all the application wide constants.
  * 
  * @author Pratanu Mandal
- * @since 0.0.1
+ * @since 0.0.2
  *
  */
 public final class Expr4jConstants {
