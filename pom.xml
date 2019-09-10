@@ -89,6 +89,11 @@
 				<version>3.1.1</version>
 				<configuration>
 					<stylesheetfile>${basedir}/stylesheet.css</stylesheetfile>
+					<bottom>
+						<![CDATA[
+							Copyright &#169; 2019 <a href="https://pratanumandal.tk">Pratanu Mandal<a>. All rights reserved.
+						]]>
+					</bottom>
 				</configuration>
 				<executions>
 					<execution>

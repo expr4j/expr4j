@@ -105,7 +105,15 @@ public class ExpressionEvaluator {
 	 *
 	 */
 	public enum Evaluator {
-		DUAL_STACK, EXPRESSION_TREE
+		/**
+		 * Dual Stack implementation of the Shunting Yard algorithm.
+		 */
+		DUAL_STACK,
+		
+		/**
+		 * Expression Tree implementation of the Shunting Yard algorithm.
+		 */
+		EXPRESSION_TREE
 	}
 	
 }

@@ -1,14 +1,17 @@
-/* Javadoc style sheet */
 /*
-Overall document style
-*/
+ * Javadoc style sheet
+ *
+ */
 
 @import url('resources/fonts/dejavu.css');
 
+/*
+Overall document style
+*/
 body {
     background-color:#ffffff;
     color:#353833;
-    font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif;
+    font-family:'DejaVu Sans', Arial, Helvetica, sans-serif;
     font-size:14px;
     margin:0;
 }
@@ -76,10 +79,10 @@ table tr td dt code {
     padding-top:4px;
 }
 table tr:nth-child(odd) {
-	background-color: #FFFFFF;
+	background-color:#FFFFFF;
 }
 table tr:nth-child(even) {
-	background-color: #EEEEEF;
+	background-color:#EEEEEF;
 }
 sup {
     font-size:8px;
@@ -100,7 +103,11 @@ Document title and Copyright styles
     margin-top:-9px;
 }
 .legalCopy {
+    display: inline-block;
     margin-left:.5em;
+    margin-right:.5em;
+	margin-top:15px;
+	margin-bottom:15px;
 }
 .bar a, .bar a:link, .bar a:visited, .bar a:active {
     color:#FFFFFF;
@@ -564,12 +571,10 @@ h1.hidden {
 .deprecationComment, .emphasizedPhrase, .interfaceName {
     font-style:italic;
 }
-
 div.block div.block span.deprecationComment, div.block div.block span.emphasizedPhrase,
 div.block div.block span.interfaceName {
     font-style:normal;
 }
-
 div.contentContainer ul.blockList li.blockList h2{
     padding-bottom:0px;
 }
