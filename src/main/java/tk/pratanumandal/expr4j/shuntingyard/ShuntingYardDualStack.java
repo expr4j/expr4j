@@ -69,6 +69,7 @@ public class ShuntingYardDualStack extends ShuntingYard {
 		
 		String token = new String();
 		String lastToken = null;
+		String realLastToken = null;
 		
 		Stack<Operator> functions = new Stack<>();
 		Stack<Integer> functionParams = new Stack<>();
@@ -102,12 +103,18 @@ public class ShuntingYardDualStack extends ShuntingYard {
 						Operand eval = op.evaluate();
 						operandStack.push(eval);
 						lastToken = eval.value;
+						realLastToken = op.value;
 						token = new String();
 						continue;
 					}
 				}
 				else if (op.value.equals("(")) {
 					operatorStack.push(op);
+					if ((lastToken == null && chNext == ')') ||
+						(lastToken != null && !OperatorRepository.isFunction(realLastToken) &&
+						!OperatorRepository.isVariableOrConstant(realLastToken))) {
+						throw new RuntimeException("Invalid use of parenthesis");
+					}
 					if (lastToken != null && OperatorRepository.isFunction(lastToken)) {
 						functions.push(new Operator(lastToken));
 						functionParams.push(0);
@@ -129,11 +136,17 @@ public class ShuntingYardDualStack extends ShuntingYard {
 						evaluateTOS();
 					}
 					if (!flag) {
-						throw new RuntimeException("Unmatched number of paranthesis");
+						throw new RuntimeException("Unmatched number of parenthesis");
 					}
 					if (!functions.empty()) {
 						functions.pop();
 						functionParams.pop();
+						if (operatorStack.peek().value.equals("(")) {
+							throw new RuntimeException("Invalid use of parenthesis");
+						}
+						else {
+							evaluateTOS();
+						}
 					}
 				}
 				else {
@@ -148,6 +161,7 @@ public class ShuntingYardDualStack extends ShuntingYard {
 				}
 				
 				lastToken = token + ch;
+				realLastToken = lastToken;
 				token = new String();
 			}
 			else if (Operand.isOperand(token + ch) && (chNext != 'e' && chNext != 'E') &&
@@ -156,6 +170,7 @@ public class ShuntingYardDualStack extends ShuntingYard {
 				operandStack.push(new Operand(token + ch));
 				
 				lastToken = token + ch;
+				realLastToken = lastToken;
 				token = new String();
 			}
 			else {
@@ -169,7 +184,7 @@ public class ShuntingYardDualStack extends ShuntingYard {
 		
 		while (!operatorStack.isEmpty()) {
 			if (operatorStack.peek().value.equals("(")) {
-				throw new RuntimeException("Unmatched number of paranthesis");
+				throw new RuntimeException("Unmatched number of parenthesis");
 			}
 			// evaluate top of stack
 			evaluateTOS();
