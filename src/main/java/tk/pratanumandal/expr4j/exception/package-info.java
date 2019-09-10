@@ -24,7 +24,7 @@
  * The <code>tk.pratanumandal.expr4j.exception</code> package contains all exception classes related to Expr4j library.
  * 
  * @author Pratanu Mandal
- * @since 0.0.1
+ * @since 0.0.2
  *
  */
 package tk.pratanumandal.expr4j.exception;
