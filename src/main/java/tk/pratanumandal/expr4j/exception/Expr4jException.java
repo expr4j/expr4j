@@ -23,8 +23,7 @@
 package tk.pratanumandal.expr4j.exception;
 
 /**
- * The <code>Expr4jException</code> class is the superclass of those exceptions that can be thrown during the execution of Expr4j library.<br>
- * It acts as a wrapper for double value operands.
+ * The <code>Expr4jException</code> class is the superclass of those exceptions that can be thrown during the execution of Expr4j library.
  * 
  * @author Pratanu Mandal
  * @since 0.0.2
