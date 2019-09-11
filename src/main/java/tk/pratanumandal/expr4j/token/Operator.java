@@ -53,7 +53,7 @@ public class Operator extends Token implements Comparable<Operator> {
 	 * @return number of operands supported by this operator
 	 */
 	public int getOperandCount() {
-		return OperatorRepository.OPERATORS.get(value).params;
+		return OperatorRepository.getOperatorProperties(value).params;
 	}
 	
 	/**
@@ -62,7 +62,7 @@ public class Operator extends Token implements Comparable<Operator> {
 	 * @return Associativity of this operator
 	 */
 	public Associativity getAssociativity() {
-		return OperatorRepository.OPERATORS.get(value).associativity;
+		return OperatorRepository.getOperatorProperties(value).associativity;
 	}
 	
 	/**
@@ -71,7 +71,7 @@ public class Operator extends Token implements Comparable<Operator> {
 	 * @return true if this operator is a function, otherwise false
 	 */
 	public boolean isFunction() {
-		return OperatorRepository.OPERATORS.get(value).function != null;
+		return OperatorRepository.getOperatorProperties(value).function != null;
 	}
 	
 	/**
@@ -80,7 +80,8 @@ public class Operator extends Token implements Comparable<Operator> {
 	 * @return true if this operator is a variable or constant, otherwise false
 	 */
 	public boolean isVariableOrConstant() {
-		return OperatorRepository.OPERATORS.get(value) != null && OperatorRepository.OPERATORS.get(value).params == 0;
+		return OperatorRepository.getOperatorProperties(value) != null &&
+				OperatorRepository.getOperatorProperties(value).params == 0;
 	}
 	
 	/**
@@ -93,7 +94,7 @@ public class Operator extends Token implements Comparable<Operator> {
 	public Operand evaluate(Operand ... operands) {
 		// function
 		if (this.isFunction()) {
-			return OperatorRepository.OPERATORS.get(value).function.evaluate(operands);
+			return OperatorRepository.getOperatorProperties(value).function.evaluate(operands);
 		}
 		
 		// operator, variable, or constant
@@ -124,8 +125,8 @@ public class Operator extends Token implements Comparable<Operator> {
 	@Override
 	public int compareTo(Operator other) {
 		// compare the precedences of the two operators
-		return OperatorRepository.OPERATORS.get(this.value).precedence
-				- OperatorRepository.OPERATORS.get(other.value).precedence;
+		return OperatorRepository.getOperatorProperties(this.value).precedence
+				- OperatorRepository.getOperatorProperties(other.value).precedence;
 	}
 	
 	/**

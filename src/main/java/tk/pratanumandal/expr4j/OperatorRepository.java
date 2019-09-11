@@ -35,6 +35,7 @@ import tk.pratanumandal.expr4j.common.MathExtras;
 import tk.pratanumandal.expr4j.exception.Expr4jException;
 import tk.pratanumandal.expr4j.token.Function;
 import tk.pratanumandal.expr4j.token.Operand;
+import tk.pratanumandal.expr4j.token.Operator;
 import tk.pratanumandal.expr4j.token.Operator.Properties;
 import tk.pratanumandal.expr4j.token.Operator.Properties.Associativity;
 
@@ -70,7 +71,7 @@ public class OperatorRepository {
 	/**
 	 * A map of all operators, functions, variables, and constants supported.
 	 */
-	public static final Map<String, Properties> OPERATORS;
+	protected static final Map<String, Properties> OPERATORS;
 	
 	/**
 	 * A list of all predefined operators, functions, variables, and constants.
@@ -170,6 +171,16 @@ public class OperatorRepository {
 	}
 	
 	/**
+	 * Utility method to get the properties of an operator.
+	 * 
+	 * @param value The operator value as a string
+	 * @return The properties of the operator
+	 */
+	public static Operator.Properties getOperatorProperties(String value) {
+		return OPERATORS.get(value);
+	}
+	
+	/**
 	 * Utility method to determine if a string is a supported operator.
 	 * 
 	 * @param op The string to check
@@ -223,11 +234,7 @@ public class OperatorRepository {
 	 * @param function Function definition
 	 */
 	public static void addFunction(String fName, Function function) {
-		if (fName == null) throw new NullPointerException("Function name cannot be null.");
-		if (!fName.matches("[a-zA-Z0-9]+")) throw new Expr4jException("Not a valid function name: " + fName + ".");
-		if (function == null) throw new NullPointerException("Function cannot be null.");
-		if (PREDEFINED_OPERATORS.contains(fName)) throw new Expr4jException("Cannot override predefined function: " + fName + ".");
-		OPERATORS.put(fName, new Properties(Expr4jConstants.VARIABLE_PARAMETERS, 4, function));
+		OperatorRepository.addFunction(fName, Expr4jConstants.VARIABLE_PARAMETERS, function);
 	}
 	
 	/**
