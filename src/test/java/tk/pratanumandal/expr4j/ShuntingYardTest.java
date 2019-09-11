@@ -27,6 +27,7 @@ import org.junit.Test;
 
 import tk.pratanumandal.expr4j.exception.Expr4jException;
 import tk.pratanumandal.expr4j.shuntingyard.ShuntingYard;
+import tk.pratanumandal.expr4j.token.Operand;
 
 public abstract class ShuntingYardTest {
 	
@@ -129,6 +130,23 @@ public abstract class ShuntingYardTest {
 		double expected = 1.8502198591;
 		double actual = sy.evaluate("log(5 + (2) * 4, max(ln(10), 4))");
 		Assert.assertEquals(expected, actual, DELTA);
+	}
+	
+	@Test
+	public void test16() {
+		OperatorRepository.addFunction("mean", (operands) -> {
+    		double sum = 0;
+    		for (Operand operand : operands) {
+    			sum += operand.toDouble();
+    		}
+    		return new Operand(sum / operands.length);
+    	});
+		
+		double expected = 12.7434874639;
+		double actual = sy.evaluate("mean(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
+		Assert.assertEquals(expected, actual, DELTA);
+		
+		OperatorRepository.removeFunction("mean");
 	}
 
 }
