@@ -148,5 +148,29 @@ public abstract class ShuntingYardTest {
 		
 		OperatorRepository.removeFunction("mean");
 	}
+	
+	@Test
+	public void test17() {
+		double expected = 0.0;
+		double actual = sy.evaluate("floor(rand())");
+		Assert.assertEquals(expected, actual, DELTA);
+	}
+	
+	@Test
+	public void test18() {
+		double expected = -3.0;
+		double actual = sy.evaluate("2 + (3 - 4) * 5");
+		Assert.assertEquals(expected, actual, DELTA);
+	}
+	
+	@Test(expected = Expr4jException.class)
+	public void test19() {
+		sy.evaluate("(2 + (3)");
+	}
+	
+	@Test(expected = Expr4jException.class)
+	public void test20() {
+		sy.evaluate("(2 + 3))");
+	}
 
 }
