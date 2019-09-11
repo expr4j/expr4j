@@ -30,6 +30,7 @@ import java.util.Set;
 
 import org.apache.commons.math3.special.Gamma;
 
+import tk.pratanumandal.expr4j.common.Expr4jConstants;
 import tk.pratanumandal.expr4j.common.MathExtras;
 import tk.pratanumandal.expr4j.exception.Expr4jException;
 import tk.pratanumandal.expr4j.token.Function;
@@ -212,6 +213,21 @@ public class OperatorRepository {
 		if (function == null) throw new NullPointerException("Function cannot be null.");
 		if (PREDEFINED_OPERATORS.contains(fName)) throw new Expr4jException("Cannot override predefined function: " + fName + ".");
 		OPERATORS.put(fName, new Properties(params, 4, function));
+	}
+	
+	/**
+	 * Utility method to add user defined function with variable number of parameters to the environment.<br>
+	 * Method names can consist of lowercase letters, uppercase letters, and digits.
+	 * 
+	 * @param fName Function name - e.g. for function name 'myFunc', it will be called as myFunc(...)
+	 * @param function Function definition
+	 */
+	public static void addFunction(String fName, Function function) {
+		if (fName == null) throw new NullPointerException("Function name cannot be null.");
+		if (!fName.matches("[a-zA-Z0-9]+")) throw new Expr4jException("Not a valid function name: " + fName + ".");
+		if (function == null) throw new NullPointerException("Function cannot be null.");
+		if (PREDEFINED_OPERATORS.contains(fName)) throw new Expr4jException("Cannot override predefined function: " + fName + ".");
+		OPERATORS.put(fName, new Properties(Expr4jConstants.VARIABLE_PARAMETERS, 4, function));
 	}
 	
 	/**
