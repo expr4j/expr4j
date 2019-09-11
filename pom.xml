@@ -49,16 +49,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.github.haifengl</groupId>
-			<artifactId>smile-core</artifactId>
-			<version>1.5.3</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.28</version>
-			<scope>test</scope>
+			<groupId>tk.pratanumandal</groupId>
+			<artifactId>smile</artifactId>
+			<version>0.0.1</version>
 		</dependency>
 	</dependencies>
 
@@ -161,5 +154,12 @@
 			</build>
 		</profile>
 	</profiles>
+
+	<repositories>
+		<repository>
+			<id>libs</id>
+			<url>file://${basedir}/libs</url>
+		</repository>
+	</repositories>
 
 </project>
