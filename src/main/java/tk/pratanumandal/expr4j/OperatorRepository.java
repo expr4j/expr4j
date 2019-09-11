@@ -28,8 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.math3.special.Gamma;
-
+import smile.math.special.Gamma;
 import tk.pratanumandal.expr4j.common.Expr4jConstants;
 import tk.pratanumandal.expr4j.common.MathExtras;
 import tk.pratanumandal.expr4j.exception.Expr4jException;
