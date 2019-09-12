@@ -24,6 +24,7 @@
 package tk.pratanumandal.expr4j;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -262,6 +263,22 @@ public class OperatorRepository {
 		if (!isOperator(fName) || !isFunction(fName)) throw new Expr4jException("Function not found: " + fName + ".");
 		if (PREDEFINED_OPERATORS.contains(fName)) throw new Expr4jException("Cannot remove predefined function: " + fName + ".");
 		OPERATORS.remove(fName);
+	}
+	
+	/**
+	 * Utility method to get list of all operator names currently supported by the environment.<br>
+	 * The returned list is sorted lexicographically by operator names.
+	 * 
+	 * @return List of operator names currently supported by the environment
+	 */
+	public static List<String> getOperatorList() {
+		List<String> opList = new ArrayList<>();
+		Set<String> opSet = OPERATORS.keySet();
+	    for (String op : opSet) {
+	    	opList.add(op);
+	    }
+	    Collections.sort(opList);
+	    return opList;
 	}
 	
 }
