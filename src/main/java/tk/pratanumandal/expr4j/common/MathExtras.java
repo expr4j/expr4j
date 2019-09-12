@@ -38,7 +38,7 @@ public class MathExtras {
 	private MathExtras() {}
 	
 	/**
-	 * Calculate the area hyperbolic sine
+	 * Calculate the area hyperbolic sine.
 	 * 
 	 * @param x the operand
 	 * @return area hyperbolic sine of x
@@ -48,7 +48,7 @@ public class MathExtras {
 	}
 	
 	/**
-	 * Calculate the area hyperbolic cosine
+	 * Calculate the area hyperbolic cosine.
 	 * 
 	 * @param x the operand
 	 * @return area hyperbolic cosine of x
@@ -58,7 +58,7 @@ public class MathExtras {
 	}
 	
 	/**
-	 * Calculate the area hyperbolic tangent
+	 * Calculate the area hyperbolic tangent.
 	 * 
 	 * @param x the operand
 	 * @return area hyperbolic tangent of x
@@ -68,7 +68,7 @@ public class MathExtras {
 	}
 	
 	/**
-	 * Calculate the log of x to the base b
+	 * Calculate the log of x to the base b.
 	 * 
 	 * @param x the operand
 	 * @param b the base or radix
@@ -78,6 +78,12 @@ public class MathExtras {
 		return Math.log(x) / Math.log(b);
 	}
 	
+	/**
+	 * Calculate the factorial.
+	 * 
+	 * @param x the operand
+	 * @return factorial of x
+	 */
 	public static double fact(double x) {
 		return Gamma.gamma(x);
 	}
