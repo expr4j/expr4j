@@ -22,8 +22,6 @@
 
 package tk.pratanumandal.expr4j.common;
 
-import tk.pratanumandal.smile.math.special.Gamma;
-
 /**
  * The <code>MathExtras</code> class provides extra math functionality not available in java.lang.Math.
  * 

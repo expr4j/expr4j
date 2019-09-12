@@ -47,12 +47,6 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>tk.pratanumandal</groupId>
-			<artifactId>smile</artifactId>
-			<version>0.0.1</version>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -154,12 +148,5 @@
 			</build>
 		</profile>
 	</profiles>
-
-	<repositories>
-		<repository>
-			<id>libs</id>
-			<url>file://${basedir}/libs</url>
-		</repository>
-	</repositories>
 
 </project>
