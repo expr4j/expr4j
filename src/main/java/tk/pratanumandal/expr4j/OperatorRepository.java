@@ -157,6 +157,15 @@ public class OperatorRepository {
 		OPERATORS.put("max", new Properties(2, 4, (operands) -> {return new Operand(Math.max(operands[0].toDouble(), operands[1].toDouble()));}));
 		OPERATORS.put("min", new Properties(2, 4, (operands) -> {return new Operand(Math.min(operands[0].toDouble(), operands[1].toDouble()));}));
 		
+		// variable argument functions - 4
+		OPERATORS.put("mean", new Properties(-1, 4, (operands) -> {
+    		double sum = 0;
+    		for (Operand operand : operands) {
+    			sum += operand.toDouble();
+    		}
+    		return new Operand(sum / operands.length);
+    	}));
+		
 		// zero argument - 5
 		OPERATORS.put("rand", new Properties(0, 5, Associativity.NO));
 		OPERATORS.put("pi", new Properties(0, 5, Associativity.NO));
