@@ -78,7 +78,7 @@ public class MathExtras {
 	 * @param x the operand
 	 * @return factorial of x
 	 */
-	public static double fact(double x) {
+	public static double factorial(double x) {
 		return Gamma.gamma(x);
 	}
 

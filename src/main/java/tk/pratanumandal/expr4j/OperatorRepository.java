@@ -147,7 +147,7 @@ public class OperatorRepository {
 		OPERATORS.put("sqrt", new Properties(1, 4, (operands) -> {return new Operand(Math.sqrt(operands[0].toDouble()));}));
 		OPERATORS.put("cbrt", new Properties(1, 4, (operands) -> {return new Operand(Math.cbrt(operands[0].toDouble()));}));
 		
-		OPERATORS.put("fact", new Properties(1, 4, (operands) -> {return new Operand(MathExtras.fact(operands[0].toDouble() + 1));}));
+		OPERATORS.put("fact", new Properties(1, 4, (operands) -> {return new Operand(MathExtras.factorial(operands[0].toDouble() + 1));}));
 		
 		OPERATORS.put("max", new Properties(2, 4, (operands) -> {return new Operand(Math.max(operands[0].toDouble(), operands[1].toDouble()));}));
 		OPERATORS.put("min", new Properties(2, 4, (operands) -> {return new Operand(Math.min(operands[0].toDouble(), operands[1].toDouble()));}));
