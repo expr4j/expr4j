@@ -54,7 +54,7 @@ public class Gamma {
 	/**
 	 * Gamma function. Lanczos approximation (6 terms).
 	 * 
-	 * @param x - the value for which gamma is to be calculated
+	 * @param x the value for which gamma is to be calculated
 	 * @return the gamma of x
 	 */
 	public static double gamma(double x) {
