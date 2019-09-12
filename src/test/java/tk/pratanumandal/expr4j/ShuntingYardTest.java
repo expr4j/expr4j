@@ -135,7 +135,7 @@ public abstract class ShuntingYardTest {
 	
 	@Test
 	public void test16() {
-		OperatorRepository.addFunction("mean", (operands) -> {
+		OperatorRepository.addFunction("avg", (operands) -> {
     		double sum = 0;
     		for (Operand operand : operands) {
     			sum += operand.toDouble();
@@ -147,7 +147,7 @@ public abstract class ShuntingYardTest {
 		double actual = sy.evaluate("mean(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
 		Assert.assertEquals(expected, actual, DELTA);
 		
-		OperatorRepository.removeFunction("mean");
+		OperatorRepository.removeFunction("avg");
 	}
 	
 	@Test
