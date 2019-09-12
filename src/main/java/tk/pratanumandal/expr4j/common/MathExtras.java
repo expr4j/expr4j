@@ -32,6 +32,11 @@ package tk.pratanumandal.expr4j.common;
 public class MathExtras {
 	
 	/**
+	 * Utility classes should not have public constructors.
+	 */
+	private MathExtras() {}
+	
+	/**
 	 * Calculate the area hyperbolic sine
 	 * 
 	 * @param x the operand

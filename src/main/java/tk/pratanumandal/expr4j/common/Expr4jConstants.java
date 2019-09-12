@@ -30,6 +30,11 @@ package tk.pratanumandal.expr4j.common;
  *
  */
 public final class Expr4jConstants {
+	
+	/**
+	 * Utility classes should not have public constructors.
+	 */
+	private Expr4jConstants() {}
 
 	/**
 	 * The maximum number of decimal places supported.<br>

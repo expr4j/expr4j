@@ -65,6 +65,11 @@ import tk.pratanumandal.expr4j.token.Operator.Properties.Associativity;
  *
  */
 public class OperatorRepository {
+	
+	/**
+	 * Utility classes should not have public constructors.
+	 */
+	private OperatorRepository() {}
 
 	/**
 	 * A map of all operators, functions, variables, and constants supported.
