@@ -97,6 +97,11 @@ public class ShuntingYardExpressionTree extends ShuntingYard {
 	protected Stack<Operator> operatorStack;
 	
 	/**
+	 * No-Argument Constructor.
+	 */
+	public ShuntingYardExpressionTree() {}
+	
+	/**
 	 * Method to create the postfix expression from the infix expression.
 	 * 
 	 * @param expr Expression string

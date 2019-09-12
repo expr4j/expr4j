@@ -35,6 +35,11 @@ package tk.pratanumandal.expr4j.shuntingyard;
 public abstract class ShuntingYard {
 	
 	/**
+	 * No-Argument Constructor.
+	 */
+	public ShuntingYard() {}
+	
+	/**
 	 * Method to evaluate an expression.<br>
 	 * This method should act as the single point of access for the implementation.
 	 * 

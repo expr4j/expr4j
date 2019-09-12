@@ -57,6 +57,11 @@ public class ShuntingYardDualStack extends ShuntingYard {
 	protected Stack<Operator> operatorStack;
 	
 	/**
+	 * No-Argument Constructor.
+	 */
+	public ShuntingYardDualStack() {}
+	
+	/**
 	 * Method to evaluate the expression string and return the result as an operand.
 	 * 
 	 * @param expr Expression string
