@@ -97,6 +97,7 @@ public class ExpressionEvaluator {
 	 * It can be of two types: DUAL_STACK, and EXPRESSION_TREE.
 	 * 
 	 * @author Pratanu Mandal
+	 * @since 0.0.2
 	 *
 	 */
 	public enum Evaluator {
