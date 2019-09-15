@@ -19,6 +19,7 @@ Breaking Changes:
   
 Other:
   - First public beta release
+  - Added multiple test cases for the new features added
 
 ===============================================================================
 Version 0.0.1 ALPHA
