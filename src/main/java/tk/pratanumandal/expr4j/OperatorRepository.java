@@ -247,7 +247,7 @@ public class OperatorRepository {
 	
 	/**
 	 * Utility method to remove user defined function from the environment.<br>
-	 * Method names can consist of lowercase letters, uppercase letters, and digits.
+	 * Method names can consist of lowercase letters, uppercase letters, and digits. However, first character must not be a digit.
 	 * 
 	 * @param fName Function name - e.g. for function name 'myFunc', it will be called as myFunc(...)
 	 */
