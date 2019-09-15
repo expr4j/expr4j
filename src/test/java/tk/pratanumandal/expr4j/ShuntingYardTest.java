@@ -167,5 +167,175 @@ public abstract class ShuntingYardTest {
 	public void test20() {
 		sy.evaluate("(2 + 3))");
 	}
+	
+	@Test
+	public void test21() {
+		OperatorRepository.addFunction("ee", (operands) -> {
+    		double sum = 0;
+    		for (Operand operand : operands) {
+    			sum += operand.toDouble();
+    		}
+    		return new Operand(sum / operands.length);
+    	});
+		
+		double expected = 12.7434874639;
+		double actual = sy.evaluate("ee(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
+		Assert.assertEquals(expected, actual, DELTA);
+		
+		OperatorRepository.removeFunction("ee");
+	}
+	
+	@Test
+	public void test22() {
+		OperatorRepository.addFunction("esume", (operands) -> {
+    		double sum = 0;
+    		for (Operand operand : operands) {
+    			sum += operand.toDouble();
+    		}
+    		return new Operand(sum / operands.length);
+    	});
+		
+		double expected = 12.7434874639;
+		double actual = sy.evaluate("esume(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
+		Assert.assertEquals(expected, actual, DELTA);
+		
+		OperatorRepository.removeFunction("esume");
+	}
+	
+	@Test
+	public void test23() {
+		OperatorRepository.addFunction("pisumpi", (operands) -> {
+    		double sum = 0;
+    		for (Operand operand : operands) {
+    			sum += operand.toDouble();
+    		}
+    		return new Operand(sum / operands.length);
+    	});
+		
+		double expected = 12.7434874639;
+		double actual = sy.evaluate("pisumpi(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
+		Assert.assertEquals(expected, actual, DELTA);
+		
+		OperatorRepository.removeFunction("pisumpi");
+	}
+	
+	@Test
+	public void test24() {
+		OperatorRepository.addFunction("esumpi", (operands) -> {
+    		double sum = 0;
+    		for (Operand operand : operands) {
+    			sum += operand.toDouble();
+    		}
+    		return new Operand(sum / operands.length);
+    	});
+		
+		double expected = 12.7434874639;
+		double actual = sy.evaluate("esumpi(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
+		Assert.assertEquals(expected, actual, DELTA);
+		
+		OperatorRepository.removeFunction("esumpi");
+	}
+	
+	@Test
+	public void test25() {
+		OperatorRepository.addFunction("uminusFunc", (operands) -> {
+    		double sum = 0;
+    		for (Operand operand : operands) {
+    			sum += operand.toDouble();
+    		}
+    		return new Operand(sum / operands.length);
+    	});
+		
+		double expected = 12.7434874639;
+		double actual = sy.evaluate("uminusFunc(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
+		Assert.assertEquals(expected, actual, DELTA);
+		
+		OperatorRepository.removeFunction("uminusFunc");
+	}
+	
+	@Test
+	public void test26() {
+		OperatorRepository.addFunction("uplusFunc", (operands) -> {
+    		double sum = 0;
+    		for (Operand operand : operands) {
+    			sum += operand.toDouble();
+    		}
+    		return new Operand(sum / operands.length);
+    	});
+		
+		double expected = 12.7434874639;
+		double actual = sy.evaluate("uplusFunc(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
+		Assert.assertEquals(expected, actual, DELTA);
+		
+		OperatorRepository.removeFunction("uplusFunc");
+	}
+	
+	@Test
+	public void test27() {
+		OperatorRepository.addFunction("Funcuminus", (operands) -> {
+    		double sum = 0;
+    		for (Operand operand : operands) {
+    			sum += operand.toDouble();
+    		}
+    		return new Operand(sum / operands.length);
+    	});
+		
+		double expected = 12.7434874639;
+		double actual = sy.evaluate("Funcuminus(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
+		Assert.assertEquals(expected, actual, DELTA);
+		
+		OperatorRepository.removeFunction("Funcuminus");
+	}
+	
+	@Test
+	public void test28() {
+		OperatorRepository.addFunction("Funcuplus", (operands) -> {
+    		double sum = 0;
+    		for (Operand operand : operands) {
+    			sum += operand.toDouble();
+    		}
+    		return new Operand(sum / operands.length);
+    	});
+		
+		double expected = 12.7434874639;
+		double actual = sy.evaluate("Funcuplus(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
+		Assert.assertEquals(expected, actual, DELTA);
+		
+		OperatorRepository.removeFunction("Funcuplus");
+	}
+	
+	@Test
+	public void test29() {
+		OperatorRepository.addFunction("uminusFuncuminus", (operands) -> {
+    		double sum = 0;
+    		for (Operand operand : operands) {
+    			sum += operand.toDouble();
+    		}
+    		return new Operand(sum / operands.length);
+    	});
+		
+		double expected = 12.7434874639;
+		double actual = sy.evaluate("uminusFuncuminus(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
+		Assert.assertEquals(expected, actual, DELTA);
+		
+		OperatorRepository.removeFunction("uminusFuncuminus");
+	}
+	
+	@Test
+	public void test30() {
+		OperatorRepository.addFunction("uplusFuncuplus", (operands) -> {
+    		double sum = 0;
+    		for (Operand operand : operands) {
+    			sum += operand.toDouble();
+    		}
+    		return new Operand(sum / operands.length);
+    	});
+		
+		double expected = 12.7434874639;
+		double actual = sy.evaluate("uplusFuncuplus(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
+		Assert.assertEquals(expected, actual, DELTA);
+		
+		OperatorRepository.removeFunction("uplusFuncuplus");
+	}
 
 }

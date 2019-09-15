@@ -13,6 +13,7 @@ Breaking Changes:
   
 Other:
   - Second public beta release
+  - Added multiple test cases for the bugfixes
 
 ===============================================================================
 Version 0.0.2 BETA
