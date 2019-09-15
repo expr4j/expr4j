@@ -105,10 +105,6 @@ public class Operator extends Token implements Comparable<Operator> {
 			case "uminus": return new Operand(String.valueOf(-operands[0].toDouble()));
 			case "uplus": return new Operand(String.valueOf(+operands[0].toDouble()));
 			
-			case "rand": return new Operand(String.valueOf(Math.random()));
-			case "pi": return new Operand(String.valueOf(Math.PI));
-			case "e": return new Operand(String.valueOf(Math.E));
-			
 			default: throw new Expr4jException("Unsupported operator");
 		}
 		

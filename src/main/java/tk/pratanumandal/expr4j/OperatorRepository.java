@@ -162,9 +162,9 @@ public class OperatorRepository {
     	}));
 		
 		// zero argument - 5
-		OPERATORS.put("rand", new Properties(0, 5, Associativity.NO));
-		OPERATORS.put("pi", new Properties(0, 5, Associativity.NO));
-		OPERATORS.put("e", new Properties(0, 5, Associativity.NO));
+		OPERATORS.put("rand", new Properties(0, 5, (operands) -> {return new Operand(Math.random());}));
+		OPERATORS.put("pi", new Properties(0, 5,  (operands) -> {return new Operand(Math.PI);}));
+		OPERATORS.put("e", new Properties(0, 5,  (operands) -> {return new Operand(Math.E);}));
 		
 		
 		
