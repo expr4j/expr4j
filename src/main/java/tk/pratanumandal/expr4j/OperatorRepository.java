@@ -236,7 +236,7 @@ public class OperatorRepository {
 	
 	/**
 	 * Utility method to add user defined function with variable number of parameters to the environment.<br>
-	 * Method names can consist of lowercase letters, uppercase letters, and digits.
+	 * Method names can consist of lowercase letters, uppercase letters, and digits. However, first character cannot be a digit.
 	 * 
 	 * @param fName Function name - e.g. for function name 'myFunc', it will be called as myFunc(...)
 	 * @param function Function definition
