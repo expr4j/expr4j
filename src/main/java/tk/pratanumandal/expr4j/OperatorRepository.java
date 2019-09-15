@@ -220,7 +220,7 @@ public class OperatorRepository {
 	
 	/**
 	 * Utility method to add user defined function to the environment.<br>
-	 * Method names can consist of lowercase letters, uppercase letters, and digits.
+	 * Method names can consist of lowercase letters, uppercase letters, and digits. However, first character cannot be a digit.
 	 * 
 	 * @param fName Function name - e.g. for function name 'myFunc', it will be called as myFunc(...)
 	 * @param params Number of parameters
@@ -228,7 +228,7 @@ public class OperatorRepository {
 	 */
 	public static void addFunction(String fName, int params, Function function) {
 		if (fName == null) throw new NullPointerException("Function name cannot be null.");
-		if (!fName.matches("[a-zA-Z0-9]+")) throw new Expr4jException("Not a valid function name: " + fName + ".");
+		if (!fName.matches("[a-zA-Z][a-zA-Z0-9]+")) throw new Expr4jException("Not a valid function name: " + fName + ".");
 		if (function == null) throw new NullPointerException("Function cannot be null.");
 		if (PREDEFINED_OPERATORS.contains(fName)) throw new Expr4jException("Cannot override predefined function: " + fName + ".");
 		OPERATORS.put(fName, new Properties(params, 4, function));
