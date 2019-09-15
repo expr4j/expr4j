@@ -1,1 +1,39 @@
-This file shall contain the release notes.
+===============================================================================
+Version 0.0.2 BETA
+===============================================================================
+New Features:
+  - ExpressionEvaluator convenience class
+  - Multi-parameter functions
+  - User defined functions
+  - More Arithmetic, Trigonometric, and Logarithmic functions
+  - Logical functions: max, min
+  - Gamma factorial
+
+Bug Fixes:
+  - Bugfix for first character in expression string cannot be left parenthesis (
+    
+Deprecated:
+  
+Breaking Changes:
+  - ShuntingYardTree renamed to ShuntingYardExpressionTree
+  
+Other:
+  - First public beta release
+
+===============================================================================
+Version 0.0.1 ALPHA
+===============================================================================
+New Features:
+  - ShuntingYard interface
+  - ShuntingYardDualStack and ShuntingYardTree implementations
+  - Basic arithmetic operators
+  - Arithmetic, Trigonometric, and Logarithmic functions
+
+Bug Fixes:
+    
+Deprecated:
+  
+Breaking Changes:
+  
+Other:
+  - First public alpha release
