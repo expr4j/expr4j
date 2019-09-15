@@ -29,10 +29,10 @@ Two implementations of the Shunting Yard algorithm are provided:
     <dependency>
         <groupId>tk.pratanumandal</groupId>
         <artifactId>expr4j</artifactId>
-        <version>0.0.2</version>
+        <version>0.0.3</version>
     </dependency>
 
 ### Gradle
     dependencies {
-        implementation 'tk.pratanumandal:expr4j:0.0.2'
+        implementation 'tk.pratanumandal:expr4j:0.0.3'
     }

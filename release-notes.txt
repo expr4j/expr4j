@@ -1,4 +1,20 @@
 ===============================================================================
+Version 0.0.3 BETA
+===============================================================================
+New Features:
+
+Bug Fixes:
+  - Bugfix for function names beginning with name of constant or variable
+  - Bugfix for function names beginning with uplus or uminus 
+    
+Deprecated:
+  
+Breaking Changes:
+  
+Other:
+  - Second public beta release
+
+===============================================================================
 Version 0.0.2 BETA
 ===============================================================================
 New Features:
