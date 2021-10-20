@@ -17,8 +17,6 @@
 
 package tk.pratanumandal.expr4j.token;
 
-import tk.pratanumandal.expr4j.exception.Expr4jException;
-
 /**
  * The <code>Operator</code> class represents the operators, functions, variables, and constants in the expression.<br><br>
  * 
@@ -33,8 +31,6 @@ public class Operator<T> extends Executable<T> implements Comparable<Operator<T>
 	
 	public static final String UNARY_PLUS = "uplus";
 	public static final String UNARY_MINUS = "uminus";
-	
-	public final String label;
 	
 	/**
 	 * Number of parameters required by this operator.
@@ -70,8 +66,7 @@ public class Operator<T> extends Executable<T> implements Comparable<Operator<T>
 	 * @param associativity
 	 */
 	public Operator(String label, OperatorType operatorType, int precedence, Associativity associativity, Operation<T> operation) {
-		super(operation);
-		this.label = label;
+		super(label, operation);
 		this.operatorType = operatorType;
 		this.precedence = precedence;
 		this.associativity = associativity;

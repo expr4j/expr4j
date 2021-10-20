@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -67,18 +68,21 @@ public abstract class ExpressionParser<T> {
 	
 	private Stack<Integer> functionStack;
 	
-	private List<Executable<T>> executables;
+	private Map<String, Executable<T>> executables;
+	
+	private Map<String, T> constants;
 	
 	/**
 	 * No-Argument Constructor.
 	 */
 	public ExpressionParser() {
-		executables = new ArrayList<Executable<T>>();
+		executables = new HashMap<>();
+		constants = new HashMap<>();
 		
-		executables.add(new Operator<T>(Operator.UNARY_PLUS, OperatorType.PREFIX, Integer.MAX_VALUE, Associativity.NONE, (operands) -> unaryPlus(operands.get(0))));
-		executables.add(new Operator<T>(Operator.UNARY_MINUS, OperatorType.PREFIX, Integer.MAX_VALUE, Associativity.NONE, (operands) -> unaryMinus(operands.get(0))));
+		this.addExecutable(new Operator<T>(Operator.UNARY_PLUS, OperatorType.PREFIX, Integer.MAX_VALUE, Associativity.NONE, (operands) -> unaryPlus(operands.get(0))));
+		this.addExecutable(new Operator<T>(Operator.UNARY_MINUS, OperatorType.PREFIX, Integer.MAX_VALUE, Associativity.NONE, (operands) -> unaryMinus(operands.get(0))));
 		
-		this.initialize(executables);
+		this.initialize();
 	}
 	
 	/**
@@ -93,7 +97,7 @@ public abstract class ExpressionParser<T> {
 			throw new Expr4jException("Invalid expression");
 		}
 		
-		expression = new Expression<>();
+		expression = new Expression<>(constants);
 		
 		postfix = new Stack<>();
 		operatorStack = new Stack<>();
@@ -102,7 +106,10 @@ public abstract class ExpressionParser<T> {
 		Map<String, Function<T>> functions = new HashMap<>();
 		Map<String, Operator<T>> operators = new HashMap<>();
 		
-		for (Executable<T> executable : executables) {
+		Iterator<Entry<String, Executable<T>>> iterator = executables.entrySet().iterator();
+		while (iterator.hasNext()) {
+			Executable<T> executable = iterator.next().getValue();
+			
 			if (executable instanceof Function) {
 				Function<T> function = (Function<T>) executable;
 				functions.put(function.label, function);
@@ -148,16 +155,17 @@ public abstract class ExpressionParser<T> {
 		
 		// while has more characters
 		while (index < expr.length()) {
-//			Iterator<Token> iterator = postfix.iterator();
-//			while (iterator.hasNext()) {
-//				System.out.print(iterator.next() + " ");
-//			}
-//			System.out.println();
-			
 			Matcher matcher;
 			
 			matcher = openBracketPattern.matcher(expr.substring(index));
 			if (matcher.lookingAt()) {
+				if (lastToken instanceof Operator) {
+					Operator<T> operator = (Operator<T>) lastToken;
+					if (operator.operatorType == OperatorType.SUFFIX) {
+						throw new Expr4jException("Invalid expression");
+					}
+				}
+				
 				index++;
 				operatorStack.push(openBracket);
 				
@@ -170,15 +178,20 @@ public abstract class ExpressionParser<T> {
 			
 			matcher = closeBracketPattern.matcher(expr.substring(index));
 			if (matcher.lookingAt()) {
-				if (lastToken instanceof Separator) {
-					Separator separator = (Separator) lastToken;
-					
-					if (separator.label.equals("(") || separator.label.equals(",")) {
+				if (lastToken == openBracket || lastToken == comma) {
+					throw new Expr4jException("Invalid expression");
+				}
+				else if (lastToken instanceof Operator) {
+					Operator<T> operator = (Operator<T>) lastToken;
+					if (operator.operatorType != OperatorType.SUFFIX) {
 						throw new Expr4jException("Invalid expression");
 					}
 				}
 				
 				if (probableZeroFunction) {
+					if (functionStack.isEmpty()) {
+						throw new Expr4jException("Invalid expression");
+					}
 					functionStack.pop();
 					functionStack.push(0);
 				}
@@ -195,11 +208,27 @@ public abstract class ExpressionParser<T> {
 			
 			matcher = commaPattern.matcher(expr.substring(index));
 			if (matcher.lookingAt()) {
+				if (lastToken instanceof Function) {
+					throw new Expr4jException("Invalid expression");
+				}
+				else if (lastToken instanceof Operator) {
+					Operator<T> operator = (Operator<T>) lastToken;
+					if (operator.operatorType != OperatorType.SUFFIX) {
+						throw new Expr4jException("Invalid expression");
+					}
+				}
+				else if (lastToken == openBracket || lastToken == comma) {
+					throw new Expr4jException("Invalid expression");
+				}
+				
 				index++;
 				while (!operatorStack.isEmpty() && !(operatorStack.peek() instanceof Function)) {
 					postfix.push(operatorStack.pop());
 				}
 				
+				if (functionStack.isEmpty()) {
+					throw new Expr4jException("Invalid expression");
+				}
 				functionStack.push(functionStack.pop() + 1);
 				
 				lastToken = comma;
@@ -236,6 +265,16 @@ public abstract class ExpressionParser<T> {
 				index += match.length();
 				
 				if (functions.containsKey(match)) {
+					if (lastToken instanceof Operator) {
+						Operator<T> operator = (Operator<T>) lastToken;
+						if (operator.operatorType == OperatorType.SUFFIX) {
+							throw new Expr4jException("Invalid expression");
+						}
+					}
+					else if (lastToken == closeBracket) {
+						throw new Expr4jException("Invalid expression");
+					}
+					
 					Function<T> function = functions.get(match);
 					
 					matcher = openBracketPattern.matcher(expr.substring(index));
@@ -246,7 +285,7 @@ public abstract class ExpressionParser<T> {
 						
 						lastToken = function;
 						
-						if (function.parameters == Function.UNLIMITED_PARAMETERS) probableZeroFunction = true;
+						if (function.parameters == Function.VARIABLE_PARAMETERS) probableZeroFunction = true;
 						probableUnary = true;
 					}
 					else {
@@ -257,16 +296,28 @@ public abstract class ExpressionParser<T> {
 					Operator<T> operator = operators.get(match);
 					
 					if (operator.operatorType == OperatorType.INFIX) {
-						if (lastToken == null || lastToken instanceof Operator) {
+						if (lastToken == null || lastToken instanceof Function) {
 							throw new Expr4jException("Invalid expression");
 						}
-						
-						if (lastToken instanceof Separator) {
-							Separator separator = (Separator) lastToken;
-							
-							if (separator.label.equals("(") || separator.label.equals(",")) {
+						else if (lastToken instanceof Operator) {
+							Operator<T> operator1 = (Operator<T>) lastToken;
+							if (operator1.operatorType != OperatorType.SUFFIX) {
 								throw new Expr4jException("Invalid expression");
 							}
+						}
+						else if (lastToken == openBracket || lastToken == comma) {
+							throw new Expr4jException("Invalid expression");
+						}
+					}
+					else if (operator.operatorType == OperatorType.PREFIX) {
+						if (lastToken != null &&
+								(lastToken instanceof Operand || lastToken instanceof Variable || lastToken == closeBracket)) {
+							throw new Expr4jException("Invalid expression");
+						}
+					}
+					else if (operator.operatorType == OperatorType.SUFFIX) {
+						if (lastToken == null || lastToken instanceof Function || lastToken instanceof Operator) {
+							throw new Expr4jException("Invalid expression");
 						}
 					}
 					
@@ -304,6 +355,12 @@ public abstract class ExpressionParser<T> {
 				if (lastToken instanceof Operand || lastToken instanceof Variable) {
 					throw new Expr4jException("Invalid expression");
 				}
+				else if (lastToken instanceof Operator) {
+					Operator<T> operator = (Operator<T>) lastToken;
+					if (operator.operatorType == OperatorType.SUFFIX) {
+						throw new Expr4jException("Invalid expression");
+					}
+				}
 				
 				String number = matcher.group();
 				index += number.length();
@@ -322,6 +379,12 @@ public abstract class ExpressionParser<T> {
 			if (matcher.lookingAt()) {
 				if (lastToken instanceof Operand || lastToken instanceof Variable) {
 					throw new Expr4jException("Invalid expression");
+				}
+				else if (lastToken instanceof Operator) {
+					Operator<T> operator = (Operator<T>) lastToken;
+					if (operator.operatorType == OperatorType.SUFFIX) {
+						throw new Expr4jException("Invalid expression");
+					}
 				}
 				
 				String number = matcher.group();
@@ -375,11 +438,11 @@ public abstract class ExpressionParser<T> {
 			postfix.push(operatorStack.pop());
 		}
 		
-		Iterator<Token> iterator = postfix.iterator();
-		while (iterator.hasNext()) {
-			System.out.print(iterator.next() + " ");
-		}
-		System.out.println();
+//		Iterator<Token> iterator1 = postfix.iterator();
+//		while (iterator1.hasNext()) {
+//			System.out.print(iterator1.next() + " ");
+//		}
+//		System.out.println();
 	}
 	
 	/**
@@ -396,7 +459,10 @@ public abstract class ExpressionParser<T> {
 			// encountered a function
 			if (token instanceof Function) {
 				Function<T> function = (Function<T>) operatorStack.pop();
-				if (function.parameters == Function.UNLIMITED_PARAMETERS) {
+				if (function.parameters == Function.VARIABLE_PARAMETERS) {
+					if (functionStack.isEmpty()) {
+						throw new Expr4jException("Invalid expression");
+					}
 					function = new Function<T>(function.label, functionStack.pop(), function.operation);
 				}
 				postfix.push(function);
@@ -516,10 +582,43 @@ public abstract class ExpressionParser<T> {
 	}
 	
 	public List<Executable<T>> getExecutables() {
-		return executables;
+		return new ArrayList<>(executables.values());
+	}
+	
+	public Executable<T> getExecutable(String label) {
+		return executables.get(label);
+	}
+	
+	public void addExecutable(Executable<T> executable) {
+		executables.put(executable.label, executable);
+	}
+	
+	public void addExecutable(List<Executable<T>> executableList) {
+		for (Executable<T> executable : executableList) {
+			addExecutable(executable);
+		}
+	}
+	
+	public void removeExecutable(String label) {
+		executables.remove(label);
+	}
+	
+	public Map<String, T> getConstants() {
+		return new HashMap<>(constants);
+	}
+	
+	public T getConstant(String label) {
+		if (!constants.containsKey(label)) {
+			throw new Expr4jException("Constant not found: " + label);
+		}
+		return constants.get(label);
+	}
+	
+	public void addConstant(String label, T value) {
+		constants.put(label, value);
 	}
 
-	protected abstract void initialize(List<Executable<T>> executables);
+	protected abstract void initialize();
 	
 	protected abstract T parseNumber(String number);
 	

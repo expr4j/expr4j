@@ -29,18 +29,16 @@ package tk.pratanumandal.expr4j.token;
  */
 public class Function<T> extends Executable<T> {
 	
-	public static final int UNLIMITED_PARAMETERS = -1;
+	public static final int VARIABLE_PARAMETERS = -1;
 	
-	public final String label;
 	public final int parameters;
 	
 	public Function(String label, Operation<T> operation) {
-		this(label, UNLIMITED_PARAMETERS, operation);
+		this(label, VARIABLE_PARAMETERS, operation);
 	}
 
 	public Function(String label, int parameters, Operation<T> operation) {
-		super(operation);
-		this.label = label;
+		super(label, operation);
 		this.parameters = parameters;
 	}
 

@@ -54,6 +54,16 @@ public class Expression<T> {
 	 */
 	public Node root;
 	
+	private final Map<String, T> constants;
+	
+	Expression(Map<String, T> constants) {
+		this.constants = new HashMap<>(constants);
+	}
+
+	public Map<String, T> getConstants() {
+		return new HashMap<>(constants);
+	}
+
 	/**
 	 * Method to recursively evaluate the expression tree and return the result as an operand.
 	 * 
@@ -66,7 +76,7 @@ public class Expression<T> {
 			Variable variable = (Variable) node.token;
 			
 			if (!variables.containsKey(variable.label)) {
-				throw new Expr4jException("Invalid expression");
+				throw new Expr4jException("Variable not found: " + variable.label);
 			}
 			
 			return new Operand<T>(variables.get(variable.label));
@@ -110,7 +120,11 @@ public class Expression<T> {
 		if (root == null) {
 			throw new Expr4jException("Invalid expression");
 		}
-		return evaluate(root, variables).value;
+		
+		Map<String, T> constantsAndVariables = new HashMap<>(constants);
+		if (variables != null) constantsAndVariables.putAll(variables);
+		
+		return evaluate(root, constantsAndVariables).value;
 	}
 	
 	public T evaluate() {

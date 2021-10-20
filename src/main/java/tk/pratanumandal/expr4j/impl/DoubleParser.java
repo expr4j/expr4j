@@ -1,11 +1,10 @@
 package tk.pratanumandal.expr4j.impl;
 
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import tk.pratanumandal.expr4j.ExpressionParser;
-import tk.pratanumandal.expr4j.common.MathExtras;
-import tk.pratanumandal.expr4j.token.Executable;
+import tk.pratanumandal.expr4j.exception.Expr4jException;
 import tk.pratanumandal.expr4j.token.Function;
 import tk.pratanumandal.expr4j.token.Operator;
 import tk.pratanumandal.expr4j.token.Operator.OperatorType;
@@ -18,16 +17,9 @@ public class DoubleParser extends ExpressionParser<Double> {
 	 */
 	public static final int PRECISION = 4;
 	
-	/**
-	 * Use variable number of parameters for function.<br>
-	 * Constant value of -1.
-	 */
-	public static final int VARIABLE_PARAMETERS = -1;
-	
 	@Override
-	protected void initialize(List<Executable<Double>> executables) {
-		Collections.addAll(executables,
-			// operators
+	protected void initialize() {
+		addExecutable(Arrays.asList(
 			new Operator<Double>("+", 1, (operands) -> operands.get(0) + operands.get(1)),
 			new Operator<Double>("-", 1, (operands) -> operands.get(0) - operands.get(1)),
 			
@@ -69,12 +61,15 @@ public class DoubleParser extends ExpressionParser<Double> {
 			new Operator<Double>("cbrt", OperatorType.PREFIX, 4, (operands) -> Math.cbrt(operands.get(0))),
 			
 			new Function<Double>("max", (operands) -> operands.isEmpty() ? 0.0 : Collections.max(operands)),
-			new Function<Double>("min", (operands) -> Collections.min(operands)),
+			new Function<Double>("min", (operands) -> operands.isEmpty() ? 0.0 : Collections.min(operands)),
 			
 			new Function<Double>("mean", (operands) -> operands.stream().mapToDouble(d -> d).average().orElse(0.0)),
 			
 			new Function<Double>("rand", 0, (operands) -> Math.random())
-		);
+		));
+		
+		addConstant("pi", Math.PI);
+		addConstant("e", Math.E);
 	}
 
 	@Override
@@ -90,6 +85,84 @@ public class DoubleParser extends ExpressionParser<Double> {
 	@Override
 	protected Double unaryMinus(Double operand) {
 		return -operand;
+	}
+	
+	/**
+	 * The <code>MathExtras</code> class provides extra math functionality not available in java.lang.Math.
+	 * 
+	 * @author Pratanu Mandal
+	 * @since 0.0.1
+	 *
+	 */
+	private static class MathExtras {
+		
+		/**
+		 * Utility classes should not have public constructors.
+		 */
+		private MathExtras() {}
+		
+		/**
+		 * Calculate the area hyperbolic sine.
+		 * 
+		 * @param x the operand
+		 * @return area hyperbolic sine of x
+		 */
+		public static double asinh(double x) {
+			return Math.log(x + Math.sqrt(x * x + 1));
+		}
+		
+		/**
+		 * Calculate the area hyperbolic cosine.
+		 * 
+		 * @param x the operand
+		 * @return area hyperbolic cosine of x
+		 */
+		public static double acosh(double x) {
+			return Math.log(x + Math.sqrt(x * x - 1));
+		}
+		
+		/**
+		 * Calculate the area hyperbolic tangent.
+		 * 
+		 * @param x the operand
+		 * @return area hyperbolic tangent of x
+		 */
+		public static double atanh(double x) {
+			return 0.5 * Math.log((1 + x) / (1 - x));
+		}
+		
+		/**
+		 * Calculate the log of x to the base b.
+		 * 
+		 * @param x the operand
+		 * @param b the base or radix
+		 * @return log of x to the base b
+		 */
+		public static double log(double x, double b) {
+			return Math.log(x) / Math.log(b);
+		}
+		
+		private static double factorial(int n) {
+			double factorial = 1.0;
+			for (int i = 2; i <= n; i++) {
+				factorial *= i;
+			}
+			return factorial;
+		}
+		
+		/**
+		 * Calculate the factorial.
+		 * 
+		 * @param x the operand
+		 * @return factorial of x
+		 */
+		public static double factorial(double x) {
+			if (x < 0 || x % 1 != 0) {
+				throw new Expr4jException("Cannot calculate factorial of " + x);
+			}
+			return factorial((int) x);
+		}
+
 	}
 	
 }

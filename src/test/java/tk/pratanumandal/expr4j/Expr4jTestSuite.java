@@ -22,7 +22,8 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-	DoubleTest.class
+	DoublePositiveTest.class,
+	DoubleNegativeTest.class
 })
 public class Expr4jTestSuite {
 	
