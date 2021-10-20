@@ -26,31 +26,6 @@ package tk.pratanumandal.expr4j.token;
  * @since 0.0.1
  *
  */
-public abstract class Token {
-
-	/**
-	 * The string value of the token.
-	 */
-	public String value;
-
-	/**
-	 * Parameterized constructor.
-	 * 
-	 * @param value The value of the token as a String
-	 */
-	public Token(String value) {
-		super();
-		this.value = value;
-	}
-	
-	/**
-	 * Method to convert token object to string.
-	 * 
-	 * @return The string value of this token
-	 */
-	@Override
-	public String toString() {
-		return value;
-	}
+public interface Token {
 	
 }

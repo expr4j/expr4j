@@ -25,48 +25,22 @@ package tk.pratanumandal.expr4j.token;
  * @since 0.0.1
  *
  */
-public class Operand extends Token {
+public class Operand<T> implements Token {
+	
+	public final T value;
 
 	/**
 	 * Parameterized constructor.
 	 * 
-	 * @param value The double value operand as a String
+	 * @param value
 	 */
-	public Operand(String value) {
-		super(value);
-	}
-	
-	/**
-	 * Parameterized constructor.
-	 * 
-	 * @param value The double value operand
-	 */
-	public Operand(double value) {
-		super(String.valueOf(value));
+	public Operand(T value) {
+		this.value = value;
 	}
 
-	/**
-	 * Convert operand String to double.
-	 * 
-	 * @return the double value of the operand
-	 */
-	public double toDouble() {
-		return Double.parseDouble(value);
-	}
-	
-	/**
-	 * Utility method to determine if a string is an operand.
-	 * 
-	 * @param op Operand value as a string
-	 * @return true if op is an operand, otherwise false
-	 */
-	public static boolean isOperand(String op) {
-		try {
-			Double.parseDouble(op);
-			return true;
-		} catch (NumberFormatException e) {
-			return false;
-		}
+	@Override
+	public String toString() {
+		return value.toString();
 	}
 	
 }

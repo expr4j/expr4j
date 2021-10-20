@@ -27,14 +27,26 @@ package tk.pratanumandal.expr4j.token;
  * @since 0.0.2
  *
  */
-public interface Function {
+public class Function<T> extends Executable<T> {
 	
-	/**
-	 * Method invoked to evaluate the function.
-	 * 
-	 * @param operands Variable number of operands required by this operator
-	 * @return The evaluated result as another operand
-	 */
-	public Operand evaluate(Operand ... operands); 
+	public static final int UNLIMITED_PARAMETERS = -1;
+	
+	public final String label;
+	public final int parameters;
+	
+	public Function(String label, Operation<T> operation) {
+		this(label, UNLIMITED_PARAMETERS, operation);
+	}
+
+	public Function(String label, int parameters, Operation<T> operation) {
+		super(operation);
+		this.label = label;
+		this.parameters = parameters;
+	}
+
+	@Override
+	public String toString() {
+		return label;
+	}
 
 }

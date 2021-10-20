@@ -17,6 +17,8 @@
 
 package tk.pratanumandal.expr4j.common;
 
+import tk.pratanumandal.expr4j.exception.Expr4jException;
+
 /**
  * The <code>MathExtras</code> class provides extra math functionality not available in java.lang.Math.
  * 
@@ -72,6 +74,14 @@ public class MathExtras {
 		return Math.log(x) / Math.log(b);
 	}
 	
+	private static double factorial(int n) {
+		double factorial = 1.0;
+		for (int i = 2; i <= n; i++) {
+			factorial *= i;
+		}
+		return factorial;
+	}
+	
 	/**
 	 * Calculate the factorial.
 	 * 
@@ -79,7 +89,10 @@ public class MathExtras {
 	 * @return factorial of x
 	 */
 	public static double factorial(double x) {
-		return Gamma.gamma(x);
+		if (x < 0 || x % 1 != 0) {
+			throw new Expr4jException("Cannot calculate factorial of " + x);
+		}
+		return factorial((int) x);
 	}
 
 }

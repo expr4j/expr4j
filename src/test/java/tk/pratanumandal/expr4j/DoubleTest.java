@@ -21,98 +21,110 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import tk.pratanumandal.expr4j.exception.Expr4jException;
-import tk.pratanumandal.expr4j.shuntingyard.ShuntingYard;
-import tk.pratanumandal.expr4j.token.Operand;
+import tk.pratanumandal.expr4j.impl.DoubleParser;
 
-public abstract class ShuntingYardTest {
+public class DoubleTest {
 	
-	public static double DELTA = 0.0;
+	public static double DELTA = 0.00000000001;
 	
-	protected ShuntingYard sy;
+	protected DoubleParser parser = new DoubleParser();
 	
 	@Test
 	public void test1() {
-		double expected = 8.0298136373;
-		double actual = sy.evaluate("5+3/cos(sin(-6))^0.25");
+		double expected = 8.02981363726;
+		Expression<Double> expression = parser.parse("5+3/cos(sin(-6))^0.25");
+		double actual = expression.evaluate();
 		Assert.assertEquals(expected, actual, DELTA);
 	}
 	
 	@Test
 	public void test2() {
 		double expected = 99.99;
-		double actual = sy.evaluate("1e+2 - 1e-2");
+		Expression<Double> expression = parser.parse("1e+2 - 1e-2");
+		double actual = expression.evaluate();
 		Assert.assertEquals(expected, actual, DELTA);
 	}
 	
 	@Test
 	public void test3() {
 		double expected = 1.0;
-		double actual = sy.evaluate("ceil(rand)");
+		Expression<Double> expression = parser.parse("ceil(rand())");
+		double actual = expression.evaluate();
 		Assert.assertEquals(expected, actual, DELTA);
 	}
 	
 	@Test
 	public void test4() {
 		double expected = -1.0;
-		double actual = sy.evaluate("floor(-rand)");
+		Expression<Double> expression = parser.parse("floor(-rand())");
+		double actual = expression.evaluate();
 		Assert.assertEquals(expected, actual, DELTA);
 	}
 	
 	@Test
 	public void test5() {
 		double expected = 30.0;
-		double actual = sy.evaluate("deg(asin(sin(rad(30))))");
+		Expression<Double> expression = parser.parse("asin(sin(30 rad)) deg");
+		double actual = expression.evaluate();
 		Assert.assertEquals(expected, actual, DELTA);
 	}
 	
 	@Test
 	public void test6() {
-		double expected = 0.3722236412;
-		double actual = sy.evaluate("log(2, (ln(2 + 3) * 4))");
+		double expected = 0.37222364116;
+		Expression<Double> expression = parser.parse("log((ln(2 + 3) * 4), 2)");
+		double actual = expression.evaluate();
 		Assert.assertEquals(expected, actual, DELTA);
 	}
 	
 	@Test
 	public void test7() {
-		double expected = 6.3092975357;
-		double actual = sy.evaluate("log(max(5 ^ 4, 4 ^ 5), 3)");
+		double expected = 6.30929753571;
+		Expression<Double> expression = parser.parse("log(3, max(5 ^ 4, 4 ^ 5))");
+		double actual = expression.evaluate();
 		Assert.assertEquals(expected, actual, DELTA);
 	}
 	
 	@Test
 	public void test8() {
 		double expected = -5.0;
-		double actual = sy.evaluate("(2 + 3) * 4 - (5 ^ 2)");
+		Expression<Double> expression = parser.parse("(2 + 3) * 4 - (5 ^ 2)");
+		double actual = expression.evaluate();
 		Assert.assertEquals(expected, actual, DELTA);
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test9() {
-		sy.evaluate("");
+		Expression<Double> expression = parser.parse("");
+		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test10() {
-		sy.evaluate("()");
+		Expression<Double> expression = parser.parse("()");
+		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test11() {
-		sy.evaluate("5 +() 6");
+		Expression<Double> expression = parser.parse("5 +() 6");
+		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test12() {
-		sy.evaluate("5() + 6");
+		Expression<Double> expression = parser.parse("5() + 6");
+		expression.evaluate();
 	}
 	
 	@Test
 	public void test13() {
-		double expected = 1.2618595071;
-		double actual = sy.evaluate("log(max(ln(10), 4), 3)");
+		double expected = 1.2618595071429;
+		Expression<Double> expression = parser.parse("log(3, max(ln 10, 4))");
+		double actual = expression.evaluate();
 		Assert.assertEquals(expected, actual, DELTA);
 	}
-	
+	/*
 	@Test
 	public void test14() {
 		double expected = 0.5404763089;
@@ -336,6 +348,6 @@ public abstract class ShuntingYardTest {
 		Assert.assertEquals(expected, actual, DELTA);
 		
 		OperatorRepository.removeFunction("uplusFuncuplus");
-	}
+	}*/
 
 }

@@ -15,11 +15,32 @@
  * 
  */
 
+package tk.pratanumandal.expr4j.token;
+
 /**
- * The <code>tk.pratanumandal.expr4j.shuntingyard</code> package contains Shunting Yard implementations for expression evaluation.
+ * The <code>Operand</code> class represents the operands in the expression.<br>
+ * It acts as a wrapper for double value operands.
  * 
  * @author Pratanu Mandal
- * @since 0.0.2
+ * @since 0.0.1
  *
  */
-package tk.pratanumandal.expr4j.shuntingyard;
+public class Variable implements Token {
+	
+	public final String label;
+
+	/**
+	 * Parameterized constructor.
+	 * 
+	 * @param label
+	 */
+	public Variable(String label) {
+		this.label = label;
+	}
+
+	@Override
+	public String toString() {
+		return label;
+	}
+	
+}

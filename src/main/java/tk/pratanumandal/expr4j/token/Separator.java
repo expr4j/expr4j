@@ -15,32 +15,27 @@
  * 
  */
 
-package tk.pratanumandal.expr4j.common;
+package tk.pratanumandal.expr4j.token;
 
 /**
- * The <code>Expr4jConstants</code> class provides all the application wide constants.
+ * The <code>Operand</code> class represents the operands in the expression.<br>
+ * It acts as a wrapper for double value operands.
  * 
  * @author Pratanu Mandal
- * @since 0.0.2
+ * @since 0.0.1
  *
  */
-public final class Expr4jConstants {
+public class Separator implements Token {
 	
-	/**
-	 * Utility classes should not have public constructors.
-	 */
-	private Expr4jConstants() {}
+	public final String label;
 
 	/**
-	 * The maximum number of decimal places supported.<br>
-	 * Currently this value is set to 10.
+	 * Parameterized constructor.
+	 * 
+	 * @param label
 	 */
-	public static final int PRECISION = 10;
-	
-	/**
-	 * Use variable number of parameters for function.<br>
-	 * Constant value of -1.
-	 */
-	public static final int VARIABLE_PARAMETERS = -1;
+	public Separator(String label) {
+		this.label = label;
+	}
 	
 }
