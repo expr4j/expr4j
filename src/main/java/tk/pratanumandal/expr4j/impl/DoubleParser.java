@@ -11,12 +11,6 @@ import tk.pratanumandal.expr4j.token.Operator.OperatorType;
 
 public class DoubleParser extends ExpressionParser<Double> {
 	
-	/**
-	 * The maximum number of decimal places supported.<br>
-	 * Currently this value is set to 4.
-	 */
-	public static final int PRECISION = 4;
-	
 	@Override
 	protected void initialize() {
 		addExecutable(Arrays.asList(
@@ -73,11 +67,6 @@ public class DoubleParser extends ExpressionParser<Double> {
 	}
 
 	@Override
-	protected Double parseNumber(String number) {
-		return Double.parseDouble(number);
-	}
-
-	@Override
 	protected Double unaryPlus(Double operand) {
 		return operand;
 	}
@@ -85,6 +74,16 @@ public class DoubleParser extends ExpressionParser<Double> {
 	@Override
 	protected Double unaryMinus(Double operand) {
 		return -operand;
+	}
+	
+	@Override
+	protected Double imlicitMultiplication(Double operand0, Double operand1) {
+		return operand0 * operand1;
+	}
+	
+	@Override
+	protected Double parseNumber(String number) {
+		return Double.parseDouble(number);
 	}
 	
 	/**

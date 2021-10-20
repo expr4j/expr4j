@@ -17,6 +17,9 @@
 
 package tk.pratanumandal.expr4j;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -329,6 +332,49 @@ public class DoublePositiveTest {
 		Assert.assertEquals(expected, actual, DELTA);
 		
 		parser.removeExecutable("uplusFuncuplus");
+	}
+	
+	@Test
+	public void test31() {
+		double expected = 25;
+		Expression<Double> expression = parser.parse("5 5");
+		double actual = expression.evaluate();
+		Assert.assertEquals(expected, actual, DELTA);
+	}
+	
+	@Test
+	public void test32() {
+		double expected = 25;
+		Expression<Double> expression = parser.parse("5 (5)");
+		double actual = expression.evaluate();
+		Assert.assertEquals(expected, actual, DELTA);
+	}
+	
+	@Test
+	public void test33() {
+		double expected = 15;
+		Expression<Double> expression = parser.parse("5 max(1, 2, 3)");
+		double actual = expression.evaluate();
+		Assert.assertEquals(expected, actual, DELTA);
+	}
+	
+	@Test
+	public void test34() {
+		Map<String, Double> variables = new HashMap<>();
+		variables.put("z", 5.0);
+		
+		double expected = 25;
+		Expression<Double> expression = parser.parse("5z");
+		double actual = expression.evaluate(variables);
+		Assert.assertEquals(expected, actual, DELTA);
+	}
+	
+	@Test
+	public void test35() {
+		double expected = 30;
+		Expression<Double> expression = parser.parse("+ 5 6");
+		double actual = expression.evaluate();
+		Assert.assertEquals(expected, actual, DELTA);
 	}
 
 }

@@ -18,6 +18,7 @@
 package tk.pratanumandal.expr4j;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -37,7 +38,6 @@ import tk.pratanumandal.expr4j.token.Executable;
 import tk.pratanumandal.expr4j.token.Function;
 import tk.pratanumandal.expr4j.token.Operand;
 import tk.pratanumandal.expr4j.token.Operator;
-import tk.pratanumandal.expr4j.token.Operator.Associativity;
 import tk.pratanumandal.expr4j.token.Operator.OperatorType;
 import tk.pratanumandal.expr4j.token.Token;
 import tk.pratanumandal.expr4j.token.Variable;
@@ -79,8 +79,9 @@ public abstract class ExpressionParser<T> {
 		executables = new HashMap<>();
 		constants = new HashMap<>();
 		
-		this.addExecutable(new Operator<T>(Operator.UNARY_PLUS, OperatorType.PREFIX, Integer.MAX_VALUE, Associativity.NONE, (operands) -> unaryPlus(operands.get(0))));
-		this.addExecutable(new Operator<T>(Operator.UNARY_MINUS, OperatorType.PREFIX, Integer.MAX_VALUE, Associativity.NONE, (operands) -> unaryMinus(operands.get(0))));
+		this.addExecutable(new Operator<T>(Operator.UNARY_PLUS, OperatorType.PREFIX, Integer.MAX_VALUE, (operands) -> unaryPlus(operands.get(0))));
+		this.addExecutable(new Operator<T>(Operator.UNARY_MINUS, OperatorType.PREFIX, Integer.MAX_VALUE, (operands) -> unaryMinus(operands.get(0))));
+		this.addExecutable(new Operator<T>(Operator.IMPLICIT_MULTIPLICATION, OperatorType.INFIX, Integer.MAX_VALUE, (operands) -> imlicitMultiplication(operands.get(0), operands.get(1))));
 		
 		this.initialize();
 	}
@@ -131,8 +132,12 @@ public abstract class ExpressionParser<T> {
 		
 		Pattern unaryPattern = Pattern.compile("(\\+|\\-)");
 		
-		Pattern scientificNotationPattern = Pattern.compile("(-?\\d+)(\\.\\d+)?(e-|e\\+|e|\\d+)\\d+");
-		Pattern numberPattern = Pattern.compile("\\d*\\.?\\d+");
+		List<Pattern> numberPatternList = new ArrayList<>();
+		
+		for (String patternString : getNumberPattern()) {
+			Pattern numberPattern = Pattern.compile(patternString);
+			numberPatternList.add(numberPattern);
+		}
 		
 		Pattern variablePattern = Pattern.compile("[a-zA-Z]+[0-9]*[a-zA-Z]*");
 		
@@ -154,6 +159,7 @@ public abstract class ExpressionParser<T> {
 		Token lastToken = null;
 		
 		// while has more characters
+		outer:
 		while (index < expr.length()) {
 			Matcher matcher;
 			
@@ -162,8 +168,11 @@ public abstract class ExpressionParser<T> {
 				if (lastToken instanceof Operator) {
 					Operator<T> operator = (Operator<T>) lastToken;
 					if (operator.operatorType == OperatorType.SUFFIX) {
-						throw new Expr4jException("Invalid expression");
+						operatorStack.push(operators.get(Operator.IMPLICIT_MULTIPLICATION));
 					}
+				}
+				else if (lastToken == closeBracket || lastToken instanceof Operand || lastToken instanceof Variable) {
+					operatorStack.push(operators.get(Operator.IMPLICIT_MULTIPLICATION));
 				}
 				
 				index++;
@@ -268,11 +277,11 @@ public abstract class ExpressionParser<T> {
 					if (lastToken instanceof Operator) {
 						Operator<T> operator = (Operator<T>) lastToken;
 						if (operator.operatorType == OperatorType.SUFFIX) {
-							throw new Expr4jException("Invalid expression");
+							operatorStack.push(operators.get(Operator.IMPLICIT_MULTIPLICATION));
 						}
 					}
-					else if (lastToken == closeBracket) {
-						throw new Expr4jException("Invalid expression");
+					else if (lastToken == closeBracket || lastToken instanceof Operand || lastToken instanceof Variable) {
+						operatorStack.push(operators.get(Operator.IMPLICIT_MULTIPLICATION));
 					}
 					
 					Function<T> function = functions.get(match);
@@ -350,60 +359,43 @@ public abstract class ExpressionParser<T> {
 				continue;
 			}
 			
-			matcher = scientificNotationPattern.matcher(expr.substring(index));
-			if (matcher.lookingAt()) {
-				if (lastToken instanceof Operand || lastToken instanceof Variable) {
-					throw new Expr4jException("Invalid expression");
-				}
-				else if (lastToken instanceof Operator) {
-					Operator<T> operator = (Operator<T>) lastToken;
-					if (operator.operatorType == OperatorType.SUFFIX) {
-						throw new Expr4jException("Invalid expression");
+			for (Pattern numberPattern : numberPatternList) {
+				matcher = numberPattern.matcher(expr.substring(index));
+				if (matcher.lookingAt()) {
+					if (lastToken instanceof Operator) {
+						Operator<T> operator = (Operator<T>) lastToken;
+						if (operator.operatorType == OperatorType.SUFFIX) {
+							operatorStack.push(operators.get(Operator.IMPLICIT_MULTIPLICATION));
+						}
 					}
-				}
-				
-				String number = matcher.group();
-				index += number.length();
-				
-				Operand<T> operand = new Operand<T>(this.parseNumber(number));
-				postfix.push(operand);
-				
-				lastToken = operand;
-				
-				probableZeroFunction = false;
-				probableUnary = false;
-				continue;
-			}
-			
-			matcher = numberPattern.matcher(expr.substring(index));
-			if (matcher.lookingAt()) {
-				if (lastToken instanceof Operand || lastToken instanceof Variable) {
-					throw new Expr4jException("Invalid expression");
-				}
-				else if (lastToken instanceof Operator) {
-					Operator<T> operator = (Operator<T>) lastToken;
-					if (operator.operatorType == OperatorType.SUFFIX) {
-						throw new Expr4jException("Invalid expression");
+					else if (lastToken == closeBracket || lastToken instanceof Operand || lastToken instanceof Variable) {
+						operatorStack.push(operators.get(Operator.IMPLICIT_MULTIPLICATION));
 					}
+					
+					String number = matcher.group();
+					index += number.length();
+					
+					Operand<T> operand = new Operand<T>(this.parseNumber(number));
+					postfix.push(operand);
+					
+					lastToken = operand;
+					
+					probableZeroFunction = false;
+					probableUnary = false;
+					continue outer;
 				}
-				
-				String number = matcher.group();
-				index += number.length();
-				
-				Operand<T> operand = new Operand<T>(this.parseNumber(number));
-				postfix.push(operand);
-				
-				lastToken = operand;
-				
-				probableZeroFunction = false;
-				probableUnary = false;
-				continue;
 			}
 			
 			matcher = variablePattern.matcher(expr.substring(index));
 			if (matcher.lookingAt()) {
-				if (lastToken instanceof Operand || lastToken instanceof Variable) {
-					throw new Expr4jException("Invalid expression");
+				if (lastToken instanceof Operator) {
+					Operator<T> operator = (Operator<T>) lastToken;
+					if (operator.operatorType == OperatorType.SUFFIX) {
+						operatorStack.push(operators.get(Operator.IMPLICIT_MULTIPLICATION));
+					}
+				}
+				else if (lastToken == closeBracket || lastToken instanceof Operand || lastToken instanceof Variable) {
+					operatorStack.push(operators.get(Operator.IMPLICIT_MULTIPLICATION));
 				}
 				
 				String match = matcher.group();
@@ -620,10 +612,16 @@ public abstract class ExpressionParser<T> {
 
 	protected abstract void initialize();
 	
-	protected abstract T parseNumber(String number);
-	
 	protected abstract T unaryPlus(T operand);
 	
 	protected abstract T unaryMinus(T operand);
+	
+	protected abstract T imlicitMultiplication(T operand0, T operand1);
+	
+	protected abstract T parseNumber(String number);
+	
+	protected List<String> getNumberPattern() {
+		return Arrays.asList("(-?\\d+)(\\.\\d+)?(e-|e\\+|e|\\d+)\\d+", "\\d*\\.?\\d+");
+	}
 	
 }

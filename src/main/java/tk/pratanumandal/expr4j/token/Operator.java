@@ -31,6 +31,7 @@ public class Operator<T> extends Executable<T> implements Comparable<Operator<T>
 	
 	public static final String UNARY_PLUS = "uplus";
 	public static final String UNARY_MINUS = "uminus";
+	public static final String IMPLICIT_MULTIPLICATION = "imult";
 	
 	/**
 	 * Number of parameters required by this operator.
