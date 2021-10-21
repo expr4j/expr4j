@@ -14,13 +14,14 @@ public class DoubleParser extends ExpressionParser<Double> {
 	@Override
 	protected void initialize() {
 		addExecutable(Arrays.asList(
-			new Operator<Double>("+", 1, (operands) -> operands.get(0) + operands.get(1)),
-			new Operator<Double>("-", 1, (operands) -> operands.get(0) - operands.get(1)),
+			new Operator<Double>("+", OperatorType.INFIX, 1, (operands) -> operands.get(0) + operands.get(1)),
+			new Operator<Double>("-", OperatorType.INFIX, 1, (operands) -> operands.get(0) - operands.get(1)),
 			
-			new Operator<Double>("*", 2, (operands) -> operands.get(0) * operands.get(1)),
-			new Operator<Double>("/", 2, (operands) -> operands.get(0) / operands.get(1)),
+			new Operator<Double>("*", OperatorType.INFIX, 2, (operands) -> operands.get(0) * operands.get(1)),
+			new Operator<Double>("/", OperatorType.INFIX, 2, (operands) -> operands.get(0) / operands.get(1)),
+			new Operator<Double>("%", OperatorType.INFIX, 2, (operands) -> operands.get(0) % operands.get(1)),
 			
-			new Operator<Double>("^", 3, (operands) -> Math.pow(operands.get(0), operands.get(1))),
+			new Operator<Double>("^", OperatorType.INFIX_RTL, 3, (operands) -> Math.pow(operands.get(0), operands.get(1))),
 			
 			new Operator<Double>("!", OperatorType.SUFFIX, 5, (operands) -> MathExtras.factorial(operands.get(0))),
 			
@@ -40,8 +41,8 @@ public class DoubleParser extends ExpressionParser<Double> {
 			new Operator<Double>("acosh", OperatorType.PREFIX, 4, (operands) -> MathExtras.acosh(operands.get(0))),
 			new Operator<Double>("atanh", OperatorType.PREFIX, 4, (operands) -> MathExtras.atanh(operands.get(0))),
 			
-			new Operator<Double>("deg", OperatorType.SUFFIX, 5, (operands) -> Math.toDegrees(operands.get(0))),
-			new Operator<Double>("rad", OperatorType.SUFFIX, 5, (operands) -> Math.toRadians(operands.get(0))),
+			new Function<Double>("deg", 1, (operands) -> Math.toDegrees(operands.get(0))),
+			new Function<Double>("rad", 1, (operands) -> Math.toRadians(operands.get(0))),
 			
 			new Operator<Double>("round", OperatorType.PREFIX, 4, (operands) -> (double) Math.round(operands.get(0))),
 			new Operator<Double>("floor", OperatorType.PREFIX, 4, (operands) -> Math.floor(operands.get(0))),

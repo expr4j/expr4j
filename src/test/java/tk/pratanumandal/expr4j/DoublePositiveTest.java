@@ -25,6 +25,8 @@ import org.junit.Test;
 
 import tk.pratanumandal.expr4j.impl.DoubleParser;
 import tk.pratanumandal.expr4j.token.Function;
+import tk.pratanumandal.expr4j.token.Operator;
+import tk.pratanumandal.expr4j.token.Operator.OperatorType;
 
 public class DoublePositiveTest {
 	
@@ -67,7 +69,7 @@ public class DoublePositiveTest {
 	@Test
 	public void test5() {
 		double expected = 30.0;
-		Expression<Double> expression = parser.parse("asin(sin(30 rad)) deg");
+		Expression<Double> expression = parser.parse("deg(asin(sin(rad(30))))");
 		double actual = expression.evaluate();
 		Assert.assertEquals(expected, actual, DELTA);
 	}
@@ -373,6 +375,52 @@ public class DoublePositiveTest {
 	public void test35() {
 		double expected = 30;
 		Expression<Double> expression = parser.parse("+ 5 6");
+		double actual = expression.evaluate();
+		Assert.assertEquals(expected, actual, DELTA);
+	}
+	
+	@Test
+	public void test36() {
+		double expected = 2417851639229258349412352.0;
+		Expression<Double> expression = parser.parse("2 ^ 3 ^ 4");
+		double actual = expression.evaluate();
+		Assert.assertEquals(expected, actual, DELTA);
+	}
+	
+	@Test
+	public void test37() {
+		double expected = 2.5;
+		Expression<Double> expression = parser.parse("5.5 % 3");
+		double actual = expression.evaluate();
+		Assert.assertEquals(expected, actual, DELTA);
+	}
+	
+	@Test
+	public void test38() {
+		parser.addExecutable(new Operator<Double>("incr", OperatorType.SUFFIX, 5, (operands) -> {
+			return operands.get(0)+ 1;
+    	}));
+		
+		double expected = 121;
+		Expression<Double> expression = parser.parse("5 ! incr");
+		double actual = expression.evaluate();
+		Assert.assertEquals(expected, actual, DELTA);
+		
+		parser.removeExecutable("incr");
+	}
+	
+	@Test
+	public void test39() {
+		double expected = 0.27987335076;
+		Expression<Double> expression = parser.parse("sin cos 5");
+		double actual = expression.evaluate();
+		Assert.assertEquals(expected, actual, DELTA);
+	}
+	
+	@Test
+	public void test40() {
+		double expected = 6.27987335076;
+		Expression<Double> expression = parser.parse("sin cos 5 + 6");
 		double actual = expression.evaluate();
 		Assert.assertEquals(expected, actual, DELTA);
 	}

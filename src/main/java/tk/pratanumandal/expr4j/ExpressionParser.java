@@ -304,7 +304,7 @@ public abstract class ExpressionParser<T> {
 				else {
 					Operator<T> operator = operators.get(match);
 					
-					if (operator.operatorType == OperatorType.INFIX) {
+					if (operator.operatorType == OperatorType.INFIX || operator.operatorType == OperatorType.INFIX_RTL) {
 						if (lastToken == null || lastToken instanceof Function) {
 							throw new Expr4jException("Invalid expression");
 						}
@@ -325,8 +325,14 @@ public abstract class ExpressionParser<T> {
 						}
 					}
 					else if (operator.operatorType == OperatorType.SUFFIX) {
-						if (lastToken == null || lastToken instanceof Function || lastToken instanceof Operator) {
+						if (lastToken == null || lastToken instanceof Function) {
 							throw new Expr4jException("Invalid expression");
+						}
+						else if (lastToken instanceof Operator) {
+							Operator<T> operator1 = (Operator<T>) lastToken;
+							if (operator1.operatorType != OperatorType.SUFFIX) {
+								throw new Expr4jException("Invalid expression");
+							}
 						}
 					}
 					
@@ -512,7 +518,7 @@ public abstract class ExpressionParser<T> {
 		else if (node.token instanceof Operator) {
 			Operator<T> operator = (Operator<T>) node.token;
 			
-			int operandCount = operator.operatorType == OperatorType.INFIX ? 2 : 1;
+			int operandCount = (operator.operatorType == OperatorType.INFIX || operator.operatorType == OperatorType.INFIX_RTL) ? 2 : 1;
 			
 			if (node.children.size() > 0 && formTree(node.children.get(0), token)) {
 				return true;

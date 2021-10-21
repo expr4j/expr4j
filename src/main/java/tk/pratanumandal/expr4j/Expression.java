@@ -99,7 +99,7 @@ public class Expression<T> {
 		else if (node.token instanceof Operator) {
 			Operator<T> operator = (Operator<T>) node.token;
 			
-			int operandCount = operator.operatorType == OperatorType.INFIX ? 2 : 1;
+			int operandCount = (operator.operatorType == OperatorType.INFIX || operator.operatorType == OperatorType.INFIX_RTL) ? 2 : 1;
 			if (node.children.size() != operandCount) {
 				throw new Expr4jException("Invalid expression");
 			}

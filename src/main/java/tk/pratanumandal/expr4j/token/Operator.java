@@ -44,19 +44,6 @@ public class Operator<T> extends Executable<T> implements Comparable<Operator<T>
 	 * Although parenthesis and comma have 0 precedence, they are a special case and are evaluated separately.
 	 */
 	public final int precedence;
-	
-	/**
-	 * The associativity of this operator.
-	 */
-	public final Associativity associativity;
-	
-	public Operator(String label, int precedence, Operation<T> operation) {
-		this(label, OperatorType.INFIX, precedence, Associativity.LEFT, operation);
-	}
-	
-	public Operator(String label, OperatorType operatorType, int precedence, Operation<T> operation) {
-		this(label, operatorType, precedence, operatorType == OperatorType.PREFIX ? Associativity.RIGHT : Associativity.LEFT, operation);
-	}
 
 	/**
 	 * Parameterized constructor.
@@ -66,11 +53,10 @@ public class Operator<T> extends Executable<T> implements Comparable<Operator<T>
 	 * @param precedence
 	 * @param associativity
 	 */
-	public Operator(String label, OperatorType operatorType, int precedence, Associativity associativity, Operation<T> operation) {
+	public Operator(String label, OperatorType operatorType, int precedence, Operation<T> operation) {
 		super(label, operation);
 		this.operatorType = operatorType;
 		this.precedence = precedence;
-		this.associativity = associativity;
 	}
 
 	/**
@@ -80,40 +66,13 @@ public class Operator<T> extends Executable<T> implements Comparable<Operator<T>
 	public int compareTo(Operator<T> other) {
 		// compare the precedences and associativity of the two operators
 		return (this.precedence == other.precedence) ?
-				(this.associativity == Associativity.LEFT ? 1 : (this.associativity == Associativity.RIGHT ? -1 : 0))
+				(this.operatorType == OperatorType.INFIX || this.operatorType == OperatorType.SUFFIX ? 1 : -1)
 				: this.precedence - other.precedence;
 	}
-	
-	//public abstract Operand<T> evaluate(List<Operand<T>> operands);
 
 	@Override
 	public String toString() {
 		return label;
-	}
-
-	/**
-	 * The <code>Associativity</code> enum represents the associativity property of an operator.<br>
-	 * It can be of three types: LEFT associative, RIGHT associative and NO associative.
-	 * 
-	 * @author Pratanu Mandal
-	 * @since 0.0.1
-	 *
-	 */
-	public static enum Associativity {
-		/**
-		 * Left associativity.
-		 */
-		LEFT,
-		
-		/**
-		 * Right associativity.
-		 */
-		RIGHT,
-		
-		/**
-		 * No associativity.
-		 */
-		NONE
 	}
 	
 	/**
@@ -129,7 +88,9 @@ public class Operator<T> extends Executable<T> implements Comparable<Operator<T>
 		
 		SUFFIX,
 		
-		INFIX
+		INFIX, 
+		
+		INFIX_RTL
 	}
 	
 }

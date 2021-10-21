@@ -94,7 +94,7 @@ public class DoubleNegativeTest {
 	
 	@Test(expected = Expr4jException.class)
 	public void test12() {
-		Expression<Double> expression = parser.parse("6 + deg 5");
+		Expression<Double> expression = parser.parse("6 + * 5");
 		expression.evaluate();
 	}
 	
@@ -112,7 +112,7 @@ public class DoubleNegativeTest {
 	
 	@Test(expected = Expr4jException.class)
 	public void test15() {
-		Expression<Double> expression = parser.parse("(5 deg) max(5) +");
+		Expression<Double> expression = parser.parse("(5 *) max(5) +");
 		expression.evaluate();
 	}
 	
