@@ -361,10 +361,10 @@ public class DoublePositiveTest {
 	@Test
 	public void test34() {
 		Map<String, Double> variables = new HashMap<>();
-		variables.put("z", 5.0);
+		variables.put("x", 5.0);
 		
 		double expected = 25;
-		Expression<Double> expression = parser.parse("5z");
+		Expression<Double> expression = parser.parse("5x");
 		double actual = expression.evaluate(variables);
 		Assert.assertEquals(expected, actual, DELTA);
 	}
