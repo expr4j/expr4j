@@ -70,12 +70,18 @@ public abstract class ExpressionParser<T> {
 	private Stack<Token> operatorStack;
 	
 	/**
-	 * Stack to hold the function parameters.
+	 * Stack to hold the count of function parameters.
 	 */
 	private Stack<Integer> functionStack;
 	
+	/**
+	 * Map to hold the executables.
+	 */
 	private Map<String, Executable<T>> executables;
 	
+	/**
+	 * Map to hold the constants.
+	 */
 	private Map<String, T> constants;
 	
 	/**
@@ -104,12 +110,14 @@ public abstract class ExpressionParser<T> {
 			throw new Expr4jException("Invalid expression");
 		}
 		
+		// initialize members
 		expression = new Expression<>(constants);
 		
 		postfix = new Stack<>();
 		operatorStack = new Stack<>();
 		functionStack = new Stack<>();
 		
+		// separate executables into functions and operators
 		Map<String, Function<T>> functions = new HashMap<>();
 		Map<String, Operator<T>> operators = new HashMap<>();
 		
@@ -127,6 +135,7 @@ public abstract class ExpressionParser<T> {
 			}
 		}
 		
+		// initialize patterns
 		Comparator<String> comparator = (object, other) -> (other.length() - object.length());
 		
 		List<String> functionAndOperatorList = new ArrayList<>();
@@ -153,10 +162,12 @@ public abstract class ExpressionParser<T> {
 		
 		Pattern whitespacePattern = Pattern.compile("\\s+");
 		
+		// initialize separators
 		Separator openBracket = new Separator("(");
 		Separator closeBracket = new Separator(")");
 		Separator comma = new Separator(",");
 		
+		// initialize parsing variables
 		int index = 0;
 		
 		boolean probableUnary = true;
@@ -169,6 +180,7 @@ public abstract class ExpressionParser<T> {
 		while (index < expr.length()) {
 			Matcher matcher;
 			
+			// check for open bracket
 			matcher = openBracketPattern.matcher(expr.substring(index));
 			if (matcher.lookingAt()) {
 				if (lastToken instanceof Operator) {
@@ -191,6 +203,7 @@ public abstract class ExpressionParser<T> {
 				continue;
 			}
 			
+			// check for close bracket
 			matcher = closeBracketPattern.matcher(expr.substring(index));
 			if (matcher.lookingAt()) {
 				if (lastToken == openBracket || lastToken == comma) {
@@ -221,6 +234,7 @@ public abstract class ExpressionParser<T> {
 				continue;
 			}
 			
+			// check for comma
 			matcher = commaPattern.matcher(expr.substring(index));
 			if (matcher.lookingAt()) {
 				if (lastToken instanceof Function) {
@@ -253,6 +267,7 @@ public abstract class ExpressionParser<T> {
 				continue;
 			}
 			
+			// check for unary operators
 			matcher = unaryPattern.matcher(expr.substring(index));
 			if (probableUnary && matcher.lookingAt()) {
 				String match = matcher.group();
@@ -274,11 +289,13 @@ public abstract class ExpressionParser<T> {
 				continue;
 			}
 			
+			// check for functions and operators
 			matcher = functionAndOperatorPattern.matcher(expr.substring(index));
 			if (matcher.lookingAt()) {
 				String match = matcher.group();
 				index += match.length();
 				
+				// encountered a function
 				if (functions.containsKey(match)) {
 					if (lastToken instanceof Operator) {
 						Operator<T> operator = (Operator<T>) lastToken;
@@ -309,6 +326,8 @@ public abstract class ExpressionParser<T> {
 						throw new Expr4jException("Missing open bracket for function: " + function.label);
 					}
 				}
+				
+				// encountered an operator
 				else {
 					Operator<T> operator = operators.get(match);
 					
@@ -373,6 +392,7 @@ public abstract class ExpressionParser<T> {
 				continue;
 			}
 			
+			// check for numbers
 			for (Pattern numberPattern : numberPatternList) {
 				matcher = numberPattern.matcher(expr.substring(index));
 				if (matcher.lookingAt()) {
@@ -400,6 +420,7 @@ public abstract class ExpressionParser<T> {
 				}
 			}
 			
+			// check for variables
 			matcher = variablePattern.matcher(expr.substring(index));
 			if (matcher.lookingAt()) {
 				if (lastToken instanceof Operator) {
@@ -425,6 +446,7 @@ public abstract class ExpressionParser<T> {
 				continue;
 			}
 			
+			// check for whitespace
 			matcher = whitespacePattern.matcher(expr.substring(index));
 			if (matcher.lookingAt()) {
 				String whitespace = matcher.group();
@@ -433,9 +455,11 @@ public abstract class ExpressionParser<T> {
 				continue;
 			}
 			
+			// invalid character
 			throw new Expr4jException("Invalid expression");
 		}
 		
+		// process operator stack
 		while (!operatorStack.isEmpty()) {
 			Token token = operatorStack.peek();
 			if (token instanceof Function || token instanceof Separator) {
