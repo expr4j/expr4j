@@ -43,17 +43,20 @@ import tk.pratanumandal.expr4j.token.Token;
 import tk.pratanumandal.expr4j.token.Variable;
 
 /**
- * The <code>ShuntingYardExpressionTree</code> class provides an implementation of the Shunting Yard algorithm using Expression Tree.<br><br>
+ * The <code>ExpressionParser<T></code> class provides a generic interface to parse expressions.<br>
+ * An expression is created from the postfix (or RPN) expression. The expression can then be evaluated.<br><br>
  * 
- * An expression tree is created from the postfix (or RPN) expression.<br>
- * The expression tree is then parsed to evaluate the expression.
+ * This class is not thread safe.
  * 
  * @author Pratanu Mandal
- * @since 0.0.2
+ * @since 1.0
  *
  */
 public abstract class ExpressionParser<T> {
 	
+	/**
+	 * Instance of expression.
+	 */
 	private Expression<T> expression;
 	
 	/**
@@ -66,6 +69,9 @@ public abstract class ExpressionParser<T> {
 	 */
 	private Stack<Token> operatorStack;
 	
+	/**
+	 * Stack to hold the function parameters.
+	 */
 	private Stack<Integer> functionStack;
 	
 	private Map<String, Executable<T>> executables;
@@ -290,7 +296,9 @@ public abstract class ExpressionParser<T> {
 					if (matcher.lookingAt()) {
 						index++;
 						operatorStack.push(function);
-						functionStack.push(1);
+						
+						if (function.parameters == 0) functionStack.push(0);
+						else functionStack.push(1);
 						
 						lastToken = function;
 						
@@ -457,12 +465,19 @@ public abstract class ExpressionParser<T> {
 			// encountered a function
 			if (token instanceof Function) {
 				Function<T> function = (Function<T>) operatorStack.pop();
-				if (function.parameters == Function.VARIABLE_PARAMETERS) {
-					if (functionStack.isEmpty()) {
-						throw new Expr4jException("Invalid expression");
-					}
-					function = new Function<T>(function.label, functionStack.pop(), function.operation);
+				
+				if (functionStack.isEmpty()) {
+					throw new Expr4jException("Invalid expression");
 				}
+				int actualParamters = functionStack.pop();
+				
+				if (function.parameters == Function.VARIABLE_PARAMETERS) {
+					function = new Function<T>(function.label, actualParamters, function.operation);
+				}
+				else if (function.parameters != actualParamters) {
+					throw new Expr4jException("Invalid expression");
+				}
+				
 				postfix.push(function);
 				
 				flag = true;
