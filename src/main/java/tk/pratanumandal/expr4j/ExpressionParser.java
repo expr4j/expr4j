@@ -93,7 +93,7 @@ public abstract class ExpressionParser<T> {
 		
 		this.addExecutable(new Operator<T>(Operator.UNARY_PLUS, OperatorType.PREFIX, Integer.MAX_VALUE, (operands) -> unaryPlus(operands.get(0))));
 		this.addExecutable(new Operator<T>(Operator.UNARY_MINUS, OperatorType.PREFIX, Integer.MAX_VALUE, (operands) -> unaryMinus(operands.get(0))));
-		this.addExecutable(new Operator<T>(Operator.IMPLICIT_MULTIPLICATION, OperatorType.INFIX, Integer.MAX_VALUE, (operands) -> imlicitMultiplication(operands.get(0), operands.get(1))));
+		this.addExecutable(new Operator<T>(Operator.IMPLICIT_MULTIPLICATION, OperatorType.INFIX, Integer.MAX_VALUE, (operands) -> implicitMultiplication(operands.get(0), operands.get(1))));
 		
 		this.initialize();
 	}
@@ -476,7 +476,7 @@ public abstract class ExpressionParser<T> {
 	}
 	
 	/**
-	 * Method to evaluate operators at the top of the operator stack until a left parenthesis is encountered.
+	 * Method to evaluate operators at the top of the operator stack until a left parenthesis or a function is encountered.
 	 */
 	@SuppressWarnings("unchecked")
 	private void evaluateParenthesis() {
@@ -593,11 +593,11 @@ public abstract class ExpressionParser<T> {
 	}
 	
 	/**
-	 * Method to evaluate an expression.<br>
-	 * This method acts as the single point of access for expression evaluation.
+	 * Method to parse an expression.<br>
+	 * This method acts as the single point of access for expression parsing.
 	 * 
 	 * @param expr Expression string
-	 * @return Result of expression evaluation as a double
+	 * @return The parsed expression
 	 */
 	public Expression<T> parse(String expr) {
 		try {
@@ -618,32 +618,70 @@ public abstract class ExpressionParser<T> {
 		}
 	}
 	
+	/**
+	 * Get list of executables present in the parser.
+	 * 
+	 * @return List of executables
+	 */
 	public List<Executable<T>> getExecutables() {
 		return new ArrayList<>(executables.values());
 	}
 	
+	/**
+	 * Get executable present in the parser for the specified label.
+	 * 
+	 * @param label Label of the executable
+	 * @return Executable for the specified label if present, else null
+	 */
 	public Executable<T> getExecutable(String label) {
 		return executables.get(label);
 	}
 	
+	/**
+	 * Add an executable to the parser.
+	 * 
+	 * @param executable Executable to be added
+	 */
 	public void addExecutable(Executable<T> executable) {
 		executables.put(executable.label, executable);
 	}
 	
+	/**
+	 * Add a list of executables to the parser.
+	 * 
+	 * @param executableList List of executables to be added
+	 */
 	public void addExecutable(List<Executable<T>> executableList) {
 		for (Executable<T> executable : executableList) {
 			addExecutable(executable);
 		}
 	}
 	
-	public void removeExecutable(String label) {
-		executables.remove(label);
+	/**
+	 * Remove executable from the parser for the specified label if present.
+	 * 
+	 * @param label Label of the executable
+	 * @return Executable for the specified label if present, else null
+	 */
+	public Executable<T> removeExecutable(String label) {
+		return executables.remove(label);
 	}
 	
+	/**
+	 * Get map of constants present in the parser.
+	 * 
+	 * @return Map of constants
+	 */
 	public Map<String, T> getConstants() {
 		return new HashMap<>(constants);
 	}
 	
+	/**
+	 * Get constant present in the parser for the specified label.
+	 * 
+	 * @param label Label of the constant
+	 * @return Constant for the specified label if present, else null
+	 */
 	public T getConstant(String label) {
 		if (!constants.containsKey(label)) {
 			throw new Expr4jException("Constant not found: " + label);
@@ -651,20 +689,71 @@ public abstract class ExpressionParser<T> {
 		return constants.get(label);
 	}
 	
+	/**
+	 * Add a constant to the parser.
+	 * 
+	 * @param label Label of the constant
+	 * @param value Value of the constant
+	 */
 	public void addConstant(String label, T value) {
 		constants.put(label, value);
 	}
-
+	
+	/**
+	 * Remove constant from the parser for the specified label if present.
+	 * 
+	 * @param label Label of the constant
+	 * @return Constant for the specified label if present, else null
+	 */
+	public T removeConstant(String label) {
+		return constants.remove(label);
+	}
+	
+	/**
+	 * Method called during construction of the parser.<br>
+	 * Initialize the operators, constants, and variables here.
+	 */
 	protected abstract void initialize();
 	
+	/**
+	 * Method to define operation of unary plus.
+	 * 
+	 * @param operand Operand of unary plus operation
+	 * @return Result of unary plus operation
+	 */
 	protected abstract T unaryPlus(T operand);
 	
+	/**
+	 * Method to define operation of unary minus.
+	 * 
+	 * @param operand Operand of unary minus operation
+	 * @return Result of unary minus operation
+	 */
 	protected abstract T unaryMinus(T operand);
 	
-	protected abstract T imlicitMultiplication(T operand0, T operand1);
+	/**
+	 * Method to define operation of implicit multiplication operation.
+	 * 
+	 * @param operand0 First operand of implicit multiplication operation
+	 * @param operand1 Second operand of implicit multiplication operation
+	 * @return Result of implicit multiplication operation
+	 */
+	protected abstract T implicitMultiplication(T operand0, T operand1);
 	
+	/**
+	 * Method to define procedure to parse string representation of number.
+	 * 
+	 * @param number String representation of number
+	 * @return Parsed number
+	 */
 	protected abstract T parseNumber(String number);
 	
+	/**
+	 * Method to define the patterns to identify numbers.<br>
+	 * Override this method if the patterns to identify numbers need to be customized.
+	 * 
+	 * @return List of patterns to identify numbers
+	 */
 	protected List<String> getNumberPattern() {
 		return Arrays.asList("(-?\\d+)(\\.\\d+)?(e-|e\\+|e|\\d+)\\d+", "\\d*\\.?\\d+");
 	}

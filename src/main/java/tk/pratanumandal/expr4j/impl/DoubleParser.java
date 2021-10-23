@@ -78,7 +78,7 @@ public class DoubleParser extends ExpressionParser<Double> {
 	}
 	
 	@Override
-	protected Double imlicitMultiplication(Double operand0, Double operand1) {
+	protected Double implicitMultiplication(Double operand0, Double operand1) {
 		return operand0 * operand1;
 	}
 	
