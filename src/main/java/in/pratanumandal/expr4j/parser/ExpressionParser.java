@@ -493,7 +493,7 @@ public abstract class ExpressionParser<T> {
 					function = new Function<T>(function.label, actualParamters, function.operation);
 				}
 				else if (function.parameters != actualParamters) {
-					throw new Expr4jException("Invalid expression");
+					throw new Expr4jException("Incorrect number of parameters for function: " + function.label);
 				}
 				
 				postfix.push(function);
