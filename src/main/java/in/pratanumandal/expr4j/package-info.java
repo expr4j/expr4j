@@ -16,10 +16,10 @@
  */
 
 /**
- * The <code>tk.pratanumandal.expr4j.impl</code> package contains all classes related to expression parsing.
+ * The <code>in.pratanumandal.expr4j</code> package is the root package of expr4j library.
  * 
  * @author Pratanu Mandal
  * @since 1.0
  *
  */
-package tk.pratanumandal.expr4j.parser;
+package in.pratanumandal.expr4j;

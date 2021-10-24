@@ -15,7 +15,7 @@
  * 
  */
 
-package tk.pratanumandal.expr4j.exception;
+package in.pratanumandal.expr4j.exception;
 
 /**
  * The <code>Expr4jException</code> class represents exceptions that can be thrown during the execution of Expr4j library.

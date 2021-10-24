@@ -15,7 +15,7 @@
  * 
  */
 
-package tk.pratanumandal.expr4j;
+package in.pratanumandal.expr4j;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,10 +23,10 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
-import tk.pratanumandal.expr4j.parser.DoubleParser;
-import tk.pratanumandal.expr4j.token.Function;
-import tk.pratanumandal.expr4j.token.Operator;
-import tk.pratanumandal.expr4j.token.Operator.OperatorType;
+import in.pratanumandal.expr4j.parser.DoubleParser;
+import in.pratanumandal.expr4j.token.Function;
+import in.pratanumandal.expr4j.token.Operator;
+import in.pratanumandal.expr4j.token.Operator.OperatorType;
 
 public class DoublePositiveTest {
 	

@@ -15,7 +15,7 @@
  * 
  */
 
-package tk.pratanumandal.expr4j.token;
+package in.pratanumandal.expr4j.token;
 
 /**
  * The <code>Function<T></code> class represents functions in the expression.

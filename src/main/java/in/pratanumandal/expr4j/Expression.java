@@ -15,7 +15,7 @@
  * 
  */
 
-package tk.pratanumandal.expr4j;
+package in.pratanumandal.expr4j;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,13 +23,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import tk.pratanumandal.expr4j.exception.Expr4jException;
-import tk.pratanumandal.expr4j.token.Function;
-import tk.pratanumandal.expr4j.token.Operand;
-import tk.pratanumandal.expr4j.token.Operator;
-import tk.pratanumandal.expr4j.token.Operator.OperatorType;
-import tk.pratanumandal.expr4j.token.Token;
-import tk.pratanumandal.expr4j.token.Variable;
+import in.pratanumandal.expr4j.exception.Expr4jException;
+import in.pratanumandal.expr4j.token.Function;
+import in.pratanumandal.expr4j.token.Operand;
+import in.pratanumandal.expr4j.token.Operator;
+import in.pratanumandal.expr4j.token.Operator.OperatorType;
+import in.pratanumandal.expr4j.token.Token;
+import in.pratanumandal.expr4j.token.Variable;
 
 /**
  * The <code>Expression<T></code> class represents a parsed expression that can be evaluated.

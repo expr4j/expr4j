@@ -16,10 +16,10 @@
  */
 
 /**
- * The <code>tk.pratanumandal.expr4j</code> package is the root package of expr4j library.
+ * The <code>in.pratanumandal.expr4j.token</code> package contains all the tokens that form an expression.
  * 
  * @author Pratanu Mandal
  * @since 1.0
  *
  */
-package tk.pratanumandal.expr4j;
+package in.pratanumandal.expr4j.token;

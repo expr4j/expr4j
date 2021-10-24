@@ -15,7 +15,7 @@
  * 
  */
 
-package tk.pratanumandal.expr4j.parser;
+package in.pratanumandal.expr4j.parser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,17 +31,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import tk.pratanumandal.expr4j.Expression;
-import tk.pratanumandal.expr4j.Expression.Node;
-import tk.pratanumandal.expr4j.exception.Expr4jException;
-import tk.pratanumandal.expr4j.token.Separator;
-import tk.pratanumandal.expr4j.token.Executable;
-import tk.pratanumandal.expr4j.token.Function;
-import tk.pratanumandal.expr4j.token.Operand;
-import tk.pratanumandal.expr4j.token.Operator;
-import tk.pratanumandal.expr4j.token.Operator.OperatorType;
-import tk.pratanumandal.expr4j.token.Token;
-import tk.pratanumandal.expr4j.token.Variable;
+import in.pratanumandal.expr4j.Expression;
+import in.pratanumandal.expr4j.Expression.Node;
+import in.pratanumandal.expr4j.exception.Expr4jException;
+import in.pratanumandal.expr4j.token.Separator;
+import in.pratanumandal.expr4j.token.Executable;
+import in.pratanumandal.expr4j.token.Function;
+import in.pratanumandal.expr4j.token.Operand;
+import in.pratanumandal.expr4j.token.Operator;
+import in.pratanumandal.expr4j.token.Operator.OperatorType;
+import in.pratanumandal.expr4j.token.Token;
+import in.pratanumandal.expr4j.token.Variable;
 
 /**
  * The <code>ExpressionParser<T></code> class provides a partial implementation to parse expressions independent of type of operand.<br>

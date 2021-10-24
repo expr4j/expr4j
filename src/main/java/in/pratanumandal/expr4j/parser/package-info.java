@@ -15,36 +15,11 @@
  * 
  */
 
-package tk.pratanumandal.expr4j.token;
-
 /**
- * The <code>Operand<T></code> class represents operands in the expression.<br>
- * It acts as a wrapper for value of type <code>T</code>.
+ * The <code>in.pratanumandal.expr4j.impl</code> package contains all classes related to expression parsing.
  * 
  * @author Pratanu Mandal
  * @since 1.0
  *
- * @param <T> The type of operand
  */
-public class Operand<T> implements Token {
-	
-	/**
-	 * Value of the operand.
-	 */
-	public final T value;
-
-	/**
-	 * Parameterized constructor.
-	 * 
-	 * @param value Value of the operand
-	 */
-	public Operand(T value) {
-		this.value = value;
-	}
-
-	@Override
-	public String toString() {
-		return value.toString();
-	}
-	
-}
+package in.pratanumandal.expr4j.parser;

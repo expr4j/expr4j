@@ -15,15 +15,15 @@
  * 
  */
 
-package tk.pratanumandal.expr4j.parser;
+package in.pratanumandal.expr4j.parser;
 
 import java.util.Arrays;
 import java.util.Collections;
 
-import tk.pratanumandal.expr4j.exception.Expr4jException;
-import tk.pratanumandal.expr4j.token.Function;
-import tk.pratanumandal.expr4j.token.Operator;
-import tk.pratanumandal.expr4j.token.Operator.OperatorType;
+import in.pratanumandal.expr4j.exception.Expr4jException;
+import in.pratanumandal.expr4j.token.Function;
+import in.pratanumandal.expr4j.token.Operator;
+import in.pratanumandal.expr4j.token.Operator.OperatorType;
 
 /**
  * The <code>DoubleParser</code> class provides an implementation to parse expressions for operands of type Double.<br>

@@ -15,29 +15,11 @@
  * 
  */
 
-package tk.pratanumandal.expr4j.token;
-
 /**
- * The <code>Separator</code> class represents the separators in the expression.<br>
+ * The <code>in.pratanumandal.expr4j.exception</code> package contains all exception classes related to Expr4j library.
  * 
  * @author Pratanu Mandal
  * @since 1.0
  *
  */
-public class Separator implements Token {
-	
-	/**
-	 * Label of the separator.
-	 */
-	public final String label;
-
-	/**
-	 * Parameterized constructor.
-	 * 
-	 * @param label Label of the separator.
-	 */
-	public Separator(String label) {
-		this.label = label;
-	}
-	
-}
+package in.pratanumandal.expr4j.exception;

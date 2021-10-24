@@ -15,11 +15,34 @@
  * 
  */
 
+package in.pratanumandal.expr4j.token;
+
 /**
- * The <code>tk.pratanumandal.expr4j.exception</code> package contains all exception classes related to Expr4j library.
+ * The <code>Variable</code> class represents the variables in the expression.
  * 
  * @author Pratanu Mandal
  * @since 1.0
  *
  */
-package tk.pratanumandal.expr4j.exception;
+public class Variable implements Token {
+	
+	/**
+	 * Label of the variable.
+	 */
+	public final String label;
+
+	/**
+	 * Parameterized constructor.
+	 * 
+	 * @param label Label of the variable
+	 */
+	public Variable(String label) {
+		this.label = label;
+	}
+
+	@Override
+	public String toString() {
+		return label;
+	}
+	
+}

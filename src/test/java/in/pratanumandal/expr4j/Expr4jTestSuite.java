@@ -15,7 +15,7 @@
  * 
  */
 
-package tk.pratanumandal.expr4j;
+package in.pratanumandal.expr4j;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

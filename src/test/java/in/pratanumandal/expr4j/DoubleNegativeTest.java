@@ -15,12 +15,12 @@
  * 
  */
 
-package tk.pratanumandal.expr4j;
+package in.pratanumandal.expr4j;
 
 import org.junit.Test;
 
-import tk.pratanumandal.expr4j.exception.Expr4jException;
-import tk.pratanumandal.expr4j.parser.DoubleParser;
+import in.pratanumandal.expr4j.exception.Expr4jException;
+import in.pratanumandal.expr4j.parser.DoubleParser;
 
 public class DoubleNegativeTest {
 	

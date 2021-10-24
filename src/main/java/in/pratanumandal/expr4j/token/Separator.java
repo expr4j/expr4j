@@ -15,34 +15,29 @@
  * 
  */
 
-package tk.pratanumandal.expr4j.token;
+package in.pratanumandal.expr4j.token;
 
 /**
- * The <code>Variable</code> class represents the variables in the expression.
+ * The <code>Separator</code> class represents the separators in the expression.<br>
  * 
  * @author Pratanu Mandal
  * @since 1.0
  *
  */
-public class Variable implements Token {
+public class Separator implements Token {
 	
 	/**
-	 * Label of the variable.
+	 * Label of the separator.
 	 */
 	public final String label;
 
 	/**
 	 * Parameterized constructor.
 	 * 
-	 * @param label Label of the variable
+	 * @param label Label of the separator.
 	 */
-	public Variable(String label) {
+	public Separator(String label) {
 		this.label = label;
-	}
-
-	@Override
-	public String toString() {
-		return label;
 	}
 	
 }

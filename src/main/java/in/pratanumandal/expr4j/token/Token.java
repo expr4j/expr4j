@@ -15,11 +15,17 @@
  * 
  */
 
+package in.pratanumandal.expr4j.token;
+
 /**
- * The <code>tk.pratanumandal.expr4j.token</code> package contains all the tokens that form an expression.
+ * The <code>Token</code> class represents any token in expressions.<br><br>
+ * A token is the smallest indivisible unit of any expression.<br>
+ * Tokens can be operands, functions, operators, separators, variables, or constants.
  * 
  * @author Pratanu Mandal
  * @since 1.0
  *
  */
-package tk.pratanumandal.expr4j.token;
+public interface Token {
+	
+}
