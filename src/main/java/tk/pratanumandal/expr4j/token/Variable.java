@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Pratanu Mandal
+ * Copyright 2021 Pratanu Mandal
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,21 +18,23 @@
 package tk.pratanumandal.expr4j.token;
 
 /**
- * The <code>Operand</code> class represents the operands in the expression.<br>
- * It acts as a wrapper for double value operands.
+ * The <code>Variable</code> class represents the variables in the expression.
  * 
  * @author Pratanu Mandal
- * @since 0.0.1
+ * @since 1.0
  *
  */
 public class Variable implements Token {
 	
+	/**
+	 * Label of the variable.
+	 */
 	public final String label;
 
 	/**
 	 * Parameterized constructor.
 	 * 
-	 * @param label
+	 * @param label Label of the variable
 	 */
 	public Variable(String label) {
 		this.label = label;

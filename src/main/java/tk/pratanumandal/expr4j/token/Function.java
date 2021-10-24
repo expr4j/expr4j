@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Pratanu Mandal
+ * Copyright 2021 Pratanu Mandal
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,28 +18,46 @@
 package tk.pratanumandal.expr4j.token;
 
 /**
- * The <code>Function</code> interface represents functions in the expression.<br><br>
- * 
- * It is a functional interface and provides only one method evaluate() which shall be invoked to evaluate the function.<br>
- * The evaluate() method must be overridden by any implementing class.
+ * The <code>Function<T></code> class represents functions in the expression.
  * 
  * @author Pratanu Mandal
- * @since 0.0.2
+ * @since 1.0
  *
+ * @param <T> The type of operand
  */
 public class Function<T> extends Executable<T> {
 	
+	/**
+	 * Constant to indicate that the function support variable number of parameters.
+	 */
 	public static final int VARIABLE_PARAMETERS = -1;
 	
+	/**
+	 * Number of parameters.
+	 */
 	public final int parameters;
 	
-	public Function(String label, Operation<T> operation) {
-		this(label, VARIABLE_PARAMETERS, operation);
-	}
-
+	/**
+	 * Parameterized constructor.
+	 * 
+	 * @param label Label of the function
+	 * @param parameters Number of parameters
+	 * @param operation Operation performed by the function
+	 */
 	public Function(String label, int parameters, Operation<T> operation) {
 		super(label, operation);
 		this.parameters = parameters;
+	}
+	
+	/**
+	 * Parameterized constructor.<br>
+	 * This constructor creates a function with variable number of parameters.
+	 * 
+	 * @param label Label of the function
+	 * @param operation Operation performed by the function
+	 */
+	public Function(String label, Operation<T> operation) {
+		this(label, VARIABLE_PARAMETERS, operation);
 	}
 
 	@Override

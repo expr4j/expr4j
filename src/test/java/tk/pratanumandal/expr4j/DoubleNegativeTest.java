@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Pratanu Mandal
+ * Copyright 2021 Pratanu Mandal
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ package tk.pratanumandal.expr4j;
 import org.junit.Test;
 
 import tk.pratanumandal.expr4j.exception.Expr4jException;
-import tk.pratanumandal.expr4j.impl.DoubleParser;
+import tk.pratanumandal.expr4j.parser.DoubleParser;
 
 public class DoubleNegativeTest {
 	

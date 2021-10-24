@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Pratanu Mandal
+ * Copyright 2021 Pratanu Mandal
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
-import tk.pratanumandal.expr4j.impl.DoubleParser;
+import tk.pratanumandal.expr4j.parser.DoubleParser;
 import tk.pratanumandal.expr4j.token.Function;
 import tk.pratanumandal.expr4j.token.Operator;
 import tk.pratanumandal.expr4j.token.Operator.OperatorType;

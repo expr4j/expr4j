@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Pratanu Mandal
+ * Copyright 2021 Pratanu Mandal
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,10 @@ package tk.pratanumandal.expr4j.token;
 /**
  * The <code>Token</code> class represents any token in expressions.<br><br>
  * A token is the smallest indivisible unit of any expression.<br>
- * Tokens can be operands, operators, functions, variables, or constants.
+ * Tokens can be operands, functions, operators, separators, variables, or constants.
  * 
  * @author Pratanu Mandal
- * @since 0.0.1
+ * @since 1.0
  *
  */
 public interface Token {

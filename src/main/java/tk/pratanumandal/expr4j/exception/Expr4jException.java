@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Pratanu Mandal
+ * Copyright 2021 Pratanu Mandal
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +18,10 @@
 package tk.pratanumandal.expr4j.exception;
 
 /**
- * The <code>Expr4jException</code> class is the superclass of those exceptions that can be thrown during the execution of Expr4j library.
+ * The <code>Expr4jException</code> class represents exceptions that can be thrown during the execution of Expr4j library.
  * 
  * @author Pratanu Mandal
- * @since 0.0.2
+ * @since 1.0
  *
  */
 public class Expr4jException extends RuntimeException {

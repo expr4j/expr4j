@@ -16,10 +16,10 @@
  */
 
 /**
- * The <code>tk.pratanumandal.expr4j.token</code> package contains all the tokens that form an expression.
+ * The <code>tk.pratanumandal.expr4j.impl</code> package contains all classes related to expression parsing.
  * 
  * @author Pratanu Mandal
  * @since 1.0
  *
  */
-package tk.pratanumandal.expr4j.token;
+package tk.pratanumandal.expr4j.parser;

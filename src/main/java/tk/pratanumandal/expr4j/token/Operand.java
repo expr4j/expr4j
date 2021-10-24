@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Pratanu Mandal
+ * Copyright 2021 Pratanu Mandal
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,21 +18,25 @@
 package tk.pratanumandal.expr4j.token;
 
 /**
- * The <code>Operand</code> class represents the operands in the expression.<br>
- * It acts as a wrapper for double value operands.
+ * The <code>Operand<T></code> class represents operands in the expression.<br>
+ * It acts as a wrapper for value of type <code>T</code>.
  * 
  * @author Pratanu Mandal
- * @since 0.0.1
+ * @since 1.0
  *
+ * @param <T> The type of operand
  */
 public class Operand<T> implements Token {
 	
+	/**
+	 * Value of the operand.
+	 */
 	public final T value;
 
 	/**
 	 * Parameterized constructor.
 	 * 
-	 * @param value
+	 * @param value Value of the operand
 	 */
 	public Operand(T value) {
 		this.value = value;

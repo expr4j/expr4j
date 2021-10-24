@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Pratanu Mandal
+ * Copyright 2021 Pratanu Mandal
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  * 
  */
 
-package tk.pratanumandal.expr4j;
+package tk.pratanumandal.expr4j.parser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +31,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import tk.pratanumandal.expr4j.Expression;
 import tk.pratanumandal.expr4j.Expression.Node;
 import tk.pratanumandal.expr4j.exception.Expr4jException;
 import tk.pratanumandal.expr4j.token.Separator;
@@ -43,14 +44,13 @@ import tk.pratanumandal.expr4j.token.Token;
 import tk.pratanumandal.expr4j.token.Variable;
 
 /**
- * The <code>ExpressionParser<T></code> class provides a generic interface to parse expressions.<br>
+ * The <code>ExpressionParser<T></code> class provides a partial implementation to parse expressions independent of type of operand.<br>
  * An expression is created from the postfix (or RPN) expression. The expression can then be evaluated.<br><br>
- * 
- * This class is not thread safe.
  * 
  * @author Pratanu Mandal
  * @since 1.0
  *
+ * @param <T> The type of operand for this parser
  */
 public abstract class ExpressionParser<T> {
 	
@@ -619,12 +619,12 @@ public abstract class ExpressionParser<T> {
 	}
 	
 	/**
-	 * Get list of executables present in the parser.
+	 * Get unmodifiable list of executables present in the parser.
 	 * 
 	 * @return List of executables
 	 */
 	public List<Executable<T>> getExecutables() {
-		return new ArrayList<>(executables.values());
+		return Collections.unmodifiableList(new ArrayList<>(executables.values()));
 	}
 	
 	/**
@@ -668,12 +668,12 @@ public abstract class ExpressionParser<T> {
 	}
 	
 	/**
-	 * Get map of constants present in the parser.
+	 * Get unmodifiable map of constants present in the parser.
 	 * 
 	 * @return Map of constants
 	 */
 	public Map<String, T> getConstants() {
-		return new HashMap<>(constants);
+		return Collections.unmodifiableMap(constants);
 	}
 	
 	/**

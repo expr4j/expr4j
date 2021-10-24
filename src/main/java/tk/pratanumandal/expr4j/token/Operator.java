@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Pratanu Mandal
+ * Copyright 2021 Pratanu Mandal
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,14 +18,12 @@
 package tk.pratanumandal.expr4j.token;
 
 /**
- * The <code>Operator</code> class represents the operators, functions, variables, and constants in the expression.<br><br>
- * 
- * It provides implementation for evaluation of the operators, functions, variables, and constants.<br>
- * Functions, variables, and constants are treated as operators as well with specialized evaluation techniques in order to maintain precedence and associativity.
+ * The <code>Operator<T></code> class represents operators in the expression.
  * 
  * @author Pratanu Mandal
- * @since 0.0.1
+ * @since 1.0
  *
+ * @param <T> The type of operand
  */
 public class Operator<T> extends Executable<T> implements Comparable<Operator<T>> {
 	
@@ -34,24 +32,23 @@ public class Operator<T> extends Executable<T> implements Comparable<Operator<T>
 	public static final String IMPLICIT_MULTIPLICATION = "imult";
 	
 	/**
-	 * Number of parameters required by this operator.
+	 * The type of operator.
 	 */
 	public final OperatorType operatorType;
 	
 	/**
 	 * The precedence of this operator.<br>
-	 * Precedence ranges from 1 to infinity, in ascending order, i.e, with 1 being lowest precedence possible.<br>
-	 * Although parenthesis and comma have 0 precedence, they are a special case and are evaluated separately.
+	 * Precedence ranges from 1 to MAX_INT, in ascending order, i.e, with 1 being lowest precedence possible.
 	 */
 	public final int precedence;
 
 	/**
 	 * Parameterized constructor.
 	 * 
-	 * @param label
-	 * @param operatorType
-	 * @param precedence
-	 * @param associativity
+	 * @param label Label of the operator
+	 * @param operatorType Type of the operator
+	 * @param precedence Precedence of the operator
+	 * @param operation Operation performed by the operator
 	 */
 	public Operator(String label, OperatorType operatorType, int precedence, Operation<T> operation) {
 		super(label, operation);
@@ -76,11 +73,16 @@ public class Operator<T> extends Executable<T> implements Comparable<Operator<T>
 	}
 	
 	/**
-	 * The <code>Associativity</code> enum represents the associativity property of an operator.<br>
-	 * It can be of three types: LEFT associative, RIGHT associative and NO associative.
+	 * The <code>OperatorType</code> enum represents the type of an operator.<br>
+	 * It can be of four types: PREFIX, SUFFIX, INFIX, and INFIX_RTL.<br><br>
+	 * 
+	 * PREFIX - must be applied before an operand, right associative.<br>
+	 * SUFFIX - must be applied after an operand, left associative.<br>
+	 * INFIX - must be applied in between two operands, left associative.<br>
+	 * INFIX_RTL - must be applied in between two operands, right associative.
 	 * 
 	 * @author Pratanu Mandal
-	 * @since 0.0.1
+	 * @since 1.0
 	 *
 	 */
 	public static enum OperatorType {

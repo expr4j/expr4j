@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Pratanu Mandal
+ * Copyright 2021 Pratanu Mandal
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
  * The <code>tk.pratanumandal.expr4j.exception</code> package contains all exception classes related to Expr4j library.
  * 
  * @author Pratanu Mandal
- * @since 0.0.2
+ * @since 1.0
  *
  */
 package tk.pratanumandal.expr4j.exception;

@@ -1,16 +1,42 @@
-package tk.pratanumandal.expr4j.impl;
+/**
+ * Copyright 2021 Pratanu Mandal
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ */
+
+package tk.pratanumandal.expr4j.parser;
 
 import java.util.Arrays;
 import java.util.Collections;
 
-import tk.pratanumandal.expr4j.ExpressionParser;
 import tk.pratanumandal.expr4j.exception.Expr4jException;
 import tk.pratanumandal.expr4j.token.Function;
 import tk.pratanumandal.expr4j.token.Operator;
 import tk.pratanumandal.expr4j.token.Operator.OperatorType;
 
+/**
+ * The <code>DoubleParser</code> class provides an implementation to parse expressions for operands of type Double.<br>
+ * 
+ * @author Pratanu Mandal
+ * @since 1.0
+ *
+ */
 public class DoubleParser extends ExpressionParser<Double> {
 	
+	/**
+	 * Initialize the operators, constants, and variables for operands of type Double.
+	 */
 	@Override
 	protected void initialize() {
 		addExecutable(Arrays.asList(
@@ -67,21 +93,46 @@ public class DoubleParser extends ExpressionParser<Double> {
 		addConstant("e", Math.E);
 	}
 
+	/**
+	 * Define operation of unary plus.
+	 * 
+	 * @param operand Operand of unary plus operation
+	 * @return Result of unary plus operation
+	 */
 	@Override
 	protected Double unaryPlus(Double operand) {
 		return operand;
 	}
 
+	/**
+	 * Define operation of unary minus.
+	 * 
+	 * @param operand Operand of unary minus operation
+	 * @return Result of unary minus operation
+	 */
 	@Override
 	protected Double unaryMinus(Double operand) {
 		return -operand;
 	}
 	
+	/**
+	 * Define operation of implicit multiplication operation.
+	 * 
+	 * @param operand0 First operand of implicit multiplication operation
+	 * @param operand1 Second operand of implicit multiplication operation
+	 * @return Result of implicit multiplication operation
+	 */
 	@Override
 	protected Double implicitMultiplication(Double operand0, Double operand1) {
 		return operand0 * operand1;
 	}
 	
+	/**
+	 * Method to define procedure to parse string representation of number.
+	 * 
+	 * @param number String representation of number
+	 * @return Parsed number
+	 */
 	@Override
 	protected Double parseNumber(String number) {
 		return Double.parseDouble(number);
@@ -91,7 +142,7 @@ public class DoubleParser extends ExpressionParser<Double> {
 	 * The <code>MathExtras</code> class provides extra math functionality not available in java.lang.Math.
 	 * 
 	 * @author Pratanu Mandal
-	 * @since 0.0.1
+	 * @since 1.0
 	 *
 	 */
 	private static class MathExtras {
@@ -142,6 +193,12 @@ public class DoubleParser extends ExpressionParser<Double> {
 			return Math.log(x) / Math.log(b);
 		}
 		
+		/**
+		 * Calculate the factorial of an integer.
+		 * 
+		 * @param n the integer
+		 * @return factorial of n
+		 */
 		private static double factorial(int n) {
 			double factorial = 1.0;
 			for (int i = 2; i <= n; i++) {
