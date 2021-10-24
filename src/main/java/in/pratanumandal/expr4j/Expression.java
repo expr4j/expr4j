@@ -32,7 +32,7 @@ import in.pratanumandal.expr4j.token.Token;
 import in.pratanumandal.expr4j.token.Variable;
 
 /**
- * The <code>Expression<T></code> class represents a parsed expression that can be evaluated.
+ * The <code>Expression&lt;T&gt;</code> class represents a parsed expression that can be evaluated.
  * 
  * @author Pratanu Mandal
  * @since 1.0

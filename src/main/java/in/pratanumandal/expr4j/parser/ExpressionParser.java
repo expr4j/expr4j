@@ -44,7 +44,7 @@ import in.pratanumandal.expr4j.token.Token;
 import in.pratanumandal.expr4j.token.Variable;
 
 /**
- * The <code>ExpressionParser<T></code> class provides a partial implementation to parse expressions independent of type of operand.<br>
+ * The <code>ExpressionParser&lt;T&gt;</code> class provides a partial implementation to parse expressions independent of type of operand.<br>
  * An expression is created from the postfix (or RPN) expression. The expression can then be evaluated.<br><br>
  * 
  * @author Pratanu Mandal

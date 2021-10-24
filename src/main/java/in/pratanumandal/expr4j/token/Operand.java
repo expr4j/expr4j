@@ -18,7 +18,7 @@
 package in.pratanumandal.expr4j.token;
 
 /**
- * The <code>Operand<T></code> class represents operands in the expression.<br>
+ * The <code>Operand&lt;T&gt;</code> class represents operands in the expression.<br>
  * It acts as a wrapper for value of type <code>T</code>.
  * 
  * @author Pratanu Mandal

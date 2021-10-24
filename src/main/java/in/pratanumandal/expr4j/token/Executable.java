@@ -20,7 +20,7 @@ package in.pratanumandal.expr4j.token;
 import java.util.List;
 
 /**
- * The <code>Executable<T></code> class represents tokens that can be executed in the expression.<br>
+ * The <code>Executable&lt;T&gt;</code> class represents tokens that can be executed in the expression.<br>
  * Executables can be functions and operators.
  * 
  * @author Pratanu Mandal
@@ -62,7 +62,7 @@ public abstract class Executable<T> implements Token {
 	}
 	
 	/**
-	 * The <code>Operation<T></code> functional interface represents an operation that can be executed.
+	 * The <code>Operation&lt;T&gt;</code> functional interface represents an operation that can be executed.
 	 * 
 	 * @author Pratanu Mandal
 	 * @since 1.0

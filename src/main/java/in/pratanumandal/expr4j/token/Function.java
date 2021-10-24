@@ -18,7 +18,7 @@
 package in.pratanumandal.expr4j.token;
 
 /**
- * The <code>Function<T></code> class represents functions in the expression.
+ * The <code>Function&lt;T&gt;</code> class represents functions in the expression.
  * 
  * @author Pratanu Mandal
  * @since 1.0

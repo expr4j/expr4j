@@ -18,7 +18,7 @@
 package in.pratanumandal.expr4j.token;
 
 /**
- * The <code>Operator<T></code> class represents operators in the expression.
+ * The <code>Operator&lt;T&gt;</code> class represents operators in the expression.
  * 
  * @author Pratanu Mandal
  * @since 1.0
