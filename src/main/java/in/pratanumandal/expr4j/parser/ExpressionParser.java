@@ -467,12 +467,6 @@ public abstract class ExpressionParser<T> {
 			}
 			postfix.push(operatorStack.pop());
 		}
-		
-//		Iterator<Token> iterator1 = postfix.iterator();
-//		while (iterator1.hasNext()) {
-//			System.out.print(iterator1.next() + " ");
-//		}
-//		System.out.println();
 	}
 	
 	/**
