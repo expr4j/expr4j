@@ -91,9 +91,9 @@ public abstract class ExpressionParser<T> {
 		executables = new HashMap<>();
 		constants = new HashMap<>();
 		
-		this.addExecutable(new Operator<T>(Operator.UNARY_PLUS, OperatorType.PREFIX, Integer.MAX_VALUE, (operands) -> unaryPlus(operands.get(0))));
-		this.addExecutable(new Operator<T>(Operator.UNARY_MINUS, OperatorType.PREFIX, Integer.MAX_VALUE, (operands) -> unaryMinus(operands.get(0))));
-		this.addExecutable(new Operator<T>(Operator.IMPLICIT_MULTIPLICATION, OperatorType.INFIX, Integer.MAX_VALUE, (operands) -> implicitMultiplication(operands.get(0), operands.get(1))));
+		this.addExecutableWithoutCheck(new Operator<T>(Operator.UNARY_PLUS, OperatorType.PREFIX, 1, (operands) -> unaryPlus(operands.get(0))));
+		this.addExecutableWithoutCheck(new Operator<T>(Operator.UNARY_MINUS, OperatorType.PREFIX, 1, (operands) -> unaryMinus(operands.get(0))));
+		this.addExecutableWithoutCheck(new Operator<T>(Operator.IMPLICIT_MULTIPLICATION, OperatorType.INFIX, 1, (operands) -> implicitMultiplication(operands.get(0), operands.get(1))));
 		
 		this.initialize();
 	}
@@ -277,7 +277,7 @@ public abstract class ExpressionParser<T> {
 				
 				while (!operatorStack.isEmpty() &&
 						(operatorStack.peek() instanceof Operator &&
-								((Operator<T>) operatorStack.peek()).compareTo(operator) > 0)) {
+								operator.compareTo((Operator<T>) operatorStack.peek()) > 0)) {
 					postfix.push(operatorStack.pop());
 				}
 				operatorStack.push(operator);
@@ -348,7 +348,7 @@ public abstract class ExpressionParser<T> {
 					else if (operator.operatorType == OperatorType.PREFIX) {
 						if (lastToken != null &&
 								(lastToken instanceof Operand || lastToken instanceof Variable || lastToken == closeBracket)) {
-							throw new Expr4jException("Invalid expression");
+							operatorStack.push(operators.get(Operator.IMPLICIT_MULTIPLICATION));
 						}
 					}
 					else if (operator.operatorType == OperatorType.SUFFIX) {
@@ -366,7 +366,7 @@ public abstract class ExpressionParser<T> {
 					if (operator.operatorType == OperatorType.SUFFIX) {
 						while (!operatorStack.isEmpty() &&
 								(operatorStack.peek() instanceof Operator &&
-										((Operator<T>) operatorStack.peek()).compareTo(operator) > 0)) {
+										operator.compareTo((Operator<T>) operatorStack.peek()) > 0)) {
 							postfix.push(operatorStack.pop());
 						}
 						postfix.push(operator);
@@ -377,7 +377,7 @@ public abstract class ExpressionParser<T> {
 					else {
 						while (!operatorStack.isEmpty() &&
 								(operatorStack.peek() instanceof Operator &&
-										((Operator<T>) operatorStack.peek()).compareTo(operator) > 0)) {
+										operator.compareTo((Operator<T>) operatorStack.peek()) > 0)) {
 							postfix.push(operatorStack.pop());
 						}
 						operatorStack.push(operator);
@@ -632,11 +632,26 @@ public abstract class ExpressionParser<T> {
 	}
 	
 	/**
+	 * Add an executable to the parser without checking.
+	 * 
+	 * @param executable Executable to be added
+	 */
+	private void addExecutableWithoutCheck(Executable<T> executable) {
+		executables.put(executable.label, executable);
+	}
+	
+	/**
 	 * Add an executable to the parser.
 	 * 
 	 * @param executable Executable to be added
 	 */
 	public void addExecutable(Executable<T> executable) {
+		if (executable.label.equals(Operator.UNARY_PLUS) ||
+				executable.label.equals(Operator.UNARY_MINUS) ||
+				executable.label.equals(Operator.IMPLICIT_MULTIPLICATION)) {
+			throw new Expr4jException("Overriding of predefined operators is forbidden");
+		}
+		
 		executables.put(executable.label, executable);
 	}
 	
@@ -658,6 +673,12 @@ public abstract class ExpressionParser<T> {
 	 * @return Executable for the specified label if present, else null
 	 */
 	public Executable<T> removeExecutable(String label) {
+		if (label.equals(Operator.UNARY_PLUS) ||
+				label.equals(Operator.UNARY_MINUS) ||
+				label.equals(Operator.IMPLICIT_MULTIPLICATION)) {
+			throw new Expr4jException("Removal of predefined operators is forbidden");
+		}
+		
 		return executables.remove(label);
 	}
 	

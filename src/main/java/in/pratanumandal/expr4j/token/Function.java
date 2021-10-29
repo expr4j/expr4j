@@ -17,6 +17,8 @@
 
 package in.pratanumandal.expr4j.token;
 
+import in.pratanumandal.expr4j.exception.Expr4jException;
+
 /**
  * The <code>Function&lt;T&gt;</code> class represents functions in the expression.
  * 
@@ -47,6 +49,10 @@ public class Function<T> extends Executable<T> {
 	public Function(String label, int parameters, Operation<T> operation) {
 		super(label, operation);
 		this.parameters = parameters;
+		
+		if (this.parameters < Function.VARIABLE_PARAMETERS) {
+			throw new Expr4jException("Invalid number of parameters: " + this.parameters);
+		}
 	}
 	
 	/**

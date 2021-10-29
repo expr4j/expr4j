@@ -17,6 +17,8 @@
 
 package in.pratanumandal.expr4j.token;
 
+import in.pratanumandal.expr4j.exception.Expr4jException;
+
 /**
  * The <code>Operator&lt;T&gt;</code> class represents operators in the expression.
  * 
@@ -54,6 +56,10 @@ public class Operator<T> extends Executable<T> implements Comparable<Operator<T>
 		super(label, operation);
 		this.operatorType = operatorType;
 		this.precedence = precedence;
+		
+		if (this.precedence < 1) {
+			throw new Expr4jException("Invalid precedence: " + this.precedence);
+		}
 	}
 
 	/**
@@ -64,7 +70,7 @@ public class Operator<T> extends Executable<T> implements Comparable<Operator<T>
 		// compare the precedences and associativity of the two operators
 		return (this.precedence == other.precedence) ?
 				(this.operatorType == OperatorType.INFIX || this.operatorType == OperatorType.SUFFIX ? 1 : -1)
-				: this.precedence - other.precedence;
+				: other.precedence - this.precedence;
 	}
 
 	@Override

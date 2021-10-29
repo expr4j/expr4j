@@ -424,5 +424,29 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		Assert.assertEquals(expected, actual, DELTA);
 	}
+	
+	@Test
+	public void test41() {
+		double expected = -0.95892427466;
+		Expression<Double> expression = parser.parse("+ sin 5");
+		double actual = expression.evaluate();
+		Assert.assertEquals(expected, actual, DELTA);
+	}
+	
+	@Test
+	public void test42() {
+		double expected = 0.95892427466;
+		Expression<Double> expression = parser.parse("- sin 5");
+		double actual = expression.evaluate();
+		Assert.assertEquals(expected, actual, DELTA);
+	}
+	
+	@Test
+	public void test43() {
+		double expected = -4.79462137332;
+		Expression<Double> expression = parser.parse("5 sin 5");
+		double actual = expression.evaluate();
+		Assert.assertEquals(expected, actual, DELTA);
+	}
 
 }
