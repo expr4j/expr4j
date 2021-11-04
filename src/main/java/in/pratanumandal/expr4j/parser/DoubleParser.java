@@ -128,14 +128,25 @@ public class DoubleParser extends ExpressionParser<Double> {
 	}
 	
 	/**
-	 * Method to define procedure to parse string representation of number.
+	 * Method to define procedure to parse string representation of operand.
 	 * 
-	 * @param number String representation of number
-	 * @return Parsed number
+	 * @param operand String representation of operand
+	 * @return Parsed operand
 	 */
 	@Override
-	protected Double parseNumber(String number) {
-		return Double.parseDouble(number);
+	protected Double stringToOperand(String operand) {
+		return Double.parseDouble(operand);
+	}
+
+	/**
+	 * Method to define procedure to obtain string representation of operand.
+	 * 
+	 * @param operand Operand
+	 * @return String representation of operand
+	 */
+	@Override
+	protected String operandToString(Double operand) {
+		return operand == operand.intValue() ? String.valueOf(operand.intValue()) : operand.toString();
 	}
 	
 	/**
@@ -214,7 +225,7 @@ public class DoubleParser extends ExpressionParser<Double> {
 		 * @return factorial of x
 		 */
 		public static double factorial(double x) {
-			if (x < 0 || x % 1 != 0) {
+			if (x < 0 || x != (int) x) {
 				throw new Expr4jException("Cannot calculate factorial of " + x);
 			}
 			return factorial((int) x);

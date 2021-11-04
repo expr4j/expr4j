@@ -111,7 +111,7 @@ public abstract class ExpressionParser<T> {
 		}
 		
 		// initialize members
-		expression = new Expression<>(constants);
+		expression = new Expression<>(constants, this::operandToString);
 		
 		postfix = new Stack<>();
 		operatorStack = new Stack<>();
@@ -409,7 +409,7 @@ public abstract class ExpressionParser<T> {
 					String number = matcher.group();
 					index += number.length();
 					
-					Operand<T> operand = new Operand<T>(this.parseNumber(number));
+					Operand<T> operand = new Operand<T>(this.stringToOperand(number));
 					postfix.push(operand);
 					
 					lastToken = operand;
@@ -756,12 +756,20 @@ public abstract class ExpressionParser<T> {
 	protected abstract T implicitMultiplication(T operand0, T operand1);
 	
 	/**
-	 * Method to define procedure to parse string representation of number.
+	 * Method to define procedure to obtain operand from string representation.
 	 * 
-	 * @param number String representation of number
-	 * @return Parsed number
+	 * @param operand String representation of operand
+	 * @return Operand
 	 */
-	protected abstract T parseNumber(String number);
+	protected abstract T stringToOperand(String operand);
+	
+	/**
+	 * Method to define procedure to obtain string representation of operand.
+	 * 
+	 * @param operand Operand
+	 * @return String representation of operand
+	 */
+	protected abstract String operandToString(T operand);
 	
 	/**
 	 * Method to define the patterns to identify numbers.<br>

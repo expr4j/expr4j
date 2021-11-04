@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import in.pratanumandal.expr4j.exception.Expr4jException;
 import in.pratanumandal.expr4j.token.Function;
@@ -85,13 +86,17 @@ public class Expression<T> {
 	 */
 	private final Map<String, T> constants;
 	
+	private final OperandRepresentation<T> operandRepresentation;
+	
 	/**
 	 * Parameterized constructor.
 	 * 
 	 * @param constants Map of constants
+	 * @param operandRepresentation Instance of <code>OperandRepresentation</code>
 	 */
-	public Expression(Map<String, T> constants) {
+	public Expression(Map<String, T> constants, OperandRepresentation<T> operandRepresentation) {
 		this.constants = new HashMap<>(constants);
+		this.operandRepresentation = operandRepresentation;
 	}
 
 	/**
@@ -188,6 +193,145 @@ public class Expression<T> {
 	 */
 	public T evaluate() {
 		return evaluate(new HashMap<String, T>());
+	}
+	
+	/**
+	 * Form string representation of expression.
+	 * 
+	 * @param node Current node of the expression tree
+	 * @return Result of expression evaluation
+	 */
+	@SuppressWarnings("unchecked")
+	protected String toString(Node node) {
+		// encountered variable
+		if (node.token instanceof Variable) {
+			Variable variable = (Variable) node.token;
+			return variable.label;
+		}
+		
+		// encountered function
+		else if (node.token instanceof Function) {
+			Function<T> function = (Function<T>) node.token;
+			
+			int operandCount = function.parameters;
+			if (node.children.size() != operandCount) {
+				throw new Expr4jException("Invalid expression");
+			}
+			
+			String operands = node.children.stream().map(this::toString).collect(Collectors.joining(", "));
+			
+			return function.label + "(" + operands + ")";
+		}
+		
+		// encountered operator
+		else if (node.token instanceof Operator) {
+			Operator<T> operator = (Operator<T>) node.token;
+			
+			int operandCount = (operator.operatorType == OperatorType.INFIX || operator.operatorType == OperatorType.INFIX_RTL) ? 2 : 1;
+			if (node.children.size() != operandCount) {
+				throw new Expr4jException("Invalid expression");
+			}
+			
+			String label = null;
+			if (operator.label.equals(Operator.UNARY_PLUS)) label = "+";
+			else if (operator.label.equals(Operator.UNARY_MINUS)) label = "-";
+			else if (operator.label.equals(Operator.IMPLICIT_MULTIPLICATION)) {
+				if (node.children.get(0).token instanceof Operand && node.children.get(1).token instanceof Operand) {
+					label = " * ";
+				}
+				else label = " ";
+			}
+			else if (operandCount == 2) label = " " + operator.label + " ";
+			else label = operator.label;
+			
+			if (operandCount == 2) {
+				StringBuilder sb = new StringBuilder();
+				
+				Token left = node.children.get(0).token;
+				if (left instanceof Operator &&
+						(((Operator<T>) left).operatorType == OperatorType.INFIX ||
+						((Operator<T>) left).operatorType == OperatorType.INFIX_RTL)) {
+					sb.append("(");
+					sb.append(this.toString(node.children.get(0)));
+					sb.append(")");
+				}
+				else {
+					sb.append(this.toString(node.children.get(0)));
+				}
+				
+				sb.append(label);
+				
+				Token right = node.children.get(1).token;
+				if (right instanceof Operator &&
+						(((Operator<T>) right).operatorType == OperatorType.INFIX ||
+						((Operator<T>) right).operatorType == OperatorType.INFIX_RTL)) {
+					sb.append("(");
+					sb.append(this.toString(node.children.get(1)));
+					sb.append(")");
+				}
+				else {
+					sb.append(this.toString(node.children.get(1)));
+				}
+				
+				return sb.toString();
+			}
+			else {
+				if (operator.label.equals(Operator.UNARY_PLUS) || operator.label.equals(Operator.UNARY_MINUS)) {
+					return label + this.toString(node.children.get(0));
+				}
+				else if (node.children.get(0).token instanceof Operator || node.children.get(0).token instanceof Function) {
+					if (operator.operatorType == OperatorType.PREFIX) {
+						return label + "(" + this.toString(node.children.get(0)) + ")";
+					}
+					else {
+						return "(" + this.toString(node.children.get(0)) + ") " + label;
+					}
+				}
+				else {
+					if (operator.operatorType == OperatorType.PREFIX) {
+						return label + " " + this.toString(node.children.get(0));
+					}
+					else {
+						return this.toString(node.children.get(0)) + " " + label;
+					}
+				}
+			}
+		}
+		
+		// encountered operand
+		else {
+			Operand<T> operand = (Operand<T>) node.token;
+			return operandRepresentation.toString(operand.value);
+		}
+	}
+
+	/**
+	 * Get string representation of expression.
+	 */
+	@Override
+	public String toString() {
+		return this.toString(root);
+	}
+	
+	/**
+	 * The <code>OperandRepresentation&lt;T&gt;</code> functional interface represents a string representation of an operand.
+	 * 
+	 * @author Pratanu Mandal
+	 * @since 1.0
+	 *
+	 * @param <T> The type of operand
+	 */
+	@FunctionalInterface
+	public interface OperandRepresentation<T> {
+		
+		/**
+		 * Get string representation of operand.
+		 * 
+		 * @param value Value of operand
+		 * @return String representation of operand
+		 */
+		public abstract String toString(T value);
+
 	}
 	
 }
