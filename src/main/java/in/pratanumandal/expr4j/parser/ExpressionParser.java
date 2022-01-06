@@ -274,12 +274,6 @@ public abstract class ExpressionParser<T> {
 				index++;
 				
 				Operator<T> operator = operators.get(match.equals("+") ? Operator.UNARY_PLUS : Operator.UNARY_MINUS);
-				
-				while (!operatorStack.isEmpty() &&
-						(operatorStack.peek() instanceof Operator &&
-								operator.compareTo((Operator<T>) operatorStack.peek()) > 0)) {
-					postfix.push(operatorStack.pop());
-				}
 				operatorStack.push(operator);
 				
 				lastToken = operator;

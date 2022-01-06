@@ -670,5 +670,33 @@ public class DoublePositiveTest {
 		Assert.assertEquals(expected, actual, DELTA);
 		Assert.assertEquals(expectedString, actualString);
 	}
+	
+	@Test
+	public void test38() {
+		double expected = 99000;
+		String expectedString = "(10 ^ 5) - (10 ^ 3)";
+		
+		Expression<Double> expression = parser.parse("10 ^ 5 - 10 ^ 3");
+		
+		double actual = expression.evaluate();
+		String actualString = expression.toString();
+		
+		Assert.assertEquals(expected, actual, DELTA);
+		Assert.assertEquals(expectedString, actualString);
+	}
+	
+	@Test
+	public void test39() {
+		double expected = 99999.999;
+		String expectedString = "(10 ^ 5) - (10 ^ -3)";
+		
+		Expression<Double> expression = parser.parse("10 ^ 5 - 10 ^ -3");
+		
+		double actual = expression.evaluate();
+		String actualString = expression.toString();
+		
+		Assert.assertEquals(expected, actual, DELTA);
+		Assert.assertEquals(expectedString, actualString);
+	}
 
 }
