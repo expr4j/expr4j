@@ -40,53 +40,55 @@ public class DoubleParser extends ExpressionParser<Double> {
 	@Override
 	protected void initialize() {
 		addExecutable(Arrays.asList(
-			new Operator<Double>("+", OperatorType.INFIX, 1, (operands) -> operands.get(0) + operands.get(1)),
-			new Operator<Double>("-", OperatorType.INFIX, 1, (operands) -> operands.get(0) - operands.get(1)),
+			new Operator<>("+", OperatorType.INFIX, 1, (operands) -> operands.get(0) + operands.get(1)),
+			new Operator<>("-", OperatorType.INFIX, 1, (operands) -> operands.get(0) - operands.get(1)),
 			
-			new Operator<Double>("*", OperatorType.INFIX, 2, (operands) -> operands.get(0) * operands.get(1)),
-			new Operator<Double>("/", OperatorType.INFIX, 2, (operands) -> operands.get(0) / operands.get(1)),
-			new Operator<Double>("%", OperatorType.INFIX, 2, (operands) -> operands.get(0) % operands.get(1)),
+			new Operator<>("*", OperatorType.INFIX, 2, (operands) -> operands.get(0) * operands.get(1)),
+			new Operator<>("/", OperatorType.INFIX, 2, (operands) -> operands.get(0) / operands.get(1)),
+			new Operator<>("%", OperatorType.INFIX, 2, (operands) -> operands.get(0) % operands.get(1)),
 			
-			new Operator<Double>("^", OperatorType.INFIX_RTL, 3, (operands) -> Math.pow(operands.get(0), operands.get(1))),
+			new Operator<>("^", OperatorType.INFIX_RTL, 3, (operands) -> Math.pow(operands.get(0), operands.get(1))),
 			
-			new Operator<Double>("!", OperatorType.SUFFIX, 5, (operands) -> MathExtras.factorial(operands.get(0))),
+			new Operator<>("!", OperatorType.SUFFIX, 5, (operands) -> MathExtras.factorial(operands.get(0))),
 			
-			new Operator<Double>("sin", OperatorType.PREFIX, 4, (operands) -> Math.sin(operands.get(0))),
-			new Operator<Double>("cos", OperatorType.PREFIX, 4, (operands) -> Math.cos(operands.get(0))),
-			new Operator<Double>("tan", OperatorType.PREFIX, 4, (operands) -> Math.tan(operands.get(0))),
+			new Operator<>("sin", OperatorType.PREFIX, 4, (operands) -> Math.sin(operands.get(0))),
+			new Operator<>("cos", OperatorType.PREFIX, 4, (operands) -> Math.cos(operands.get(0))),
+			new Operator<>("tan", OperatorType.PREFIX, 4, (operands) -> Math.tan(operands.get(0))),
 			
-			new Operator<Double>("asin", OperatorType.PREFIX, 4, (operands) -> Math.asin(operands.get(0))),
-			new Operator<Double>("acos", OperatorType.PREFIX, 4, (operands) -> Math.acos(operands.get(0))),
-			new Operator<Double>("atan", OperatorType.PREFIX, 4, (operands) -> Math.atan(operands.get(0))),
+			new Operator<>("asin", OperatorType.PREFIX, 4, (operands) -> Math.asin(operands.get(0))),
+			new Operator<>("acos", OperatorType.PREFIX, 4, (operands) -> Math.acos(operands.get(0))),
+			new Operator<>("atan", OperatorType.PREFIX, 4, (operands) -> Math.atan(operands.get(0))),
 			
-			new Operator<Double>("sinh", OperatorType.PREFIX, 4, (operands) -> Math.sinh(operands.get(0))),
-			new Operator<Double>("cosh", OperatorType.PREFIX, 4, (operands) -> Math.cosh(operands.get(0))),
-			new Operator<Double>("tanh", OperatorType.PREFIX, 4, (operands) -> Math.tanh(operands.get(0))),
+			new Operator<>("sinh", OperatorType.PREFIX, 4, (operands) -> Math.sinh(operands.get(0))),
+			new Operator<>("cosh", OperatorType.PREFIX, 4, (operands) -> Math.cosh(operands.get(0))),
+			new Operator<>("tanh", OperatorType.PREFIX, 4, (operands) -> Math.tanh(operands.get(0))),
 			
-			new Operator<Double>("asinh", OperatorType.PREFIX, 4, (operands) -> MathExtras.asinh(operands.get(0))),
-			new Operator<Double>("acosh", OperatorType.PREFIX, 4, (operands) -> MathExtras.acosh(operands.get(0))),
-			new Operator<Double>("atanh", OperatorType.PREFIX, 4, (operands) -> MathExtras.atanh(operands.get(0))),
+			new Operator<>("asinh", OperatorType.PREFIX, 4, (operands) -> MathExtras.asinh(operands.get(0))),
+			new Operator<>("acosh", OperatorType.PREFIX, 4, (operands) -> MathExtras.acosh(operands.get(0))),
+			new Operator<>("atanh", OperatorType.PREFIX, 4, (operands) -> MathExtras.atanh(operands.get(0))),
 			
-			new Function<Double>("deg", 1, (operands) -> Math.toDegrees(operands.get(0))),
-			new Function<Double>("rad", 1, (operands) -> Math.toRadians(operands.get(0))),
+			new Function<>("deg", 1, (operands) -> Math.toDegrees(operands.get(0))),
+			new Function<>("rad", 1, (operands) -> Math.toRadians(operands.get(0))),
 			
-			new Operator<Double>("round", OperatorType.PREFIX, 4, (operands) -> (double) Math.round(operands.get(0))),
-			new Operator<Double>("floor", OperatorType.PREFIX, 4, (operands) -> Math.floor(operands.get(0))),
-			new Operator<Double>("ceil", OperatorType.PREFIX, 4, (operands) -> Math.ceil(operands.get(0))),
+			new Operator<>("round", OperatorType.PREFIX, 4, (operands) -> (double) Math.round(operands.get(0))),
+			new Operator<>("floor", OperatorType.PREFIX, 4, (operands) -> Math.floor(operands.get(0))),
+			new Operator<>("ceil", OperatorType.PREFIX, 4, (operands) -> Math.ceil(operands.get(0))),
 			
-			new Operator<Double>("ln", OperatorType.PREFIX, 4, (operands) -> Math.log(operands.get(0))),
-			new Operator<Double>("log10", OperatorType.PREFIX, 4, (operands) -> Math.log10(operands.get(0))),
-			new Function<Double>("log", 2, (operands) -> MathExtras.log(operands.get(1), operands.get(0))),
+			new Operator<>("ln", OperatorType.PREFIX, 4, (operands) -> Math.log(operands.get(0))),
+			new Operator<>("log10", OperatorType.PREFIX, 4, (operands) -> Math.log10(operands.get(0))),
+			new Function<>("log", 2, (operands) -> MathExtras.log(operands.get(1), operands.get(0))),
 			
-			new Operator<Double>("sqrt", OperatorType.PREFIX, 4, (operands) -> Math.sqrt(operands.get(0))),
-			new Operator<Double>("cbrt", OperatorType.PREFIX, 4, (operands) -> Math.cbrt(operands.get(0))),
+			new Operator<>("sqrt", OperatorType.PREFIX, 4, (operands) -> Math.sqrt(operands.get(0))),
+			new Operator<>("cbrt", OperatorType.PREFIX, 4, (operands) -> Math.cbrt(operands.get(0))),
 			
-			new Function<Double>("max", (operands) -> operands.isEmpty() ? 0.0 : Collections.max(operands)),
-			new Function<Double>("min", (operands) -> operands.isEmpty() ? 0.0 : Collections.min(operands)),
+			new Function<>("exp", 1, (operands) -> Math.exp(operands.get(0))),
 			
-			new Function<Double>("mean", (operands) -> operands.stream().mapToDouble(d -> d).average().orElse(0.0)),
+			new Function<>("max", (operands) -> operands.isEmpty() ? 0.0 : Collections.max(operands)),
+			new Function<>("min", (operands) -> operands.isEmpty() ? 0.0 : Collections.min(operands)),
 			
-			new Function<Double>("rand", 0, (operands) -> Math.random())
+			new Function<>("mean", (operands) -> operands.stream().mapToDouble(d -> d).average().orElse(0.0)),
+			
+			new Function<>("rand", 0, (operands) -> Math.random())
 		));
 		
 		addConstant("pi", Math.PI);
