@@ -538,9 +538,26 @@ public class DoublePositiveTest {
 		Assert.assertEquals(expected, actual, DELTA);
 		Assert.assertEquals(expectedString, actualString);
 	}
-	
+
 	@Test
 	public void test29() {
+		Map<String, Double> variables = new HashMap<>();
+		variables.put("x5", 5.0);
+
+		double expected = 5;
+		String expectedString = "x5";
+
+		Expression<Double> expression = parser.parse("x5");
+
+		double actual = expression.evaluate(variables);
+		String actualString = expression.toString();
+
+		Assert.assertEquals(expected, actual, DELTA);
+		Assert.assertEquals(expectedString, actualString);
+	}
+	
+	@Test
+	public void test30() {
 		double expected = 30;
 		String expectedString = "+5 * 6";
 		
@@ -554,7 +571,7 @@ public class DoublePositiveTest {
 	}
 	
 	@Test
-	public void test30() {
+	public void test31() {
 		double expected = 2417851639229258349412352.0;
 		String expectedString = "2 ^ (3 ^ 4)";
 		
@@ -568,7 +585,7 @@ public class DoublePositiveTest {
 	}
 	
 	@Test
-	public void test31() {
+	public void test32() {
 		double expected = 2.5;
 		String expectedString = "5.5 % 3";
 		
@@ -582,7 +599,7 @@ public class DoublePositiveTest {
 	}
 	
 	@Test
-	public void test32() {
+	public void test33() {
 		parser.addExecutable(new Operator<Double>("incr", OperatorType.SUFFIX, 5, (operands) -> {
 			return operands.get(0)+ 1;
     	}));
@@ -602,7 +619,7 @@ public class DoublePositiveTest {
 	}
 	
 	@Test
-	public void test33() {
+	public void test34() {
 		double expected = 0.27987335076;
 		String expectedString = "sin(cos 5)";
 		
@@ -616,7 +633,7 @@ public class DoublePositiveTest {
 	}
 	
 	@Test
-	public void test34() {
+	public void test35() {
 		double expected = 6.27987335076;
 		String expectedString = "sin(cos 5) + 6";
 		
@@ -630,7 +647,7 @@ public class DoublePositiveTest {
 	}
 	
 	@Test
-	public void test35() {
+	public void test36() {
 		double expected = -0.95892427466;
 		String expectedString = "+sin 5";
 		
@@ -644,7 +661,7 @@ public class DoublePositiveTest {
 	}
 	
 	@Test
-	public void test36() {
+	public void test37() {
 		double expected = 0.95892427466;
 		String expectedString = "-sin 5";
 		
@@ -658,7 +675,7 @@ public class DoublePositiveTest {
 	}
 	
 	@Test
-	public void test37() {
+	public void test38() {
 		double expected = -4.79462137332;
 		String expectedString = "5 sin 5";
 		
@@ -672,7 +689,7 @@ public class DoublePositiveTest {
 	}
 	
 	@Test
-	public void test38() {
+	public void test39() {
 		double expected = 99000;
 		String expectedString = "(10 ^ 5) - (10 ^ 3)";
 		
@@ -686,15 +703,15 @@ public class DoublePositiveTest {
 	}
 	
 	@Test
-	public void test39() {
+	public void test40() {
 		double expected = 99999.999;
 		String expectedString = "(10 ^ 5) - (10 ^ -3)";
-		
+
 		Expression<Double> expression = parser.parse("10 ^ 5 - 10 ^ -3");
-		
+
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
-		
+
 		Assert.assertEquals(expected, actual, DELTA);
 		Assert.assertEquals(expectedString, actualString);
 	}
