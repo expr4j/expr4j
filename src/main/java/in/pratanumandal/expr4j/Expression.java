@@ -68,7 +68,7 @@ public class Expression<T> {
 		public Node(Token token) {
 			this.token = token;
 			if (token instanceof Function || token instanceof Operator) {
-				this.children = new ArrayList<Expression.Node>();
+				this.children = new ArrayList<>();
 			}
 			else {
 				this.children = null;

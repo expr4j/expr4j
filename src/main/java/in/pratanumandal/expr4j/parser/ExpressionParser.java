@@ -31,6 +31,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
+
 import in.pratanumandal.expr4j.Expression;
 import in.pratanumandal.expr4j.Expression.Node;
 import in.pratanumandal.expr4j.exception.Expr4jException;
@@ -106,7 +108,7 @@ public abstract class ExpressionParser<T> {
 	@SuppressWarnings("unchecked")
 	private void initialize(String expr) {
 		// do not allow blank expressions
-		if (expr.isBlank()) {
+		if (StringUtils.isBlank(expr)) {
 			throw new Expr4jException("Invalid expression");
 		}
 		
