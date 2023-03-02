@@ -719,4 +719,60 @@ public class DoubleAssertionTest {
 		Assert.assertEquals(expectedString, actualString);
 	}
 
+	@Test
+	public void test41() {
+		double expected = -30;
+		String expectedString = "-5 * 6";
+
+		Expression<Double> expression = parser.parse("-5 6");
+
+		double actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test42() {
+		double expected = -30;
+		String expectedString = "-5 * 6";
+
+		Expression<Double> expression = parser.parse("-5 * 6");
+
+		double actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test43() {
+		double expected = -30;
+		String expectedString = "-(5 * 6)";
+
+		Expression<Double> expression = parser.parse("-(5 6)");
+
+		double actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test44() {
+		double expected = -30;
+		String expectedString = "-(5 * 6)";
+
+		Expression<Double> expression = parser.parse("-(5 * 6)");
+
+		double actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
 }

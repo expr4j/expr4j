@@ -85,9 +85,9 @@ public abstract class ExpressionParser<T> {
 		executables = new HashMap<>();
 		constants = new HashMap<>();
 
-		this.addExecutableWithoutCheck(new Operator<T>(Operator.UNARY_PLUS, OperatorType.PREFIX, 1, (operands) -> unaryPlus(operands.get(0))));
-		this.addExecutableWithoutCheck(new Operator<T>(Operator.UNARY_MINUS, OperatorType.PREFIX, 1, (operands) -> unaryMinus(operands.get(0))));
-		this.addExecutableWithoutCheck(new Operator<T>(Operator.IMPLICIT_MULTIPLICATION, OperatorType.INFIX, 1, (operands) -> implicitMultiplication(operands.get(0), operands.get(1))));
+		this.addExecutableWithoutCheck(new Operator<T>(Operator.UNARY_PLUS, OperatorType.PREFIX, Integer.MAX_VALUE, (operands) -> unaryPlus(operands.get(0))));
+		this.addExecutableWithoutCheck(new Operator<T>(Operator.UNARY_MINUS, OperatorType.PREFIX, Integer.MAX_VALUE, (operands) -> unaryMinus(operands.get(0))));
+		this.addExecutableWithoutCheck(new Operator<T>(Operator.IMPLICIT_MULTIPLICATION, OperatorType.INFIX, Integer.MAX_VALUE, (operands) -> implicitMultiplication(operands.get(0), operands.get(1))));
 	}
 	
 	/**
@@ -178,11 +178,11 @@ public abstract class ExpressionParser<T> {
 				if (lastToken instanceof Operator) {
 					Operator<T> operator = (Operator<T>) lastToken;
 					if (operator.operatorType == OperatorType.SUFFIX) {
-						operatorStack.push(operators.get(Operator.IMPLICIT_MULTIPLICATION));
+						pushOperator(operators.get(Operator.IMPLICIT_MULTIPLICATION));
 					}
 				}
 				else if (lastToken == closeBracket || lastToken instanceof Operand || lastToken instanceof Variable) {
-					operatorStack.push(operators.get(Operator.IMPLICIT_MULTIPLICATION));
+					pushOperator(operators.get(Operator.IMPLICIT_MULTIPLICATION));
 				}
 				
 				index++;
@@ -266,7 +266,7 @@ public abstract class ExpressionParser<T> {
 				index++;
 				
 				Operator<T> operator = operators.get(match.equals("+") ? Operator.UNARY_PLUS : Operator.UNARY_MINUS);
-				operatorStack.push(operator);
+				pushOperator(operator);
 				
 				lastToken = operator;
 				
@@ -286,11 +286,11 @@ public abstract class ExpressionParser<T> {
 					if (lastToken instanceof Operator) {
 						Operator<T> operator = (Operator<T>) lastToken;
 						if (operator.operatorType == OperatorType.SUFFIX) {
-							operatorStack.push(operators.get(Operator.IMPLICIT_MULTIPLICATION));
+							pushOperator(operators.get(Operator.IMPLICIT_MULTIPLICATION));
 						}
 					}
 					else if (lastToken == closeBracket || lastToken instanceof Operand || lastToken instanceof Variable) {
-						operatorStack.push(operators.get(Operator.IMPLICIT_MULTIPLICATION));
+						pushOperator(operators.get(Operator.IMPLICIT_MULTIPLICATION));
 					}
 					
 					Function<T> function = functions.get(match);
@@ -334,7 +334,7 @@ public abstract class ExpressionParser<T> {
 					else if (operator.operatorType == OperatorType.PREFIX) {
 						if (lastToken != null &&
 								(lastToken instanceof Operand || lastToken instanceof Variable || lastToken == closeBracket)) {
-							operatorStack.push(operators.get(Operator.IMPLICIT_MULTIPLICATION));
+							pushOperator(operators.get(Operator.IMPLICIT_MULTIPLICATION));
 						}
 					}
 					else if (operator.operatorType == OperatorType.SUFFIX) {
@@ -350,23 +350,13 @@ public abstract class ExpressionParser<T> {
 					}
 					
 					if (operator.operatorType == OperatorType.SUFFIX) {
-						while (!operatorStack.isEmpty() &&
-								(operatorStack.peek() instanceof Operator &&
-										operator.compareTo((Operator<T>) operatorStack.peek()) > 0)) {
-							postfix.push(operatorStack.pop());
-						}
-						postfix.push(operator);
+						pushOperator(operator);
 						
 						probableZeroFunction = false;
 						probableUnary = false;
 					}
 					else {
-						while (!operatorStack.isEmpty() &&
-								(operatorStack.peek() instanceof Operator &&
-										operator.compareTo((Operator<T>) operatorStack.peek()) > 0)) {
-							postfix.push(operatorStack.pop());
-						}
-						operatorStack.push(operator);
+						pushOperator(operator);
 						
 						probableZeroFunction = false;
 						probableUnary = true;
@@ -385,11 +375,11 @@ public abstract class ExpressionParser<T> {
 					if (lastToken instanceof Operator) {
 						Operator<T> operator = (Operator<T>) lastToken;
 						if (operator.operatorType == OperatorType.SUFFIX) {
-							operatorStack.push(operators.get(Operator.IMPLICIT_MULTIPLICATION));
+							pushOperator(operators.get(Operator.IMPLICIT_MULTIPLICATION));
 						}
 					}
 					else if (lastToken == closeBracket || lastToken instanceof Operand || lastToken instanceof Variable) {
-						operatorStack.push(operators.get(Operator.IMPLICIT_MULTIPLICATION));
+						pushOperator(operators.get(Operator.IMPLICIT_MULTIPLICATION));
 					}
 					
 					String number = matcher.group();
@@ -412,11 +402,11 @@ public abstract class ExpressionParser<T> {
 				if (lastToken instanceof Operator) {
 					Operator<T> operator = (Operator<T>) lastToken;
 					if (operator.operatorType == OperatorType.SUFFIX) {
-						operatorStack.push(operators.get(Operator.IMPLICIT_MULTIPLICATION));
+						pushOperator(operators.get(Operator.IMPLICIT_MULTIPLICATION));
 					}
 				}
 				else if (lastToken == closeBracket || lastToken instanceof Operand || lastToken instanceof Variable) {
-					operatorStack.push(operators.get(Operator.IMPLICIT_MULTIPLICATION));
+					pushOperator(operators.get(Operator.IMPLICIT_MULTIPLICATION));
 				}
 				
 				String match = matcher.group();
@@ -452,6 +442,22 @@ public abstract class ExpressionParser<T> {
 				throw new Expr4jException("Unmatched number of parenthesis");
 			}
 			postfix.push(operatorStack.pop());
+		}
+	}
+
+	public void pushOperator(Operator<T> operator) {
+		if (operator.operatorType != OperatorType.PREFIX) {
+			while (!operatorStack.isEmpty() &&
+					(operatorStack.peek() instanceof Operator &&
+							operator.compareTo((Operator<T>) operatorStack.peek()) > 0)) {
+				postfix.push(operatorStack.pop());
+			}
+		}
+		if (operator.operatorType == OperatorType.SUFFIX) {
+			postfix.push(operator);
+		}
+		else {
+			operatorStack.push(operator);
 		}
 	}
 	

@@ -719,4 +719,60 @@ public class BigDecimalAssertionTest {
 		Assert.assertEquals(expectedString, actualString);
 	}
 
+	@Test
+	public void test41() {
+		BigDecimal expected = new BigDecimal(-30);
+		String expectedString = "-5 * 6";
+
+		Expression<BigDecimal> expression = parser.parse("-5 6");
+
+		BigDecimal actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test42() {
+		BigDecimal expected = new BigDecimal(-30);
+		String expectedString = "-5 * 6";
+
+		Expression<BigDecimal> expression = parser.parse("-5 * 6");
+
+		BigDecimal actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test43() {
+		BigDecimal expected = new BigDecimal(-30);
+		String expectedString = "-(5 * 6)";
+
+		Expression<BigDecimal> expression = parser.parse("-(5 6)");
+
+		BigDecimal actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test44() {
+		BigDecimal expected = new BigDecimal(-30);
+		String expectedString = "-(5 * 6)";
+
+		Expression<BigDecimal> expression = parser.parse("-(5 * 6)");
+
+		BigDecimal actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
 }

@@ -231,6 +231,24 @@ public class Expression<T> {
 				if (node.children.get(0).token instanceof Operand && node.children.get(1).token instanceof Operand) {
 					label = " * ";
 				}
+				else if (node.children.get(0).token instanceof Operand && node.children.get(1).token instanceof Operator) {
+					Operator<T> childOperator = (Operator<T>) node.children.get(1).token;
+					if (childOperator.label.equals(Operator.UNARY_PLUS) || childOperator.label.equals(Operator.UNARY_MINUS)) {
+						label = " * ";
+					}
+					else {
+						label = " ";
+					}
+				}
+				else if (node.children.get(0).token instanceof Operator && node.children.get(1).token instanceof Operand) {
+					Operator<T> childOperator = (Operator<T>) node.children.get(0).token;
+					if (childOperator.label.equals(Operator.UNARY_PLUS) || childOperator.label.equals(Operator.UNARY_MINUS)) {
+						label = " * ";
+					}
+					else {
+						label = " ";
+					}
+				}
 				else label = " ";
 			}
 			else if (operandCount == 2) label = " " + operator.label + " ";
@@ -269,7 +287,18 @@ public class Expression<T> {
 			}
 			else {
 				if (operator.label.equals(Operator.UNARY_PLUS) || operator.label.equals(Operator.UNARY_MINUS)) {
-					return label + this.toString(node.children.get(0));
+					if (node.children.get(0).token instanceof Operator) {
+						Operator<T> childOperator = (Operator<T>) node.children.get(0).token;
+						if (childOperator.operatorType == OperatorType.PREFIX) {
+							return label + this.toString(node.children.get(0));
+						}
+						else {
+							return label + "(" + this.toString(node.children.get(0)) + ")";
+						}
+					}
+					else {
+						return label + this.toString(node.children.get(0));
+					}
 				}
 				else if (node.children.get(0).token instanceof Operator || node.children.get(0).token instanceof Function) {
 					if (operator.operatorType == OperatorType.PREFIX) {
