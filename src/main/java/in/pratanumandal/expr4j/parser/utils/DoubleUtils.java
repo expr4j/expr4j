@@ -2,6 +2,11 @@ package in.pratanumandal.expr4j.parser.utils;
 
 import in.pratanumandal.expr4j.exception.Expr4jException;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.util.List;
+import java.util.Objects;
+
 /**
  * The <code>DoubleUtils</code> class provides extra math functionality not available in java.lang.Math.
  *
@@ -55,6 +60,16 @@ public class DoubleUtils {
      */
     public static double log(double x, double y) {
         return Math.log(x) / Math.log(y);
+    }
+
+    /**
+     * Calculate average (mean) of a list of Double instances.
+     *
+     * @param list list of Double instances
+     * @return Average (mean) of the list of Double instances
+     */
+    public static Double average(List<Double> list) {
+        return list.stream().mapToDouble(d -> d).average().orElse(0.0);
     }
 
     /**

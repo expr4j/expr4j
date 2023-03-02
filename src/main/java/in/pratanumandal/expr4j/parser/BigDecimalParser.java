@@ -136,6 +136,7 @@ public class BigDecimalParser extends ExpressionParser<BigDecimal> {
 			new Function<>("min", (operands) -> operands.isEmpty() ? BigDecimal.ZERO : Collections.min(operands)),
 
 			new Function<>("mean", (operands) -> BigDecimalUtils.average(operands, mathContext)),
+			new Function<>("average", (operands) -> BigDecimalUtils.average(operands, mathContext)),
 
 			new Function<>("rand", 0, (operands) -> new BigDecimal(Math.random()))
 		));

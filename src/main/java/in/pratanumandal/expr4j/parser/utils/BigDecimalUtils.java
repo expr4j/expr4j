@@ -94,15 +94,15 @@ public class BigDecimalUtils {
     /**
      * Calculate average (mean) of a list of BigDecimal instances.
      *
-     * @param bigDecimals list of BigDecimal instances
+     * @param list list of BigDecimal instances
      * @param mathContext math context
      * @return Average (mean) of the list of BigDecimal instances
      */
-    public static BigDecimal average(List<BigDecimal> bigDecimals, MathContext mathContext) {
-        BigDecimal sum = bigDecimals.stream()
+    public static BigDecimal average(List<BigDecimal> list, MathContext mathContext) {
+        BigDecimal sum = list.stream()
                 .map(Objects::requireNonNull)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        return sum.divide(new BigDecimal(bigDecimals.size()), mathContext);
+        return sum.divide(new BigDecimal(list.size()), mathContext);
     }
 
     /**

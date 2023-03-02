@@ -93,7 +93,8 @@ public class DoubleParser extends ExpressionParser<Double> {
 			new Function<>("max", (operands) -> operands.isEmpty() ? 0.0 : Collections.max(operands)),
 			new Function<>("min", (operands) -> operands.isEmpty() ? 0.0 : Collections.min(operands)),
 			
-			new Function<>("mean", (operands) -> operands.stream().mapToDouble(d -> d).average().orElse(0.0)),
+			new Function<>("mean", (operands) -> DoubleUtils.average(operands)),
+			new Function<>("average", (operands) -> DoubleUtils.average(operands)),
 			
 			new Function<>("rand", 0, (operands) -> Math.random())
 		));
