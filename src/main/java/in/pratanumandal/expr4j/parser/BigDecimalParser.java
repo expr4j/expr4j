@@ -85,7 +85,7 @@ public class BigDecimalParser extends ExpressionParser<BigDecimal> {
 	}
 
 	/**
-	 * Initialize the operators, constants, and variables for operands of type BigDecimal.
+	 * Initialize the operators, functions, and constants for operands of type BigDecimal.
 	 */
 	protected void initialize() {
 		addExecutable(Arrays.asList(

@@ -43,7 +43,7 @@ public class DoubleParser extends ExpressionParser<Double> {
 	}
 	
 	/**
-	 * Initialize the operators, constants, and variables for operands of type Double.
+	 * Initialize the operators, functions, and constants for operands of type Double.
 	 */
 	protected void initialize() {
 		addExecutable(Arrays.asList(
