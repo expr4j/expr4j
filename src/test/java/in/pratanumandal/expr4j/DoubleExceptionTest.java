@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Pratanu Mandal
+ * Copyright 2023 Pratanu Mandal
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,11 @@
 
 package in.pratanumandal.expr4j;
 
-import org.junit.Test;
-
 import in.pratanumandal.expr4j.exception.Expr4jException;
 import in.pratanumandal.expr4j.parser.DoubleParser;
+import org.junit.Test;
 
-public class DoubleNegativeTest {
+public class DoubleExceptionTest {
 	
 	protected DoubleParser parser = new DoubleParser();
 	

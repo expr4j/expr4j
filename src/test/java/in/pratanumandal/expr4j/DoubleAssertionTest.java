@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Pratanu Mandal
+ * Copyright 2023 Pratanu Mandal
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,22 +17,25 @@
 
 package in.pratanumandal.expr4j;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.junit.Assert;
-import org.junit.Test;
-
 import in.pratanumandal.expr4j.parser.DoubleParser;
 import in.pratanumandal.expr4j.token.Function;
 import in.pratanumandal.expr4j.token.Operator;
 import in.pratanumandal.expr4j.token.Operator.OperatorType;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class DoublePositiveTest {
+import java.util.HashMap;
+import java.util.Map;
+
+public class DoubleAssertionTest {
 	
 	public static double DELTA = 0.00000000001;
 	
 	protected DoubleParser parser = new DoubleParser();
+
+	private void assertEquals(double expected, double actual) {
+		Assert.assertEquals(expected, actual, DELTA);
+	}
 	
 	@Test
 	public void test1() {
@@ -44,7 +47,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
@@ -58,7 +61,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
@@ -72,7 +75,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
@@ -86,7 +89,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
@@ -100,7 +103,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
@@ -114,7 +117,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
@@ -128,7 +131,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
@@ -142,7 +145,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
@@ -156,7 +159,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
@@ -170,7 +173,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
@@ -184,7 +187,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
@@ -198,7 +201,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
@@ -212,7 +215,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
@@ -234,7 +237,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 		
 		parser.removeExecutable("avg");
@@ -258,7 +261,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 		
 		parser.removeExecutable("ee");
@@ -282,7 +285,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 		
 		parser.removeExecutable("esume");
@@ -306,7 +309,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 		
 		parser.removeExecutable("pisumpi");
@@ -330,7 +333,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 		
 		parser.removeExecutable("esumpi");
@@ -354,7 +357,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 		
 		parser.removeExecutable("uminusFunc");
@@ -378,7 +381,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 		
 		parser.removeExecutable("uplusFunc");
@@ -402,7 +405,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 		
 		parser.removeExecutable("Funcuminus");
@@ -426,7 +429,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 		
 		parser.removeExecutable("Funcuplus");
@@ -450,7 +453,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 		
 		parser.removeExecutable("uminusFuncuminus");
@@ -474,7 +477,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 		
 		parser.removeExecutable("uplusFuncuplus");
@@ -490,7 +493,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
@@ -504,7 +507,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
@@ -518,7 +521,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
@@ -535,7 +538,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate(variables);
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 
@@ -552,7 +555,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate(variables);
 		String actualString = expression.toString();
 
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
@@ -566,7 +569,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
@@ -580,7 +583,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
@@ -594,14 +597,14 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
 	@Test
 	public void test33() {
 		parser.addExecutable(new Operator<Double>("incr", OperatorType.SUFFIX, 5, (operands) -> {
-			return operands.get(0)+ 1;
+			return operands.get(0) + 1;
     	}));
 		
 		double expected = 121;
@@ -612,7 +615,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 		
 		parser.removeExecutable("incr");
@@ -628,7 +631,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
@@ -642,7 +645,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
@@ -656,7 +659,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
@@ -670,7 +673,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
@@ -684,7 +687,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
@@ -698,7 +701,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 	
@@ -712,7 +715,7 @@ public class DoublePositiveTest {
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
 
-		Assert.assertEquals(expected, actual, DELTA);
+		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 	}
 

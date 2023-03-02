@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Pratanu Mandal
+ * Copyright 2023 Pratanu Mandal
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,33 +17,18 @@
 
 package in.pratanumandal.expr4j.parser;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Stack;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.StringUtils;
-
 import in.pratanumandal.expr4j.Expression;
 import in.pratanumandal.expr4j.Expression.Node;
 import in.pratanumandal.expr4j.exception.Expr4jException;
-import in.pratanumandal.expr4j.token.Separator;
-import in.pratanumandal.expr4j.token.Executable;
-import in.pratanumandal.expr4j.token.Function;
-import in.pratanumandal.expr4j.token.Operand;
-import in.pratanumandal.expr4j.token.Operator;
+import in.pratanumandal.expr4j.token.*;
 import in.pratanumandal.expr4j.token.Operator.OperatorType;
-import in.pratanumandal.expr4j.token.Token;
-import in.pratanumandal.expr4j.token.Variable;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * The <code>ExpressionParser&lt;T&gt;</code> class provides a partial implementation to parse expressions independent of type of operand.<br>
@@ -90,14 +75,19 @@ public abstract class ExpressionParser<T> {
 	 * No-Argument Constructor.
 	 */
 	public ExpressionParser() {
+		this.reset();
+	}
+
+	/**
+	 * Reset the parser.
+	 */
+	public void reset() {
 		executables = new HashMap<>();
 		constants = new HashMap<>();
-		
+
 		this.addExecutableWithoutCheck(new Operator<T>(Operator.UNARY_PLUS, OperatorType.PREFIX, 1, (operands) -> unaryPlus(operands.get(0))));
 		this.addExecutableWithoutCheck(new Operator<T>(Operator.UNARY_MINUS, OperatorType.PREFIX, 1, (operands) -> unaryMinus(operands.get(0))));
 		this.addExecutableWithoutCheck(new Operator<T>(Operator.IMPLICIT_MULTIPLICATION, OperatorType.INFIX, 1, (operands) -> implicitMultiplication(operands.get(0), operands.get(1))));
-		
-		this.initialize();
 	}
 	
 	/**
@@ -719,12 +709,6 @@ public abstract class ExpressionParser<T> {
 	public T removeConstant(String label) {
 		return constants.remove(label);
 	}
-	
-	/**
-	 * Method called during construction of the parser.<br>
-	 * Initialize the operators, constants, and variables here.
-	 */
-	protected abstract void initialize();
 	
 	/**
 	 * Method to define operation of unary plus.

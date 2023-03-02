@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Pratanu Mandal
+ * Copyright 2023 Pratanu Mandal
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,8 +43,8 @@ public class Expr4jException extends RuntimeException {
 	 * 
 	 * @param message the detail message
 	 * @param cause the cause of the exception
-	 * @param enableSuppression whether or not suppression is enabled or disabled
-	 * @param writableStackTrace whether or not the stack trace should be writable
+	 * @param enableSuppression whether suppression is enabled or disabled
+	 * @param writableStackTrace whether the stack trace should be writable
 	 */
 	public Expr4jException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);

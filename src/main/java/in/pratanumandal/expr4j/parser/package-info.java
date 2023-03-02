@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Pratanu Mandal
+ * Copyright 2023 Pratanu Mandal
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
  */
 
 /**
- * The <code>in.pratanumandal.expr4j.impl</code> package contains all classes related to expression parsing.
+ * The <code>in.pratanumandal.expr4j.parser</code> package contains all classes related to expression parsing.
  * 
  * @author Pratanu Mandal
  * @since 1.0

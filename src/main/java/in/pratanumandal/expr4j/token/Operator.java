@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Pratanu Mandal
+ * Copyright 2023 Pratanu Mandal
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,9 +28,14 @@ import in.pratanumandal.expr4j.exception.Expr4jException;
  * @param <T> The type of operand
  */
 public class Operator<T> extends Executable<T> implements Comparable<Operator<T>> {
-	
+
+	/** Unary plus operator label */
 	public static final String UNARY_PLUS = "uplus";
+
+	/** Unary minus operator label */
 	public static final String UNARY_MINUS = "uminus";
+
+	/** Implicit multiplication operator label */
 	public static final String IMPLICIT_MULTIPLICATION = "imult";
 	
 	/**
@@ -91,13 +96,17 @@ public class Operator<T> extends Executable<T> implements Comparable<Operator<T>
 	 * @since 1.0
 	 *
 	 */
-	public static enum OperatorType {
+	public enum OperatorType {
+		/** Prefix operators */
 		PREFIX,
-		
+
+		/** Suffix operators */
 		SUFFIX,
-		
+
+		/** Infix operators (left to right) */
 		INFIX, 
-		
+
+		/** Infix operators (right to left) */
 		INFIX_RTL
 	}
 	
