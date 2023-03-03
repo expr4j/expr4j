@@ -26,7 +26,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 /**
- * The <code>DoubleParser</code> class provides an implementation to parse expressions for operands of type Double.<br>
+ * The <code>DoubleParser</code> class provides an implementation to parse expressions for operands of type {@link Double}.<br>
  * 
  * @author Pratanu Mandal
  * @since 1.0
@@ -43,7 +43,7 @@ public class DoubleParser extends ExpressionParser<Double> {
 	}
 	
 	/**
-	 * Initialize the operators, functions, and constants for operands of type Double.
+	 * Initialize the operators, functions, and constants.
 	 */
 	protected void initialize() {
 		addExecutable(Arrays.asList(

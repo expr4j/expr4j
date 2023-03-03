@@ -30,7 +30,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 /**
- * The <code>BigDecimalParser</code> class provides an implementation to parse expressions for operands of type BigDecimal.<br>
+ * The <code>BigDecimalParser</code> class provides an implementation to parse expressions for operands of type {@link BigDecimal}.<br>
  * 
  * @author Pratanu Mandal
  * @since 1.0
@@ -85,7 +85,7 @@ public class BigDecimalParser extends ExpressionParser<BigDecimal> {
 	}
 
 	/**
-	 * Initialize the operators, functions, and constants for operands of type BigDecimal.
+	 * Initialize the operators, functions, and constants.
 	 */
 	protected void initialize() {
 		addExecutable(Arrays.asList(
