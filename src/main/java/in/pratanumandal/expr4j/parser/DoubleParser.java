@@ -21,6 +21,7 @@ import in.pratanumandal.expr4j.parser.utils.DoubleUtils;
 import in.pratanumandal.expr4j.token.Function;
 import in.pratanumandal.expr4j.token.Operator;
 import in.pratanumandal.expr4j.token.Operator.OperatorType;
+import org.apache.commons.math3.complex.Complex;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -57,6 +58,8 @@ public class DoubleParser extends ExpressionParser<Double> {
 			new Operator<>("^", OperatorType.INFIX_RTL, 3, (operands) -> Math.pow(operands.get(0), operands.get(1))),
 			
 			new Operator<>("!", OperatorType.SUFFIX, 5, (operands) -> DoubleUtils.factorial(operands.get(0))),
+
+			new Operator<>("abs", OperatorType.PREFIX, 4, (operands) -> Math.abs(operands.get(0))),
 			
 			new Operator<>("sin", OperatorType.PREFIX, 4, (operands) -> Math.sin(operands.get(0))),
 			new Operator<>("cos", OperatorType.PREFIX, 4, (operands) -> Math.cos(operands.get(0))),

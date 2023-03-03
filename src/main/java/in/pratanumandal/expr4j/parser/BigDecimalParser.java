@@ -100,6 +100,8 @@ public class BigDecimalParser extends ExpressionParser<BigDecimal> {
 
 			new Operator<>("!", OperatorType.SUFFIX, 5, (operands) -> BigDecimalUtils.factorial(operands.get(0))),
 
+			new Operator<>("abs", OperatorType.PREFIX, 4, (operands) -> operands.get(0).abs(mathContext)),
+
 			new Operator<>("sin", OperatorType.PREFIX, 4, (operands) -> BigDecimalMath.sin(operands.get(0), mathContext)),
 			new Operator<>("cos", OperatorType.PREFIX, 4, (operands) -> BigDecimalMath.cos(operands.get(0), mathContext)),
 			new Operator<>("tan", OperatorType.PREFIX, 4, (operands) -> BigDecimalMath.tan(operands.get(0), mathContext)),

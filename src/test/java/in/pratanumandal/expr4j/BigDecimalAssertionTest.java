@@ -41,7 +41,7 @@ public class BigDecimalAssertionTest {
 	@Test
 	public void test1() {
 		BigDecimal expected = new BigDecimal(8.02981363726);
-		String expectedString = "5 + (3 / (cos(sin(-6)) ^ 0.25))";
+		String expectedString = "5 + 3 / cos(sin(-6)) ^ 0.25";
 
 		Expression<BigDecimal> expression = parser.parse("5+3/cos(sin(-6))^0.25");
 
@@ -139,7 +139,7 @@ public class BigDecimalAssertionTest {
 	@Test
 	public void test8() {
 		BigDecimal expected = new BigDecimal(-5.0);
-		String expectedString = "((2 + 3) * 4) - (5 ^ 2)";
+		String expectedString = "(2 + 3) * 4 - 5 ^ 2";
 
 		Expression<BigDecimal> expression = parser.parse("(2 + 3) * 4 - (5 ^ 2)");
 
@@ -167,7 +167,7 @@ public class BigDecimalAssertionTest {
 	@Test
 	public void test10() {
 		BigDecimal expected = new BigDecimal(0.54047630885);
-		String expectedString = "log(5 + (2 * 4), max(ln 10, 4))";
+		String expectedString = "log(5 + 2 * 4, max(ln 10, 4))";
 
 		Expression<BigDecimal> expression = parser.parse("log(5 + (2) * 4, max(ln(10), 4))");
 
@@ -181,7 +181,7 @@ public class BigDecimalAssertionTest {
 	@Test
 	public void test11() {
 		BigDecimal expected = new BigDecimal(1.85021985907);
-		String expectedString = "log(max(ln 10, 4), 5 + (2 * 4))";
+		String expectedString = "log(max(ln 10, 4), 5 + 2 * 4)";
 
 		Expression<BigDecimal> expression = parser.parse("log(max(ln(10), 4), 5 + (2) * 4)");
 
@@ -209,7 +209,7 @@ public class BigDecimalAssertionTest {
 	@Test
 	public void test13() {
 		BigDecimal expected = new BigDecimal(-3.0);
-		String expectedString = "2 + ((3 - 4) * 5)";
+		String expectedString = "2 + (3 - 4) * 5";
 
 		Expression<BigDecimal> expression = parser.parse("2 + (3 - 4) * 5");
 
@@ -231,7 +231,7 @@ public class BigDecimalAssertionTest {
     	}));
 
 		BigDecimal expected = new BigDecimal(12.7434874639);
-		String expectedString = "avg(2 + 3, (max(5, 2) * 6) + (1 + pi), cos 9)";
+		String expectedString = "avg(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
 
 		Expression<BigDecimal> expression = parser.parse("avg(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
 
@@ -255,7 +255,7 @@ public class BigDecimalAssertionTest {
     	}));
 
 		BigDecimal expected = new BigDecimal(12.7434874639);
-		String expectedString = "ee(2 + 3, (max(5, 2) * 6) + (1 + pi), cos 9)";
+		String expectedString = "ee(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
 
 		Expression<BigDecimal> expression = parser.parse("ee(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
 
@@ -279,7 +279,7 @@ public class BigDecimalAssertionTest {
     	}));
 
 		BigDecimal expected = new BigDecimal(12.7434874639);
-		String expectedString = "esume(2 + 3, (max(5, 2) * 6) + (1 + pi), cos 9)";
+		String expectedString = "esume(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
 
 		Expression<BigDecimal> expression = parser.parse("esume(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
 
@@ -302,8 +302,8 @@ public class BigDecimalAssertionTest {
 			return sum.divide(new BigDecimal(operands.size()), parser.getMathContext());
     	}));
 
-		BigDecimal expected = new BigDecimal(12.7434874639);;
-		String expectedString = "pisumpi(2 + 3, (max(5, 2) * 6) + (1 + pi), cos 9)";
+		BigDecimal expected = new BigDecimal(12.7434874639);
+		String expectedString = "pisumpi(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
 
 		Expression<BigDecimal> expression = parser.parse("pisumpi(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
 
@@ -327,7 +327,7 @@ public class BigDecimalAssertionTest {
     	}));
 
 		BigDecimal expected = new BigDecimal(12.7434874639);
-		String expectedString = "esumpi(2 + 3, (max(5, 2) * 6) + (1 + pi), cos 9)";
+		String expectedString = "esumpi(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
 
 		Expression<BigDecimal> expression = parser.parse("esumpi(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
 
@@ -350,7 +350,7 @@ public class BigDecimalAssertionTest {
     	}));
 
 		BigDecimal expected = new BigDecimal(12.7434874639);
-		String expectedString = "uminusFunc(2 + 3, (max(5, 2) * 6) + (1 + pi), cos 9)";
+		String expectedString = "uminusFunc(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
 
 		Expression<BigDecimal> expression = parser.parse("uminusFunc(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
 
@@ -374,7 +374,7 @@ public class BigDecimalAssertionTest {
     	}));
 
 		BigDecimal expected = new BigDecimal(12.7434874639);
-		String expectedString = "uplusFunc(2 + 3, (max(5, 2) * 6) + (1 + pi), cos 9)";
+		String expectedString = "uplusFunc(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
 
 		Expression<BigDecimal> expression = parser.parse("uplusFunc(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
 
@@ -398,7 +398,7 @@ public class BigDecimalAssertionTest {
     	}));
 
 		BigDecimal expected = new BigDecimal(12.7434874639);
-		String expectedString = "Funcuminus(2 + 3, (max(5, 2) * 6) + (1 + pi), cos 9)";
+		String expectedString = "Funcuminus(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
 
 		Expression<BigDecimal> expression = parser.parse("Funcuminus(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
 
@@ -422,7 +422,7 @@ public class BigDecimalAssertionTest {
     	}));
 
 		BigDecimal expected = new BigDecimal(12.7434874639);
-		String expectedString = "Funcuplus(2 + 3, (max(5, 2) * 6) + (1 + pi), cos 9)";
+		String expectedString = "Funcuplus(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
 
 		Expression<BigDecimal> expression = parser.parse("Funcuplus(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
 
@@ -446,7 +446,7 @@ public class BigDecimalAssertionTest {
     	}));
 
 		BigDecimal expected = new BigDecimal(12.7434874639);
-		String expectedString = "uminusFuncuminus(2 + 3, (max(5, 2) * 6) + (1 + pi), cos 9)";
+		String expectedString = "uminusFuncuminus(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
 
 		Expression<BigDecimal> expression = parser.parse("uminusFuncuminus(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
 
@@ -470,7 +470,7 @@ public class BigDecimalAssertionTest {
     	}));
 
 		BigDecimal expected = new BigDecimal(12.7434874639);
-		String expectedString = "uplusFuncuplus(2 + 3, (max(5, 2) * 6) + (1 + pi), cos 9)";
+		String expectedString = "uplusFuncuplus(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
 
 		Expression<BigDecimal> expression = parser.parse("uplusFuncuplus(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
 
@@ -694,7 +694,7 @@ public class BigDecimalAssertionTest {
 	@Test
 	public void test39() {
 		BigDecimal expected = new BigDecimal(99000);
-		String expectedString = "(10 ^ 5) - (10 ^ 3)";
+		String expectedString = "10 ^ 5 - 10 ^ 3";
 
 		Expression<BigDecimal> expression = parser.parse("10 ^ 5 - 10 ^ 3");
 
@@ -708,7 +708,7 @@ public class BigDecimalAssertionTest {
 	@Test
 	public void test40() {
 		BigDecimal expected = new BigDecimal(99999.999);
-		String expectedString = "(10 ^ 5) - (10 ^ -3)";
+		String expectedString = "10 ^ 5 - 10 ^ -3";
 
 		Expression<BigDecimal> expression = parser.parse("10 ^ 5 - 10 ^ -3");
 
@@ -767,6 +767,34 @@ public class BigDecimalAssertionTest {
 		String expectedString = "-(5 * 6)";
 
 		Expression<BigDecimal> expression = parser.parse("-(5 * 6)");
+
+		BigDecimal actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test45() {
+		BigDecimal expected = new BigDecimal(30);
+		String expectedString = "abs(-(5 * 6))";
+
+		Expression<BigDecimal> expression = parser.parse("abs -(5 * 6)");
+
+		BigDecimal actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test46() {
+		BigDecimal expected = new BigDecimal(15);
+		String expectedString = "1 + 2 + 3 + 4 + 5";
+
+		Expression<BigDecimal> expression = parser.parse("1 + 2 + 3 + 4 + 5");
 
 		BigDecimal actual = expression.evaluate();
 		String actualString = expression.toString();

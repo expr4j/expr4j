@@ -266,7 +266,8 @@ public class Expression<T> {
 				if (left.token instanceof Operator) {
 					Operator<T> leftOperator = (Operator<T>) left.token;
 					if (leftOperator.label != Operator.IMPLICIT_MULTIPLICATION &&
-							(leftOperator.operatorType == OperatorType.INFIX || leftOperator.operatorType == OperatorType.INFIX_RTL)) {
+							(leftOperator.operatorType == OperatorType.INFIX || leftOperator.operatorType == OperatorType.INFIX_RTL) &&
+							operator.compareTo(leftOperator) < 0) {
 						sb.append("(");
 						sb.append(this.toString(left));
 						sb.append(")");
@@ -284,7 +285,8 @@ public class Expression<T> {
 				if (right.token instanceof Operator) {
 					Operator<T> rightOperator = (Operator<T>) right.token;
 					if (rightOperator.label != Operator.IMPLICIT_MULTIPLICATION &&
-							(rightOperator.operatorType == OperatorType.INFIX || rightOperator.operatorType == OperatorType.INFIX_RTL)) {
+							(rightOperator.operatorType == OperatorType.INFIX || rightOperator.operatorType == OperatorType.INFIX_RTL) &&
+							operator.compareTo(rightOperator) < 0) {
 						sb.append("(");
 						sb.append(this.toString(right));
 						sb.append(")");

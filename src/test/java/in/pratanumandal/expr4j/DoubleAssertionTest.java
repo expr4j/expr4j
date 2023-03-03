@@ -40,7 +40,7 @@ public class DoubleAssertionTest {
 	@Test
 	public void test1() {
 		double expected = 8.02981363726;
-		String expectedString = "5 + (3 / (cos(sin(-6)) ^ 0.25))";
+		String expectedString = "5 + 3 / cos(sin(-6)) ^ 0.25";
 		
 		Expression<Double> expression = parser.parse("5+3/cos(sin(-6))^0.25");
 		
@@ -138,7 +138,7 @@ public class DoubleAssertionTest {
 	@Test
 	public void test8() {
 		double expected = -5.0;
-		String expectedString = "((2 + 3) * 4) - (5 ^ 2)";
+		String expectedString = "(2 + 3) * 4 - 5 ^ 2";
 		
 		Expression<Double> expression = parser.parse("(2 + 3) * 4 - (5 ^ 2)");
 		
@@ -166,7 +166,7 @@ public class DoubleAssertionTest {
 	@Test
 	public void test10() {
 		double expected = 0.54047630885;
-		String expectedString = "log(5 + (2 * 4), max(ln 10, 4))";
+		String expectedString = "log(5 + 2 * 4, max(ln 10, 4))";
 		
 		Expression<Double> expression = parser.parse("log(5 + (2) * 4, max(ln(10), 4))");
 		
@@ -180,7 +180,7 @@ public class DoubleAssertionTest {
 	@Test
 	public void test11() {
 		double expected = 1.85021985907;
-		String expectedString = "log(max(ln 10, 4), 5 + (2 * 4))";
+		String expectedString = "log(max(ln 10, 4), 5 + 2 * 4)";
 		
 		Expression<Double> expression = parser.parse("log(max(ln(10), 4), 5 + (2) * 4)");
 		
@@ -208,7 +208,7 @@ public class DoubleAssertionTest {
 	@Test
 	public void test13() {
 		double expected = -3.0;
-		String expectedString = "2 + ((3 - 4) * 5)";
+		String expectedString = "2 + (3 - 4) * 5";
 		
 		Expression<Double> expression = parser.parse("2 + (3 - 4) * 5");
 		
@@ -230,7 +230,7 @@ public class DoubleAssertionTest {
     	}));
 		
 		double expected = 12.7434874639;
-		String expectedString = "avg(2 + 3, (max(5, 2) * 6) + (1 + pi), cos 9)";
+		String expectedString = "avg(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
 		
 		Expression<Double> expression = parser.parse("avg(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
 		
@@ -254,7 +254,7 @@ public class DoubleAssertionTest {
     	}));
 		
 		double expected = 12.7434874639;
-		String expectedString = "ee(2 + 3, (max(5, 2) * 6) + (1 + pi), cos 9)";
+		String expectedString = "ee(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
 		
 		Expression<Double> expression = parser.parse("ee(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
 		
@@ -278,7 +278,7 @@ public class DoubleAssertionTest {
     	}));
 		
 		double expected = 12.7434874639;
-		String expectedString = "esume(2 + 3, (max(5, 2) * 6) + (1 + pi), cos 9)";
+		String expectedString = "esume(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
 		
 		Expression<Double> expression = parser.parse("esume(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
 		
@@ -302,7 +302,7 @@ public class DoubleAssertionTest {
     	}));
 		
 		double expected = 12.7434874639;
-		String expectedString = "pisumpi(2 + 3, (max(5, 2) * 6) + (1 + pi), cos 9)";
+		String expectedString = "pisumpi(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
 		
 		Expression<Double> expression = parser.parse("pisumpi(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
 		
@@ -326,7 +326,7 @@ public class DoubleAssertionTest {
     	}));
 		
 		double expected = 12.7434874639;
-		String expectedString = "esumpi(2 + 3, (max(5, 2) * 6) + (1 + pi), cos 9)";
+		String expectedString = "esumpi(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
 		
 		Expression<Double> expression = parser.parse("esumpi(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
 		
@@ -350,7 +350,7 @@ public class DoubleAssertionTest {
     	}));
 		
 		double expected = 12.7434874639;
-		String expectedString = "uminusFunc(2 + 3, (max(5, 2) * 6) + (1 + pi), cos 9)";
+		String expectedString = "uminusFunc(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
 		
 		Expression<Double> expression = parser.parse("uminusFunc(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
 		
@@ -374,7 +374,7 @@ public class DoubleAssertionTest {
     	}));
 		
 		double expected = 12.7434874639;
-		String expectedString = "uplusFunc(2 + 3, (max(5, 2) * 6) + (1 + pi), cos 9)";
+		String expectedString = "uplusFunc(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
 		
 		Expression<Double> expression = parser.parse("uplusFunc(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
 		
@@ -398,7 +398,7 @@ public class DoubleAssertionTest {
     	}));
 		
 		double expected = 12.7434874639;
-		String expectedString = "Funcuminus(2 + 3, (max(5, 2) * 6) + (1 + pi), cos 9)";
+		String expectedString = "Funcuminus(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
 		
 		Expression<Double> expression = parser.parse("Funcuminus(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
 		
@@ -422,7 +422,7 @@ public class DoubleAssertionTest {
     	}));
 		
 		double expected = 12.7434874639;
-		String expectedString = "Funcuplus(2 + 3, (max(5, 2) * 6) + (1 + pi), cos 9)";
+		String expectedString = "Funcuplus(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
 		
 		Expression<Double> expression = parser.parse("Funcuplus(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
 		
@@ -446,7 +446,7 @@ public class DoubleAssertionTest {
     	}));
 		
 		double expected = 12.7434874639;
-		String expectedString = "uminusFuncuminus(2 + 3, (max(5, 2) * 6) + (1 + pi), cos 9)";
+		String expectedString = "uminusFuncuminus(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
 		
 		Expression<Double> expression = parser.parse("uminusFuncuminus(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
 		
@@ -470,7 +470,7 @@ public class DoubleAssertionTest {
     	}));
 		
 		double expected = 12.7434874639;
-		String expectedString = "uplusFuncuplus(2 + 3, (max(5, 2) * 6) + (1 + pi), cos 9)";
+		String expectedString = "uplusFuncuplus(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
 		
 		Expression<Double> expression = parser.parse("uplusFuncuplus(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
 		
@@ -694,7 +694,7 @@ public class DoubleAssertionTest {
 	@Test
 	public void test39() {
 		double expected = 99000;
-		String expectedString = "(10 ^ 5) - (10 ^ 3)";
+		String expectedString = "10 ^ 5 - 10 ^ 3";
 		
 		Expression<Double> expression = parser.parse("10 ^ 5 - 10 ^ 3");
 		
@@ -708,7 +708,7 @@ public class DoubleAssertionTest {
 	@Test
 	public void test40() {
 		double expected = 99999.999;
-		String expectedString = "(10 ^ 5) - (10 ^ -3)";
+		String expectedString = "10 ^ 5 - 10 ^ -3";
 
 		Expression<Double> expression = parser.parse("10 ^ 5 - 10 ^ -3");
 
@@ -767,6 +767,34 @@ public class DoubleAssertionTest {
 		String expectedString = "-(5 * 6)";
 
 		Expression<Double> expression = parser.parse("-(5 * 6)");
+
+		double actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test45() {
+		double expected = 30;
+		String expectedString = "abs(-(5 * 6))";
+
+		Expression<Double> expression = parser.parse("abs -(5 * 6)");
+
+		double actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test46() {
+		double expected = 15;
+		String expectedString = "1 + 2 + 3 + 4 + 5";
+
+		Expression<Double> expression = parser.parse("1 + 2 + 3 + 4 + 5");
 
 		double actual = expression.evaluate();
 		String actualString = expression.toString();
