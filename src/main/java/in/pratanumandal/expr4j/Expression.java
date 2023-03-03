@@ -228,21 +228,24 @@ public class Expression<T> {
 			if (operator.label.equals(Operator.UNARY_PLUS)) label = "+";
 			else if (operator.label.equals(Operator.UNARY_MINUS)) label = "-";
 			else if (operator.label.equals(Operator.IMPLICIT_MULTIPLICATION)) {
-				if (node.children.get(0).token instanceof Operand && node.children.get(1).token instanceof Operand) {
+				Token left = node.children.get(0).token;
+				Token right = node.children.get(1).token;
+
+				if (left instanceof Operand && right instanceof Operand) {
 					label = " * ";
 				}
-				else if (node.children.get(0).token instanceof Operand && node.children.get(1).token instanceof Operator) {
-					Operator<T> childOperator = (Operator<T>) node.children.get(1).token;
-					if (childOperator.label.equals(Operator.UNARY_PLUS) || childOperator.label.equals(Operator.UNARY_MINUS)) {
+				else if (left instanceof Operand && right instanceof Operator) {
+					Operator<T> rightOperator = (Operator<T>) right;
+					if (rightOperator.label.equals(Operator.UNARY_PLUS) || rightOperator.label.equals(Operator.UNARY_MINUS)) {
 						label = " * ";
 					}
 					else {
 						label = " ";
 					}
 				}
-				else if (node.children.get(0).token instanceof Operator && node.children.get(1).token instanceof Operand) {
-					Operator<T> childOperator = (Operator<T>) node.children.get(0).token;
-					if (childOperator.label.equals(Operator.UNARY_PLUS) || childOperator.label.equals(Operator.UNARY_MINUS)) {
+				else if (left instanceof Operator && right instanceof Operand) {
+					Operator<T> leftOperator = (Operator<T>) left;
+					if (leftOperator.label.equals(Operator.UNARY_PLUS) || leftOperator.label.equals(Operator.UNARY_MINUS)) {
 						label = " * ";
 					}
 					else {
@@ -257,63 +260,75 @@ public class Expression<T> {
 			if (operandCount == 2) {
 				StringBuilder sb = new StringBuilder();
 				
-				Token left = node.children.get(0).token;
-				if (left instanceof Operator &&
-						(((Operator<T>) left).operatorType == OperatorType.INFIX ||
-						((Operator<T>) left).operatorType == OperatorType.INFIX_RTL)) {
-					sb.append("(");
-					sb.append(this.toString(node.children.get(0)));
-					sb.append(")");
+				Node left = node.children.get(0);
+				Node right = node.children.get(1);
+
+				if (left.token instanceof Operator) {
+					Operator<T> leftOperator = (Operator<T>) left.token;
+					if (leftOperator.label != Operator.IMPLICIT_MULTIPLICATION &&
+							(leftOperator.operatorType == OperatorType.INFIX || leftOperator.operatorType == OperatorType.INFIX_RTL)) {
+						sb.append("(");
+						sb.append(this.toString(left));
+						sb.append(")");
+					}
+					else {
+						sb.append(this.toString(left));
+					}
 				}
 				else {
-					sb.append(this.toString(node.children.get(0)));
+					sb.append(this.toString(left));
 				}
 				
 				sb.append(label);
-				
-				Token right = node.children.get(1).token;
-				if (right instanceof Operator &&
-						(((Operator<T>) right).operatorType == OperatorType.INFIX ||
-						((Operator<T>) right).operatorType == OperatorType.INFIX_RTL)) {
-					sb.append("(");
-					sb.append(this.toString(node.children.get(1)));
-					sb.append(")");
+
+				if (right.token instanceof Operator) {
+					Operator<T> rightOperator = (Operator<T>) right.token;
+					if (rightOperator.label != Operator.IMPLICIT_MULTIPLICATION &&
+							(rightOperator.operatorType == OperatorType.INFIX || rightOperator.operatorType == OperatorType.INFIX_RTL)) {
+						sb.append("(");
+						sb.append(this.toString(right));
+						sb.append(")");
+					}
+					else {
+						sb.append(this.toString(right));
+					}
 				}
 				else {
-					sb.append(this.toString(node.children.get(1)));
+					sb.append(this.toString(right));
 				}
 				
 				return sb.toString();
 			}
 			else {
+				Node child = node.children.get(0);
 				if (operator.label.equals(Operator.UNARY_PLUS) || operator.label.equals(Operator.UNARY_MINUS)) {
-					if (node.children.get(0).token instanceof Operator) {
-						Operator<T> childOperator = (Operator<T>) node.children.get(0).token;
+					if (child.token instanceof Operator) {
+						Operator<T> childOperator = (Operator<T>) child.token;
 						if (childOperator.operatorType == OperatorType.PREFIX) {
-							return label + this.toString(node.children.get(0));
+							return label + this.toString(child);
 						}
 						else {
-							return label + "(" + this.toString(node.children.get(0)) + ")";
+							return label + "(" + this.toString(child) + ")";
 						}
 					}
 					else {
-						return label + this.toString(node.children.get(0));
+						return label + this.toString(child);
 					}
 				}
-				else if (node.children.get(0).token instanceof Operator || node.children.get(0).token instanceof Function) {
+				else if (child.token instanceof Operator || child.token instanceof Function) {
 					if (operator.operatorType == OperatorType.PREFIX) {
-						return label + "(" + this.toString(node.children.get(0)) + ")";
+						return label + "(" + this.toString(child) + ")";
 					}
 					else {
-						return "(" + this.toString(node.children.get(0)) + ") " + label;
+						return "(" + this.toString(child) + ") " + label;
 					}
 				}
 				else {
 					if (operator.operatorType == OperatorType.PREFIX) {
-						return label + " " + this.toString(node.children.get(0));
+						return label + " " + this.toString(child);
 					}
 					else {
-						return this.toString(node.children.get(0)) + " " + label;
+						return this.toString(child) + " " + label;
 					}
 				}
 			}
