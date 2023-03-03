@@ -27,9 +27,11 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * These are the utility functions to manipulate {@link BigDecimal}.
+ * The <code>BigDecimalUtils</code> class provides extra math functionality not available for {@link BigDecimal} class.
  *
  * @author Pratanu Mandal
+ * @since 1.0
+ *
  */
 public class BigDecimalUtils {
 
@@ -39,11 +41,11 @@ public class BigDecimalUtils {
     private BigDecimalUtils() {}
 
     /**
-     * Compare two BigDecimal instances with a specified precision.
+     * Compare two {@code BigDecimal} instances with a specified precision.
      *
-     * @param x first BigDecimal instance
-     * @param y second BigDecimal instance
-     * @param precision the precision
+     * @param x First {@code BigDecimal} instance
+     * @param y Second {@code BigDecimal} instance
+     * @param precision Precision
      * @return a negative integer, zero, or a positive integer as the first instance is less than, equal to, or greater than the second instance
      */
     public static int compare(BigDecimal x, BigDecimal y, int precision) {
@@ -54,11 +56,11 @@ public class BigDecimalUtils {
     }
 
     /**
-     * Check if two BigDecimal instances are equal with a specified precision.
+     * Check if two {@code BigDecimal} instances are equal with a specified precision.
      *
-     * @param x first BigDecimal instance
-     * @param y second BigDecimal instance
-     * @param precision the precision
+     * @param x First {@code BigDecimal} instance
+     * @param y Second {@code BigDecimal} instance
+     * @param precision Precision
      * @return True if both instances are equal, false otherwise
      */
     public static boolean equals(BigDecimal x, BigDecimal y, int precision) {
@@ -66,12 +68,22 @@ public class BigDecimalUtils {
     }
 
     /**
+     * Check if a {@code BigDecimal} instance is an integer.
+     *
+     * @param x The {@code BigDecimal} instance
+     * @return True if the instance is an integer, false otherwise
+     */
+    public static boolean isInteger(BigDecimal x) {
+        return x.stripTrailingZeros().scale() <= 0;
+    }
+
+    /**
      * Calculate the log of x to the base y.
      *
-     * @param x the operand
-     * @param y the base or radix
-     * @param mathContext math context
-     * @return log of x to the base y
+     * @param x The operand
+     * @param y The base or radix
+     * @param mathContext Math context
+     * @return Log of x to the base y
      */
     public static BigDecimal log(BigDecimal x, BigDecimal y, MathContext mathContext) {
         return BigDecimalMath.log(x, mathContext)
@@ -81,9 +93,9 @@ public class BigDecimalUtils {
     /**
      * Calculate the cube root of x.
      *
-     * @param x the operand
-     * @param mathContext math context
-     * @return cube root of x
+     * @param x The operand
+     * @param mathContext Math context
+     * @return Cube root of x
      */
     public static BigDecimal cbrt(BigDecimal x, MathContext mathContext) {
         return BigDecimalMath.pow(x,
@@ -92,11 +104,11 @@ public class BigDecimalUtils {
     }
 
     /**
-     * Calculate average (mean) of a list of BigDecimal instances.
+     * Calculate average (mean) of a list of operands.
      *
-     * @param list list of BigDecimal instances
-     * @param mathContext math context
-     * @return Average (mean) of the list of BigDecimal instances
+     * @param list List of operands
+     * @param mathContext Math context
+     * @return Average (mean) of the list of operands
      */
     public static BigDecimal average(List<BigDecimal> list, MathContext mathContext) {
         BigDecimal sum = list.stream()
@@ -108,8 +120,8 @@ public class BigDecimalUtils {
     /**
      * Calculate the factorial of an integer.
      *
-     * @param n the integer
-     * @return factorial of n
+     * @param n The integer
+     * @return Factorial of n
      */
     private static BigDecimal factorial(BigInteger n) {
         BigInteger factorial = BigInteger.ONE;
@@ -121,26 +133,16 @@ public class BigDecimalUtils {
     }
 
     /**
-     * Calculate the factorial.
+     * Calculate the factorial if it is an integer.
      *
-     * @param x the operand
-     * @return factorial of x
+     * @param x The operand
+     * @return Factorial of x
      */
     public static BigDecimal factorial(BigDecimal x) {
         if (x == null || x.compareTo(BigDecimal.ZERO) < 0 || !isInteger(x)) {
             throw new Expr4jException("Cannot calculate factorial of " + x);
         }
         return factorial(x.toBigInteger());
-    }
-
-    /**
-     * Check if a BigDecimal instance is an integer.
-     *
-     * @param x BigDecimal instance
-     * @return True if the instance is an integer, false otherwise
-     */
-    public static boolean isInteger(BigDecimal x) {
-        return x.stripTrailingZeros().scale() <= 0;
     }
 
 }

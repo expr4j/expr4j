@@ -21,7 +21,6 @@ import in.pratanumandal.expr4j.parser.utils.DoubleUtils;
 import in.pratanumandal.expr4j.token.Function;
 import in.pratanumandal.expr4j.token.Operator;
 import in.pratanumandal.expr4j.token.Operator.OperatorType;
-import org.apache.commons.math3.complex.Complex;
 
 import java.util.Arrays;
 import java.util.Collections;

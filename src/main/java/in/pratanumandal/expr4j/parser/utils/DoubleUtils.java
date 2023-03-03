@@ -2,13 +2,10 @@ package in.pratanumandal.expr4j.parser.utils;
 
 import in.pratanumandal.expr4j.exception.Expr4jException;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.List;
-import java.util.Objects;
 
 /**
- * The <code>DoubleUtils</code> class provides extra math functionality not available in java.lang.Math.
+ * The <code>DoubleUtils</code> class provides extra math functionality not available for {@link Double} class.
  *
  * @author Pratanu Mandal
  * @since 1.0
@@ -24,8 +21,8 @@ public class DoubleUtils {
     /**
      * Calculate the area hyperbolic sine.
      *
-     * @param x the operand
-     * @return area hyperbolic sine of x
+     * @param x The operand
+     * @return Area hyperbolic sine of x
      */
     public static double asinh(double x) {
         return Math.log(x + Math.sqrt(x * x + 1));
@@ -34,8 +31,8 @@ public class DoubleUtils {
     /**
      * Calculate the area hyperbolic cosine.
      *
-     * @param x the operand
-     * @return area hyperbolic cosine of x
+     * @param x The operand
+     * @return Area hyperbolic cosine of x
      */
     public static double acosh(double x) {
         return Math.log(x + Math.sqrt(x * x - 1));
@@ -44,8 +41,8 @@ public class DoubleUtils {
     /**
      * Calculate the area hyperbolic tangent.
      *
-     * @param x the operand
-     * @return area hyperbolic tangent of x
+     * @param x The operand
+     * @return Area hyperbolic tangent of x
      */
     public static double atanh(double x) {
         return 0.5 * Math.log((1 + x) / (1 - x));
@@ -54,19 +51,19 @@ public class DoubleUtils {
     /**
      * Calculate the log of x to the base y.
      *
-     * @param x the operand
-     * @param y the base or radix
-     * @return log of x to the base y
+     * @param x The operand
+     * @param y The base or radix
+     * @return Log of x to the base y
      */
     public static double log(double x, double y) {
         return Math.log(x) / Math.log(y);
     }
 
     /**
-     * Calculate average (mean) of a list of Double instances.
+     * Calculate average (mean) of a list of operands.
      *
-     * @param list list of Double instances
-     * @return Average (mean) of the list of Double instances
+     * @param list List of operands
+     * @return Average (mean) of the list of operands
      */
     public static Double average(List<Double> list) {
         return list.stream().mapToDouble(d -> d).average().orElse(0.0);
@@ -75,8 +72,8 @@ public class DoubleUtils {
     /**
      * Calculate the factorial of an integer.
      *
-     * @param n the integer
-     * @return factorial of n
+     * @param n The integer
+     * @return Factorial of n
      */
     private static double factorial(int n) {
         double factorial = 1.0;
@@ -87,10 +84,10 @@ public class DoubleUtils {
     }
 
     /**
-     * Calculate the factorial.
+     * Calculate the factorial if it is an integer.
      *
-     * @param x the operand
-     * @return factorial of x
+     * @param x The operand
+     * @return Factorial of x
      */
     public static double factorial(double x) {
         if (x < 0 || x != (int) x) {

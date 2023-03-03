@@ -445,6 +445,11 @@ public abstract class ExpressionParser<T> {
 		}
 	}
 
+	/**
+	 * Push operator to operator stack or postfix stack.
+	 *
+	 * @param operator The operator to push
+	 */
 	public void pushOperator(Operator<T> operator) {
 		if (operator.operatorType != OperatorType.PREFIX) {
 			while (!operatorStack.isEmpty() &&
