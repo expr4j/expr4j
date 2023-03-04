@@ -17,8 +17,8 @@
 
 package in.pratanumandal.expr4j;
 
-import in.pratanumandal.expr4j.impl.DoubleBuilder;
 import in.pratanumandal.expr4j.exception.Expr4jException;
+import in.pratanumandal.expr4j.impl.DoubleBuilder;
 import org.junit.Test;
 
 public class DoubleExceptionTest {

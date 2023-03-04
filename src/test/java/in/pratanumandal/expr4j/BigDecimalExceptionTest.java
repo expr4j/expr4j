@@ -17,8 +17,8 @@
 
 package in.pratanumandal.expr4j;
 
-import in.pratanumandal.expr4j.impl.BigDecimalBuilder;
 import in.pratanumandal.expr4j.exception.Expr4jException;
+import in.pratanumandal.expr4j.impl.BigDecimalBuilder;
 import org.junit.Test;
 
 import java.math.BigDecimal;
