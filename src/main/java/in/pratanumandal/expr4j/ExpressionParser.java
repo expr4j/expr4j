@@ -124,7 +124,7 @@ public class ExpressionParser<T> {
 				Function<T> function = (Function<T>) token;
 
 				Token nextToken = i != tokenList.size() - 1 ? tokenList.get(i + 1) : null;
-				throwIfOpenBracket(nextToken, function);
+				throwIfNoOpenBracket(nextToken, function);
 
 				i++;
 
@@ -301,7 +301,7 @@ public class ExpressionParser<T> {
 	 * @param token The token
 	 * @param function The function
 	 */
-	private void throwIfOpenBracket(Token token, Function function) {
+	private void throwIfNoOpenBracket(Token token, Function function) {
 		if (token instanceof Separator) {
 			Separator separator = (Separator) token;
 			if (!separator.label.equals("(")) {
