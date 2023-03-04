@@ -16,10 +16,10 @@
  */
 
 /**
- * The <code>in.pratanumandal.expr4j.parser.utils</code> package contains all utility classes related to parsing.
+ * The <code>in.pratanumandal.expr4j.impl</code> package contains implementation classes related to expression building.
  * 
  * @author Pratanu Mandal
  * @since 1.0
  *
  */
-package in.pratanumandal.expr4j.parser.utils;
+package in.pratanumandal.expr4j.impl;

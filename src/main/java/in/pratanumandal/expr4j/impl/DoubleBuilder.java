@@ -15,9 +15,10 @@
  * 
  */
 
-package in.pratanumandal.expr4j.parser;
+package in.pratanumandal.expr4j.impl;
 
-import in.pratanumandal.expr4j.parser.utils.DoubleUtils;
+import in.pratanumandal.expr4j.ExpressionBuilder;
+import in.pratanumandal.expr4j.impl.utils.DoubleUtils;
 import in.pratanumandal.expr4j.token.Function;
 import in.pratanumandal.expr4j.token.Operator;
 import in.pratanumandal.expr4j.token.Operator.OperatorType;
@@ -26,18 +27,18 @@ import java.util.Arrays;
 import java.util.Collections;
 
 /**
- * The <code>DoubleParser</code> class provides an implementation to parse expressions for operands of type {@link Double}.<br>
+ * The <code>DoubleBuilder</code> class provides an implementation to parse expressions for operands of type {@link Double}.<br>
  * 
  * @author Pratanu Mandal
  * @since 1.0
  *
  */
-public class DoubleParser extends ExpressionParser<Double> {
+public class DoubleBuilder extends ExpressionBuilder<Double> {
 
 	/**
 	 * No-Argument Constructor.
 	 */
-	public DoubleParser() {
+	public DoubleBuilder() {
 		super();
 		this.initialize();
 	}

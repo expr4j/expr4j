@@ -39,5 +39,10 @@ public class Separator implements Token {
 	public Separator(String label) {
 		this.label = label;
 	}
-	
+
+	@Override
+	public String toString() {
+		return label;
+	}
+
 }

@@ -17,121 +17,121 @@
 
 package in.pratanumandal.expr4j;
 
+import in.pratanumandal.expr4j.impl.BigDecimalBuilder;
 import in.pratanumandal.expr4j.exception.Expr4jException;
-import in.pratanumandal.expr4j.parser.BigDecimalParser;
 import org.junit.Test;
 
 import java.math.BigDecimal;
 
 public class BigDecimalExceptionTest {
 	
-	protected BigDecimalParser parser = new BigDecimalParser();
+	protected BigDecimalBuilder builder = new BigDecimalBuilder();
 	
 	@Test(expected = Expr4jException.class)
 	public void test1() {
-		Expression<BigDecimal> expression = parser.parse("");
+		Expression<BigDecimal> expression = builder.build("");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test2() {
-		Expression<BigDecimal> expression = parser.parse("()");
+		Expression<BigDecimal> expression = builder.build("()");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test3() {
-		Expression<BigDecimal> expression = parser.parse("5 +() 6");
+		Expression<BigDecimal> expression = builder.build("5 +() 6");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test4() {
-		Expression<BigDecimal> expression = parser.parse("5() + 6");
+		Expression<BigDecimal> expression = builder.build("5() + 6");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test5() {
-		Expression<BigDecimal> expression = parser.parse("5 (+) 6");
+		Expression<BigDecimal> expression = builder.build("5 (+) 6");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test6() {
-		Expression<BigDecimal> expression = parser.parse("5 (+) 6");
+		Expression<BigDecimal> expression = builder.build("5 (+) 6");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test7() {
-		Expression<BigDecimal> expression = parser.parse("5 6 +");
+		Expression<BigDecimal> expression = builder.build("5 6 +");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test8() {
-		Expression<BigDecimal> expression = parser.parse("5 x +");
+		Expression<BigDecimal> expression = builder.build("5 x +");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test9() {
-		Expression<BigDecimal> expression = parser.parse("+ 5 x");
+		Expression<BigDecimal> expression = builder.build("+ 5 x");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test10() {
-		Expression<BigDecimal> expression = parser.parse("5 + x");
+		Expression<BigDecimal> expression = builder.build("5 + x");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test11() {
-		Expression<BigDecimal> expression = parser.parse("6 sin 5 *");
+		Expression<BigDecimal> expression = builder.build("6 sin 5 *");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test12() {
-		Expression<BigDecimal> expression = parser.parse("6 + * 5");
+		Expression<BigDecimal> expression = builder.build("6 + * 5");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test13() {
-		Expression<BigDecimal> expression = parser.parse("5 max(6 *)");
+		Expression<BigDecimal> expression = builder.build("5 max(6 *)");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test14() {
-		Expression<BigDecimal> expression = parser.parse("5 deg max(5) +");
+		Expression<BigDecimal> expression = builder.build("5 deg max(5) +");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test15() {
-		Expression<BigDecimal> expression = parser.parse("(5 *) max(5) +");
+		Expression<BigDecimal> expression = builder.build("(5 *) max(5) +");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test16() {
-		Expression<BigDecimal> expression = parser.parse("(5,5)");
+		Expression<BigDecimal> expression = builder.build("(5,5)");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test17() {
-		Expression<BigDecimal> expression = parser.parse("(2 + (3)");
+		Expression<BigDecimal> expression = builder.build("(2 + (3)");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test18() {
-		Expression<BigDecimal> expression = parser.parse("(2 + 3))");
+		Expression<BigDecimal> expression = builder.build("(2 + 3))");
 		expression.evaluate();
 	}
 

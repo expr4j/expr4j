@@ -15,10 +15,11 @@
  * 
  */
 
-package in.pratanumandal.expr4j.parser;
+package in.pratanumandal.expr4j.impl;
 
 import ch.obermuhlner.math.big.BigDecimalMath;
-import in.pratanumandal.expr4j.parser.utils.BigDecimalUtils;
+import in.pratanumandal.expr4j.ExpressionBuilder;
+import in.pratanumandal.expr4j.impl.utils.BigDecimalUtils;
 import in.pratanumandal.expr4j.token.Function;
 import in.pratanumandal.expr4j.token.Operator;
 import in.pratanumandal.expr4j.token.Operator.OperatorType;
@@ -30,13 +31,13 @@ import java.util.Arrays;
 import java.util.Collections;
 
 /**
- * The <code>BigDecimalParser</code> class provides an implementation to parse expressions for operands of type {@link BigDecimal}.<br>
+ * The <code>BigDecimalBuilder</code> class provides an implementation to parse expressions for operands of type {@link BigDecimal}.<br>
  * 
  * @author Pratanu Mandal
  * @since 1.0
  *
  */
-public class BigDecimalParser extends ExpressionParser<BigDecimal> {
+public class BigDecimalBuilder extends ExpressionBuilder<BigDecimal> {
 
 	/** Default precision */
 	public static final int DEFAULT_PRECISION = 20;
@@ -50,7 +51,7 @@ public class BigDecimalParser extends ExpressionParser<BigDecimal> {
 	/**
 	 * No-Argument Constructor.
 	 */
-	public BigDecimalParser() {
+	public BigDecimalBuilder() {
 		this(DEFAULT_PRECISION);
 	}
 
@@ -59,7 +60,7 @@ public class BigDecimalParser extends ExpressionParser<BigDecimal> {
 	 *
 	 * @param precision Precision
 	 */
-	public BigDecimalParser(int precision) {
+	public BigDecimalBuilder(int precision) {
 		this(precision, DEFAULT_ROUNDING_MODE);
 	}
 
@@ -69,7 +70,7 @@ public class BigDecimalParser extends ExpressionParser<BigDecimal> {
 	 * @param precision Precision
 	 * @param roundingMode Rounding mode
 	 */
-	public BigDecimalParser(int precision, RoundingMode roundingMode) {
+	public BigDecimalBuilder(int precision, RoundingMode roundingMode) {
 		this(new MathContext(precision, roundingMode));
 	}
 
@@ -78,7 +79,7 @@ public class BigDecimalParser extends ExpressionParser<BigDecimal> {
 	 *
 	 * @param mathContext Math context
 	 */
-	public BigDecimalParser(MathContext mathContext) {
+	public BigDecimalBuilder(MathContext mathContext) {
 		super();
 		this.mathContext = mathContext;
 		this.initialize();

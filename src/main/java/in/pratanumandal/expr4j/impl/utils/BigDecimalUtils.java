@@ -15,7 +15,7 @@
  *
  */
 
-package in.pratanumandal.expr4j.parser.utils;
+package in.pratanumandal.expr4j.impl.utils;
 
 import ch.obermuhlner.math.big.BigDecimalMath;
 import in.pratanumandal.expr4j.exception.Expr4jException;

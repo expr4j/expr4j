@@ -17,119 +17,119 @@
 
 package in.pratanumandal.expr4j;
 
+import in.pratanumandal.expr4j.impl.DoubleBuilder;
 import in.pratanumandal.expr4j.exception.Expr4jException;
-import in.pratanumandal.expr4j.parser.DoubleParser;
 import org.junit.Test;
 
 public class DoubleExceptionTest {
 	
-	protected DoubleParser parser = new DoubleParser();
+	protected DoubleBuilder builder = new DoubleBuilder();
 	
 	@Test(expected = Expr4jException.class)
 	public void test1() {
-		Expression<Double> expression = parser.parse("");
+		Expression<Double> expression = builder.build("");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test2() {
-		Expression<Double> expression = parser.parse("()");
+		Expression<Double> expression = builder.build("()");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test3() {
-		Expression<Double> expression = parser.parse("5 +() 6");
+		Expression<Double> expression = builder.build("5 +() 6");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test4() {
-		Expression<Double> expression = parser.parse("5() + 6");
+		Expression<Double> expression = builder.build("5() + 6");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test5() {
-		Expression<Double> expression = parser.parse("5 (+) 6");
+		Expression<Double> expression = builder.build("5 (+) 6");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test6() {
-		Expression<Double> expression = parser.parse("5 (+) 6");
+		Expression<Double> expression = builder.build("5 (+) 6");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test7() {
-		Expression<Double> expression = parser.parse("5 6 +");
+		Expression<Double> expression = builder.build("5 6 +");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test8() {
-		Expression<Double> expression = parser.parse("5 x +");
+		Expression<Double> expression = builder.build("5 x +");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test9() {
-		Expression<Double> expression = parser.parse("+ 5 x");
+		Expression<Double> expression = builder.build("+ 5 x");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test10() {
-		Expression<Double> expression = parser.parse("5 + x");
+		Expression<Double> expression = builder.build("5 + x");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test11() {
-		Expression<Double> expression = parser.parse("6 sin 5 *");
+		Expression<Double> expression = builder.build("6 sin 5 *");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test12() {
-		Expression<Double> expression = parser.parse("6 + * 5");
+		Expression<Double> expression = builder.build("6 + * 5");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test13() {
-		Expression<Double> expression = parser.parse("5 max(6 *)");
+		Expression<Double> expression = builder.build("5 max(6 *)");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test14() {
-		Expression<Double> expression = parser.parse("5 deg max(5) +");
+		Expression<Double> expression = builder.build("5 deg max(5) +");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test15() {
-		Expression<Double> expression = parser.parse("(5 *) max(5) +");
+		Expression<Double> expression = builder.build("(5 *) max(5) +");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test16() {
-		Expression<Double> expression = parser.parse("(5,5)");
+		Expression<Double> expression = builder.build("(5,5)");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test17() {
-		Expression<Double> expression = parser.parse("(2 + (3)");
+		Expression<Double> expression = builder.build("(2 + (3)");
 		expression.evaluate();
 	}
 	
 	@Test(expected = Expr4jException.class)
 	public void test18() {
-		Expression<Double> expression = parser.parse("(2 + 3))");
+		Expression<Double> expression = builder.build("(2 + 3))");
 		expression.evaluate();
 	}
 

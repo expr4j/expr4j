@@ -18,7 +18,7 @@
 package in.pratanumandal.expr4j.token;
 
 /**
- * The <code>Token</code> class represents any token in expressions.<br><br>
+ * The <code>Token</code> interface represents any token in expressions.<br><br>
  * A token is the smallest indivisible unit of any expression.<br>
  * Tokens can be operands, functions, operators, separators, variables, or constants.
  * 
@@ -27,5 +27,5 @@ package in.pratanumandal.expr4j.token;
  *
  */
 public interface Token {
-	
+
 }

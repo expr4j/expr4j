@@ -18,6 +18,7 @@
 package in.pratanumandal.expr4j.token;
 
 import in.pratanumandal.expr4j.exception.Expr4jException;
+import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  * The <code>Operator&lt;T&gt;</code> class represents operators in the expression.
@@ -30,13 +31,13 @@ import in.pratanumandal.expr4j.exception.Expr4jException;
 public class Operator<T> extends Executable<T> implements Comparable<Operator<T>> {
 
 	/** Unary plus operator label */
-	public static final String UNARY_PLUS = "uplus";
+	public static final String UNARY_PLUS = generateRandom();
 
 	/** Unary minus operator label */
-	public static final String UNARY_MINUS = "uminus";
+	public static final String UNARY_MINUS = generateRandom();
 
 	/** Implicit multiplication operator label */
-	public static final String IMPLICIT_MULTIPLICATION = "imult";
+	public static final String IMPLICIT_MULTIPLICATION = generateRandom();
 	
 	/**
 	 * The type of operator.
@@ -82,7 +83,11 @@ public class Operator<T> extends Executable<T> implements Comparable<Operator<T>
 	public String toString() {
 		return label;
 	}
-	
+
+	private static String generateRandom() {
+		return RandomStringUtils.random(100);
+	}
+
 	/**
 	 * The <code>OperatorType</code> enum represents the type of an operator.<br>
 	 * It can be of four types: PREFIX, SUFFIX, INFIX, and INFIX_RTL.<br><br>

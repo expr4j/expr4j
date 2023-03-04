@@ -29,7 +29,7 @@ import java.util.List;
  * @param <T> The type of operand
  */
 public abstract class Executable<T> implements Token {
-	
+
 	/**
 	 * Label of the executable.
 	 */
