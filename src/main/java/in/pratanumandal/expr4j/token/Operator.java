@@ -84,6 +84,11 @@ public class Operator<T> extends Executable<T> implements Comparable<Operator<T>
 		return label;
 	}
 
+	/**
+	 * Generate strings with random characters to be used as placeholders for predefined operators.
+	 *
+	 * @return Strings with random characters
+	 */
 	private static String generateRandom() {
 		return RandomStringUtils.random(100);
 	}
