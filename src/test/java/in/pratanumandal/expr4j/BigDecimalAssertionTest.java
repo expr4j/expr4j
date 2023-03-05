@@ -222,7 +222,7 @@ public class BigDecimalAssertionTest {
 
 	@Test
 	public void test14() {
-		builder.addExecutable(new Function<BigDecimal>("avg", (operands) -> {
+		builder.addExecutable(new Function<>("avg", (operands) -> {
     		BigDecimal sum = new BigDecimal(0);
     		for (BigDecimal operand : operands) {
     			sum = sum.add(operand);
@@ -246,7 +246,7 @@ public class BigDecimalAssertionTest {
 
 	@Test
 	public void test15() {
-		builder.addExecutable(new Function<BigDecimal>("ee", (operands) -> {
+		builder.addExecutable(new Function<>("ee", (operands) -> {
     		BigDecimal sum = new BigDecimal(0);
     		for (BigDecimal operand : operands) {
     			sum = sum.add(operand);
@@ -270,7 +270,7 @@ public class BigDecimalAssertionTest {
 
 	@Test
 	public void test16() {
-		builder.addExecutable(new Function<BigDecimal>("esume", (operands) -> {
+		builder.addExecutable(new Function<>("esume", (operands) -> {
     		BigDecimal sum = new BigDecimal(0);
     		for (BigDecimal operand : operands) {
 				sum = sum.add(operand);
@@ -294,7 +294,7 @@ public class BigDecimalAssertionTest {
 
 	@Test
 	public void test17() {
-		builder.addExecutable(new Function<BigDecimal>("pisumpi", (operands) -> {
+		builder.addExecutable(new Function<>("pisumpi", (operands) -> {
 			BigDecimal sum = new BigDecimal(0);
 			for (BigDecimal operand : operands) {
 				sum = sum.add(operand);
@@ -318,7 +318,7 @@ public class BigDecimalAssertionTest {
 
 	@Test
 	public void test18() {
-		builder.addExecutable(new Function<BigDecimal>("esumpi", (operands) -> {
+		builder.addExecutable(new Function<>("esumpi", (operands) -> {
 			BigDecimal sum = new BigDecimal(0);
 			for (BigDecimal operand : operands) {
 				sum = sum.add(operand);
@@ -342,7 +342,7 @@ public class BigDecimalAssertionTest {
 
 	@Test
 	public void test19() {
-		builder.addExecutable(new Function<BigDecimal>("uminusFunc", (operands) -> {			BigDecimal sum = new BigDecimal(0);
+		builder.addExecutable(new Function<>("uminusFunc", (operands) -> {			BigDecimal sum = new BigDecimal(0);
 			for (BigDecimal operand : operands) {
 				sum = sum.add(operand);
 			}
@@ -365,7 +365,7 @@ public class BigDecimalAssertionTest {
 
 	@Test
 	public void test20() {
-		builder.addExecutable(new Function<BigDecimal>("uplusFunc", (operands) -> {
+		builder.addExecutable(new Function<>("uplusFunc", (operands) -> {
 			BigDecimal sum = new BigDecimal(0);
 			for (BigDecimal operand : operands) {
 				sum = sum.add(operand);
@@ -389,7 +389,7 @@ public class BigDecimalAssertionTest {
 
 	@Test
 	public void test21() {
-		builder.addExecutable(new Function<BigDecimal>("Funcuminus", (operands) -> {
+		builder.addExecutable(new Function<>("Funcuminus", (operands) -> {
 			BigDecimal sum = new BigDecimal(0);
 			for (BigDecimal operand : operands) {
 				sum = sum.add(operand);
@@ -413,7 +413,7 @@ public class BigDecimalAssertionTest {
 
 	@Test
 	public void test22() {
-		builder.addExecutable(new Function<BigDecimal>("Funcuplus", (operands) -> {
+		builder.addExecutable(new Function<>("Funcuplus", (operands) -> {
 			BigDecimal sum = new BigDecimal(0);
 			for (BigDecimal operand : operands) {
 				sum = sum.add(operand);
@@ -437,7 +437,7 @@ public class BigDecimalAssertionTest {
 
 	@Test
 	public void test23() {
-		builder.addExecutable(new Function<BigDecimal>("uminusFuncuminus", (operands) -> {
+		builder.addExecutable(new Function<>("uminusFuncuminus", (operands) -> {
 			BigDecimal sum = new BigDecimal(0);
 			for (BigDecimal operand : operands) {
 				sum = sum.add(operand);
@@ -461,7 +461,7 @@ public class BigDecimalAssertionTest {
 
 	@Test
 	public void test24() {
-		builder.addExecutable(new Function<BigDecimal>("uplusFuncuplus", (operands) -> {
+		builder.addExecutable(new Function<>("uplusFuncuplus", (operands) -> {
     		BigDecimal sum = new BigDecimal(0);
     		for (BigDecimal operand : operands) {
     			sum = sum.add(operand);
@@ -603,9 +603,8 @@ public class BigDecimalAssertionTest {
 
 	@Test
 	public void test33() {
-		builder.addExecutable(new Operator<BigDecimal>("incr", Operator.OperatorType.SUFFIX, 5, (operands) -> {
-			return operands.get(0).add(BigDecimal.ONE);
-    	}));
+		builder.addExecutable(new Operator<>("incr", Operator.OperatorType.SUFFIX, 5,
+				(operands) -> operands.get(0).add(BigDecimal.ONE)));
 
 		BigDecimal expected = new BigDecimal(121);
 		String expectedString = "(5 !) incr";

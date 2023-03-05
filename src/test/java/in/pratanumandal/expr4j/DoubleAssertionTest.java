@@ -221,7 +221,7 @@ public class DoubleAssertionTest {
 	
 	@Test
 	public void test14() {
-		builder.addExecutable(new Function<Double>("avg", (operands) -> {
+		builder.addExecutable(new Function<>("avg", (operands) -> {
     		double sum = 0;
     		for (Double operand : operands) {
     			sum += operand;
@@ -245,7 +245,7 @@ public class DoubleAssertionTest {
 
 	@Test
 	public void test15() {
-		builder.addExecutable(new Function<Double>("ee", (operands) -> {
+		builder.addExecutable(new Function<>("ee", (operands) -> {
     		double sum = 0;
     		for (Double operand : operands) {
     			sum += operand;
@@ -269,7 +269,7 @@ public class DoubleAssertionTest {
 
 	@Test
 	public void test16() {
-		builder.addExecutable(new Function<Double>("esume", (operands) -> {
+		builder.addExecutable(new Function<>("esume", (operands) -> {
     		double sum = 0;
     		for (Double operand : operands) {
     			sum += operand;
@@ -293,7 +293,7 @@ public class DoubleAssertionTest {
 
 	@Test
 	public void test17() {
-		builder.addExecutable(new Function<Double>("pisumpi", (operands) -> {
+		builder.addExecutable(new Function<>("pisumpi", (operands) -> {
     		double sum = 0;
     		for (Double operand : operands) {
     			sum += operand;
@@ -317,7 +317,7 @@ public class DoubleAssertionTest {
 
 	@Test
 	public void test18() {
-		builder.addExecutable(new Function<Double>("esumpi", (operands) -> {
+		builder.addExecutable(new Function<>("esumpi", (operands) -> {
     		double sum = 0;
     		for (Double operand : operands) {
     			sum += operand;
@@ -341,7 +341,7 @@ public class DoubleAssertionTest {
 
 	@Test
 	public void test19() {
-		builder.addExecutable(new Function<Double>("uminusFunc", (operands) -> {
+		builder.addExecutable(new Function<>("uminusFunc", (operands) -> {
     		double sum = 0;
     		for (Double operand : operands) {
     			sum += operand;
@@ -365,7 +365,7 @@ public class DoubleAssertionTest {
 
 	@Test
 	public void test20() {
-		builder.addExecutable(new Function<Double>("uplusFunc", (operands) -> {
+		builder.addExecutable(new Function<>("uplusFunc", (operands) -> {
     		double sum = 0;
     		for (Double operand : operands) {
     			sum += operand;
@@ -389,7 +389,7 @@ public class DoubleAssertionTest {
 
 	@Test
 	public void test21() {
-		builder.addExecutable(new Function<Double>("Funcuminus", (operands) -> {
+		builder.addExecutable(new Function<>("Funcuminus", (operands) -> {
     		double sum = 0;
     		for (Double operand : operands) {
     			sum += operand;
@@ -413,7 +413,7 @@ public class DoubleAssertionTest {
 
 	@Test
 	public void test22() {
-		builder.addExecutable(new Function<Double>("Funcuplus", (operands) -> {
+		builder.addExecutable(new Function<>("Funcuplus", (operands) -> {
     		double sum = 0;
     		for (Double operand : operands) {
     			sum += operand;
@@ -437,7 +437,7 @@ public class DoubleAssertionTest {
 
 	@Test
 	public void test23() {
-		builder.addExecutable(new Function<Double>("uminusFuncuminus", (operands) -> {
+		builder.addExecutable(new Function<>("uminusFuncuminus", (operands) -> {
     		double sum = 0;
     		for (Double operand : operands) {
     			sum += operand;
@@ -461,7 +461,7 @@ public class DoubleAssertionTest {
 
 	@Test
 	public void test24() {
-		builder.addExecutable(new Function<Double>("uplusFuncuplus", (operands) -> {
+		builder.addExecutable(new Function<>("uplusFuncuplus", (operands) -> {
     		double sum = 0;
     		for (Double operand : operands) {
     			sum += operand;
@@ -603,9 +603,8 @@ public class DoubleAssertionTest {
 
 	@Test
 	public void test33() {
-		builder.addExecutable(new Operator<Double>("incr", OperatorType.SUFFIX, 5, (operands) -> {
-			return operands.get(0) + 1;
-    	}));
+		builder.addExecutable(new Operator<>("incr", OperatorType.SUFFIX, 5,
+				(operands) -> operands.get(0) + 1));
 
 		double expected = 121;
 		String expectedString = "(5 !) incr";
