@@ -31,13 +31,13 @@ import java.util.Arrays;
 import java.util.Collections;
 
 /**
- * The <code>BigDecimalBuilder</code> class provides an implementation to parse expressions for operands of type {@link BigDecimal}.<br>
+ * The <code>BigDecimalExpressionBuilder</code> class provides an implementation to parse expressions for operands of type {@link BigDecimal}.<br>
  * 
  * @author Pratanu Mandal
  * @since 1.0
  *
  */
-public class BigDecimalBuilder extends ExpressionBuilder<BigDecimal> {
+public class BigDecimalExpressionBuilder extends ExpressionBuilder<BigDecimal> {
 
 	/** Default precision */
 	public static final int DEFAULT_PRECISION = 20;
@@ -51,7 +51,7 @@ public class BigDecimalBuilder extends ExpressionBuilder<BigDecimal> {
 	/**
 	 * No-Argument Constructor.
 	 */
-	public BigDecimalBuilder() {
+	public BigDecimalExpressionBuilder() {
 		this(DEFAULT_PRECISION);
 	}
 
@@ -60,7 +60,7 @@ public class BigDecimalBuilder extends ExpressionBuilder<BigDecimal> {
 	 *
 	 * @param precision Precision
 	 */
-	public BigDecimalBuilder(int precision) {
+	public BigDecimalExpressionBuilder(int precision) {
 		this(precision, DEFAULT_ROUNDING_MODE);
 	}
 
@@ -70,7 +70,7 @@ public class BigDecimalBuilder extends ExpressionBuilder<BigDecimal> {
 	 * @param precision Precision
 	 * @param roundingMode Rounding mode
 	 */
-	public BigDecimalBuilder(int precision, RoundingMode roundingMode) {
+	public BigDecimalExpressionBuilder(int precision, RoundingMode roundingMode) {
 		this(new MathContext(precision, roundingMode));
 	}
 
@@ -79,7 +79,7 @@ public class BigDecimalBuilder extends ExpressionBuilder<BigDecimal> {
 	 *
 	 * @param mathContext Math context
 	 */
-	public BigDecimalBuilder(MathContext mathContext) {
+	public BigDecimalExpressionBuilder(MathContext mathContext) {
 		super();
 		this.mathContext = mathContext;
 		this.initialize();

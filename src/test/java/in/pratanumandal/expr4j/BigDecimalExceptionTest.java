@@ -18,14 +18,14 @@
 package in.pratanumandal.expr4j;
 
 import in.pratanumandal.expr4j.exception.Expr4jException;
-import in.pratanumandal.expr4j.impl.BigDecimalBuilder;
+import in.pratanumandal.expr4j.impl.BigDecimalExpressionBuilder;
 import org.junit.Test;
 
 import java.math.BigDecimal;
 
 public class BigDecimalExceptionTest {
 	
-	protected BigDecimalBuilder builder = new BigDecimalBuilder();
+	protected BigDecimalExpressionBuilder builder = new BigDecimalExpressionBuilder();
 	
 	@Test(expected = Expr4jException.class)
 	public void test1() {

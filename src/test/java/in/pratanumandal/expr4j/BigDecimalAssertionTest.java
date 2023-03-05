@@ -17,7 +17,7 @@
 
 package in.pratanumandal.expr4j;
 
-import in.pratanumandal.expr4j.impl.BigDecimalBuilder;
+import in.pratanumandal.expr4j.impl.BigDecimalExpressionBuilder;
 import in.pratanumandal.expr4j.impl.utils.BigDecimalUtils;
 import in.pratanumandal.expr4j.token.Function;
 import in.pratanumandal.expr4j.token.Operator;
@@ -32,7 +32,7 @@ public class BigDecimalAssertionTest {
 	
 	public static int PRECISION = 10;
 	
-	protected BigDecimalBuilder builder = new BigDecimalBuilder();
+	protected BigDecimalExpressionBuilder builder = new BigDecimalExpressionBuilder();
 
 	private void assertEquals(BigDecimal expected, BigDecimal actual) {
 		Assert.assertTrue(BigDecimalUtils.equals(expected, actual, PRECISION));

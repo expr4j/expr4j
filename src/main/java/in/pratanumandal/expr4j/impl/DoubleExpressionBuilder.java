@@ -27,18 +27,18 @@ import java.util.Arrays;
 import java.util.Collections;
 
 /**
- * The <code>DoubleBuilder</code> class provides an implementation to parse expressions for operands of type {@link Double}.<br>
+ * The <code>DoubleExpressionBuilder</code> class provides an implementation to parse expressions for operands of type {@link Double}.<br>
  * 
  * @author Pratanu Mandal
  * @since 1.0
  *
  */
-public class DoubleBuilder extends ExpressionBuilder<Double> {
+public class DoubleExpressionBuilder extends ExpressionBuilder<Double> {
 
 	/**
 	 * No-Argument Constructor.
 	 */
-	public DoubleBuilder() {
+	public DoubleExpressionBuilder() {
 		super();
 		this.initialize();
 	}

@@ -17,7 +17,7 @@
 
 package in.pratanumandal.expr4j;
 
-import in.pratanumandal.expr4j.impl.DoubleBuilder;
+import in.pratanumandal.expr4j.impl.DoubleExpressionBuilder;
 import in.pratanumandal.expr4j.token.Function;
 import in.pratanumandal.expr4j.token.Operator;
 import in.pratanumandal.expr4j.token.Operator.OperatorType;
@@ -31,7 +31,7 @@ public class DoubleAssertionTest {
 	
 	public static double DELTA = 0.00000000001;
 	
-	protected DoubleBuilder builder = new DoubleBuilder();
+	protected DoubleExpressionBuilder builder = new DoubleExpressionBuilder();
 
 	private void assertEquals(double expected, double actual) {
 		Assert.assertEquals(expected, actual, DELTA);

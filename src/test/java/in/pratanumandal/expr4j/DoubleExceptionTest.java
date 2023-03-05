@@ -18,12 +18,12 @@
 package in.pratanumandal.expr4j;
 
 import in.pratanumandal.expr4j.exception.Expr4jException;
-import in.pratanumandal.expr4j.impl.DoubleBuilder;
+import in.pratanumandal.expr4j.impl.DoubleExpressionBuilder;
 import org.junit.Test;
 
 public class DoubleExceptionTest {
 	
-	protected DoubleBuilder builder = new DoubleBuilder();
+	protected DoubleExpressionBuilder builder = new DoubleExpressionBuilder();
 	
 	@Test(expected = Expr4jException.class)
 	public void test1() {
