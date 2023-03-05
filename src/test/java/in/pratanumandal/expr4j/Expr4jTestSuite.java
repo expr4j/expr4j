@@ -26,6 +26,8 @@ import org.junit.runners.Suite;
 		DoubleExceptionTest.class,
 		BigDecimalAssertionTest.class,
 		BigDecimalExceptionTest.class,
+		ComplexAssertionTest.class,
+		ComplexExceptionTest.class,
 })
 public class Expr4jTestSuite {
 	
