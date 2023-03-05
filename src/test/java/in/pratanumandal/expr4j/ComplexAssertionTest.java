@@ -124,9 +124,9 @@ public class ComplexAssertionTest {
 	@Test
 	public void test7() {
 		Complex expected = new Complex(1.456060757276004, 0.554733341971647);
-		String expectedString = "log(3 + i, max(ln(i - 10), 2 + 4 i))";
+		String expectedString = "log(3 + i, min(5 + 3 i, 2 + 4 i))";
 
-		Expression<Complex> expression = builder.build("log(3 + i, max(ln (i - 10), 2 + 4 i))");
+		Expression<Complex> expression = builder.build("log(3 + i, min(5 + 3i, 2 + 4i))");
 
 		Complex actual = expression.evaluate();
 		String actualString = expression.toString();
@@ -138,9 +138,9 @@ public class ComplexAssertionTest {
 	@Test
 	public void test8() {
 		Complex expected = new Complex(1.456060757276004, 0.554733341971647);
-		String expectedString = "log(3 + i, max(ln(i - 10), 2 + 4 i))";
+		String expectedString = "log(3 + i, max(log10(i - 10), 2 + 4 i))";
 
-		Expression<Complex> expression = builder.build("log((3) + (i), max((ln (((i) - (10)))), (2 + 4 i)))");
+		Expression<Complex> expression = builder.build("log((3) + (i), max((log10 (((i) - (10)))), (2 + 4 i)))");
 
 		Complex actual = expression.evaluate();
 		String actualString = expression.toString();

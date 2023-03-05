@@ -167,9 +167,9 @@ public class BigDecimalAssertionTest {
 	@Test
 	public void test10() {
 		BigDecimal expected = new BigDecimal(0.54047630885);
-		String expectedString = "log(5 + 2 * 4, max(ln 10, 4))";
+		String expectedString = "log(5 + 2 * 4, max(log10 10, 4))";
 
-		Expression<BigDecimal> expression = builder.build("log(5 + (2) * 4, max(ln(10), 4))");
+		Expression<BigDecimal> expression = builder.build("log(5 + (2) * 4, max(log10(10), 4))");
 
 		BigDecimal actual = expression.evaluate();
 		String actualString = expression.toString();
@@ -231,9 +231,9 @@ public class BigDecimalAssertionTest {
     	}));
 
 		BigDecimal expected = new BigDecimal(12.7434874639);
-		String expectedString = "avg(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
+		String expectedString = "avg(2 + 3, min(5, 8) * 6 + 1 + pi, cos 9)";
 
-		Expression<BigDecimal> expression = builder.build("avg(2 + 3, max(5, 2) * 6 + (1 + pi), cos(9))");
+		Expression<BigDecimal> expression = builder.build("avg(2 + 3, min(5, 8) * 6 + (1 + pi), cos(9))");
 
 		BigDecimal actual = expression.evaluate();
 		String actualString = expression.toString();
