@@ -19,7 +19,6 @@ package in.pratanumandal.expr4j;
 
 import in.pratanumandal.expr4j.impl.ComplexExpressionBuilder;
 import in.pratanumandal.expr4j.token.Function;
-import in.pratanumandal.expr4j.token.Operator;
 import org.apache.commons.math3.complex.Complex;
 import org.junit.Assert;
 import org.junit.Test;

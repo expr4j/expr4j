@@ -224,7 +224,7 @@ public class Expression<T> {
 				throw new Expr4jException("Invalid expression");
 			}
 			
-			String label = null;
+			String label;
 			if (operator.label.equals(Operator.UNARY_PLUS)) label = "+";
 			else if (operator.label.equals(Operator.UNARY_MINUS)) label = "-";
 			else if (operator.label.equals(Operator.IMPLICIT_MULTIPLICATION)) {
