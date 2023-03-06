@@ -17,6 +17,8 @@
 
 package in.pratanumandal.expr4j.token;
 
+import in.pratanumandal.expr4j.exception.Expr4jException;
+
 /**
  * The <code>Separator</code> class represents the separators in the expression.<br>
  * 
@@ -24,7 +26,16 @@ package in.pratanumandal.expr4j.token;
  * @since 1.0
  *
  */
-public class Separator implements Token {
+public enum Separator implements Token {
+
+	/** Open bracket */
+	OPEN_BRACKET("("),
+
+	/** Close bracket */
+	CLOSE_BRACKET(")"),
+
+	/** Comma */
+	COMMA(",");
 	
 	/**
 	 * Label of the separator.
@@ -33,16 +44,40 @@ public class Separator implements Token {
 
 	/**
 	 * Parameterized constructor.
-	 * 
+	 *
 	 * @param label Label of the separator.
 	 */
-	public Separator(String label) {
+	Separator(String label) {
 		this.label = label;
+	}
+
+	/**
+	 * Get the separator label.
+	 *
+	 * @return The label
+	 */
+	public String getLabel() {
+		return label;
 	}
 
 	@Override
 	public String toString() {
 		return label;
+	}
+
+	/**
+	 * Get the separator with specified label.
+	 *
+	 * @param label The label
+	 * @return The separator
+	 */
+	public static Separator getSeparator(String label) {
+		switch (label) {
+			case "(": return OPEN_BRACKET;
+			case ")": return CLOSE_BRACKET;
+			case ",": return COMMA;
+			default: throw new Expr4jException("Invalid separator");
+		}
 	}
 
 }

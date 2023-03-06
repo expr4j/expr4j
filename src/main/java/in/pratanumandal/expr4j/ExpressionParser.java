@@ -80,12 +80,12 @@ public class ExpressionParser<T> {
 				Separator separator = (Separator) token;
 
 				// open bracket
-				if (separator.label.equals("(")) {
+				if (separator == Separator.OPEN_BRACKET) {
 					operatorStack.push(separator);
 				}
 
 				// close bracket
-				else if (separator.label.equals(")")) {
+				else if (separator == Separator.CLOSE_BRACKET) {
 					throwIfNotSuffix(lastToken);
 					throwIfOpenBracketOrComma(lastToken);
 
@@ -101,7 +101,7 @@ public class ExpressionParser<T> {
 				}
 
 				// comma
-				else if (separator.label.equals(",")) {
+				else if (separator == Separator.COMMA) {
 					throwIfFunction(lastToken);
 					throwIfNotSuffix(lastToken);
 					throwIfOpenBracketOrComma(lastToken);
@@ -304,7 +304,7 @@ public class ExpressionParser<T> {
 	private void throwIfNoOpenBracket(Token token, Function function) {
 		if (token instanceof Separator) {
 			Separator separator = (Separator) token;
-			if (!separator.label.equals("(")) {
+			if (separator != Separator.OPEN_BRACKET) {
 				throw new Expr4jException("Missing open bracket for function: " + function.label);
 			}
 		}
@@ -321,7 +321,7 @@ public class ExpressionParser<T> {
 	private void throwIfOpenBracketOrComma(Token token) {
 		if (token instanceof Separator) {
 			Separator separator = (Separator) token;
-			if (separator.label.equals("(") || separator.label.equals(",")) {
+			if (separator == Separator.OPEN_BRACKET || separator == Separator.COMMA) {
 				throw new Expr4jException("Invalid expression");
 			}
 		}

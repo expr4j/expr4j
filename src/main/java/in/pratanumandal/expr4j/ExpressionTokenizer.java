@@ -104,13 +104,13 @@ public abstract class ExpressionTokenizer<T> {
                 String match = matcher.group();
                 index += match.length();
 
-                Separator separator = new Separator(match);
+                Separator separator = Separator.getSeparator(match);
 
-                if (separator.label.equals("(")) {
+                if (separator == Separator.OPEN_BRACKET) {
                     addImplicitMultiplication(tokenList, lastToken, operators);
                     probableUnary = true;
                 }
-                else if (separator.label.equals(")")) {
+                else if (separator == Separator.CLOSE_BRACKET) {
                     probableUnary = false;
                 }
                 else {
@@ -238,7 +238,7 @@ public abstract class ExpressionTokenizer<T> {
             }
         } else if (lastToken instanceof Separator) {
             Separator lastSeparator = (Separator) lastToken;
-            if (lastSeparator.label.equals(")")) {
+            if (lastSeparator == Separator.CLOSE_BRACKET) {
                 tokenList.add(operators.get(Operator.IMPLICIT_MULTIPLICATION));
             }
         } else if (lastToken instanceof Operand || lastToken instanceof Variable) {
