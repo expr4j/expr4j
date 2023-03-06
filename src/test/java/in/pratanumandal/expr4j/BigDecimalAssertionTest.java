@@ -802,4 +802,18 @@ public class BigDecimalAssertionTest {
 		Assert.assertEquals(expectedString, actualString);
 	}
 
+	@Test
+	public void test47() {
+		BigDecimal expected = new BigDecimal(33614);
+		String expectedString = "2 (3 + 4) ^ 5";
+
+		Expression<BigDecimal> expression = builder.build("2 (3 + 4) ^ 5");
+
+		BigDecimal actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
 }

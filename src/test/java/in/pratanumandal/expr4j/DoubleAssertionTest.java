@@ -802,4 +802,18 @@ public class DoubleAssertionTest {
 		Assert.assertEquals(expectedString, actualString);
 	}
 
+	@Test
+	public void test47() {
+		double expected = 33614;
+		String expectedString = "2 (3 + 4) ^ 5";
+
+		Expression<Double> expression = builder.build("2 (3 + 4) ^ 5");
+
+		double actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
 }
