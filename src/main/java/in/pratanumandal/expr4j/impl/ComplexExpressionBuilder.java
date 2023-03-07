@@ -18,13 +18,15 @@
 package in.pratanumandal.expr4j.impl;
 
 import in.pratanumandal.expr4j.ExpressionBuilder;
+import in.pratanumandal.expr4j.ExpressionDictionary;
 import in.pratanumandal.expr4j.impl.utils.ComplexUtils;
 import in.pratanumandal.expr4j.token.Function;
 import in.pratanumandal.expr4j.token.Operator;
-import in.pratanumandal.expr4j.token.Operator.OperatorType;
+import in.pratanumandal.expr4j.token.OperatorType;
 import org.apache.commons.math3.complex.Complex;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * The <code>ComplexExpressionBuilder</code> class provides an implementation to parse expressions for operands of type {@link Complex}.<br>
@@ -47,89 +49,61 @@ public class ComplexExpressionBuilder extends ExpressionBuilder<Complex> {
 	 * Initialize the operators, functions, and constants.
 	 */
 	protected void initialize() {
-		addExecutable(Arrays.asList(
-			new Operator<>("+", OperatorType.INFIX, 1, (operands) -> operands.get(0).add(operands.get(1))),
-			new Operator<>("-", OperatorType.INFIX, 1, (operands) -> operands.get(0).subtract(operands.get(1))),
+		ExpressionDictionary<Complex> expressionDictionary = this.getExpressionDictionary();
 
-			new Operator<>("*", OperatorType.INFIX, 2, (operands) -> operands.get(0).multiply(operands.get(1))),
-			new Operator<>("/", OperatorType.INFIX, 2, (operands) -> operands.get(0).divide(operands.get(1))),
+		expressionDictionary.addOperator(new Operator<>("+", OperatorType.PREFIX, Integer.MAX_VALUE, (operands) -> operands.get(0)));
+		expressionDictionary.addOperator(new Operator<>("-", OperatorType.PREFIX, Integer.MAX_VALUE, (operands) -> operands.get(0).negate()));
 
-			new Operator<>("^", OperatorType.INFIX_RTL, 3, (operands) -> operands.get(0).pow(operands.get(1))),
+		expressionDictionary.addOperator(new Operator<>("+", OperatorType.INFIX, 1, (operands) -> operands.get(0).add(operands.get(1))));
+		expressionDictionary.addOperator(new Operator<>("-", OperatorType.INFIX, 1, (operands) -> operands.get(0).subtract(operands.get(1))));
 
-			new Operator<>("abs", OperatorType.PREFIX, 4, (operands) -> new Complex(operands.get(0).abs())),
+		expressionDictionary.addOperator(new Operator<>("*", OperatorType.INFIX, 2, (operands) -> operands.get(0).multiply(operands.get(1))));
+		expressionDictionary.addOperator(new Operator<>("/", OperatorType.INFIX, 2, (operands) -> operands.get(0).divide(operands.get(1))));
 
-			new Operator<>("sin", OperatorType.PREFIX, 4, (operands) -> operands.get(0).sin()),
-			new Operator<>("cos", OperatorType.PREFIX, 4, (operands) -> operands.get(0).cos()),
-			new Operator<>("tan", OperatorType.PREFIX, 4, (operands) -> operands.get(0).tan()),
+		expressionDictionary.addOperator(new Operator<>("^", OperatorType.INFIX_RTL, 3, (operands) -> operands.get(0).pow(operands.get(1))));
 
-			new Operator<>("asin", OperatorType.PREFIX, 4, (operands) -> operands.get(0).asin()),
-			new Operator<>("acos", OperatorType.PREFIX, 4, (operands) -> operands.get(0).acos()),
-			new Operator<>("atan", OperatorType.PREFIX, 4, (operands) -> operands.get(0).atan()),
+		expressionDictionary.addOperator(new Operator<>("abs", OperatorType.PREFIX, 4, (operands) -> new Complex(operands.get(0).abs())));
 
-			new Operator<>("sinh", OperatorType.PREFIX, 4, (operands) -> operands.get(0).sinh()),
-			new Operator<>("cosh", OperatorType.PREFIX, 4, (operands) -> operands.get(0).cosh()),
-			new Operator<>("tanh", OperatorType.PREFIX, 4, (operands) -> operands.get(0).tanh()),
+		expressionDictionary.addOperator(new Operator<>("sin", OperatorType.PREFIX, 4, (operands) -> operands.get(0).sin()));
+		expressionDictionary.addOperator(new Operator<>("cos", OperatorType.PREFIX, 4, (operands) -> operands.get(0).cos()));
+		expressionDictionary.addOperator(new Operator<>("tan", OperatorType.PREFIX, 4, (operands) -> operands.get(0).tan()));
 
-			new Operator<>("asinh", OperatorType.PREFIX, 4, (operands) -> ComplexUtils.asinh(operands.get(0))),
-			new Operator<>("acosh", OperatorType.PREFIX, 4, (operands) -> ComplexUtils.acosh(operands.get(0))),
-			new Operator<>("atanh", OperatorType.PREFIX, 4, (operands) -> ComplexUtils.atanh(operands.get(0))),
+		expressionDictionary.addOperator(new Operator<>("asin", OperatorType.PREFIX, 4, (operands) -> operands.get(0).asin()));
+		expressionDictionary.addOperator(new Operator<>("acos", OperatorType.PREFIX, 4, (operands) -> operands.get(0).acos()));
+		expressionDictionary.addOperator(new Operator<>("atan", OperatorType.PREFIX, 4, (operands) -> operands.get(0).atan()));
 
-			new Operator<>("ln", OperatorType.PREFIX, 4, (operands) -> operands.get(0).log()),
-			new Operator<>("log10", OperatorType.PREFIX, 4, (operands) -> ComplexUtils.log10(operands.get(0))),
-			new Function<>("log", 2, (operands) -> ComplexUtils.log(operands.get(1), operands.get(0))),
+		expressionDictionary.addOperator(new Operator<>("sinh", OperatorType.PREFIX, 4, (operands) -> operands.get(0).sinh()));
+		expressionDictionary.addOperator(new Operator<>("cosh", OperatorType.PREFIX, 4, (operands) -> operands.get(0).cosh()));
+		expressionDictionary.addOperator(new Operator<>("tanh", OperatorType.PREFIX, 4, (operands) -> operands.get(0).tanh()));
 
-			new Operator<>("sqrt", OperatorType.PREFIX, 4, (operands) -> operands.get(0).sqrt()),
-			new Operator<>("cbrt", OperatorType.PREFIX, 4, (operands) -> ComplexUtils.cbrt(operands.get(0))),
+		expressionDictionary.addOperator(new Operator<>("asinh", OperatorType.PREFIX, 4, (operands) -> ComplexUtils.asinh(operands.get(0))));
+		expressionDictionary.addOperator(new Operator<>("acosh", OperatorType.PREFIX, 4, (operands) -> ComplexUtils.acosh(operands.get(0))));
+		expressionDictionary.addOperator(new Operator<>("atanh", OperatorType.PREFIX, 4, (operands) -> ComplexUtils.atanh(operands.get(0))));
 
-			new Function<>("exp", 1, (operands) -> operands.get(0).exp()),
+		expressionDictionary.addFunction(new Function<>("deg", 1, (operands) -> ComplexUtils.toDegrees(operands.get(0))));
+		expressionDictionary.addFunction(new Function<>("rad", 1, (operands) -> ComplexUtils.toRadians(operands.get(0))));
 
-			new Function<>("max", (operands) -> operands.isEmpty() ? Complex.ZERO : ComplexUtils.max(operands)),
-			new Function<>("min", (operands) -> operands.isEmpty() ? Complex.ZERO : ComplexUtils.min(operands)),
+		expressionDictionary.addOperator(new Operator<>("ln", OperatorType.PREFIX, 4, (operands) -> operands.get(0).log()));
+		expressionDictionary.addOperator(new Operator<>("log10", OperatorType.PREFIX, 4, (operands) -> ComplexUtils.log10(operands.get(0))));
+		expressionDictionary.addFunction(new Function<>("log", 2, (operands) -> ComplexUtils.log(operands.get(1), operands.get(0))));
 
-			new Function<>("mean", (operands) -> ComplexUtils.average(operands)),
-			new Function<>("average", (operands) -> ComplexUtils.average(operands)),
+		expressionDictionary.addOperator(new Operator<>("sqrt", OperatorType.PREFIX, 4, (operands) -> operands.get(0).sqrt()));
+		expressionDictionary.addOperator(new Operator<>("cbrt", OperatorType.PREFIX, 4, (operands) -> ComplexUtils.cbrt(operands.get(0))));
 
-			new Function<>("rand", 0, (operands) -> new Complex(Math.random(), Math.random()))
-		));
+		expressionDictionary.addFunction(new Function<>("exp", 1, (operands) -> operands.get(0).exp()));
 
-		addConstant("pi", new Complex(Math.PI));
-		addConstant("e", new Complex(Math.E));
+		expressionDictionary.addFunction(new Function<>("max", (operands) -> operands.isEmpty() ? Complex.ZERO : ComplexUtils.max(operands)));
+		expressionDictionary.addFunction(new Function<>("min", (operands) -> operands.isEmpty() ? Complex.ZERO : ComplexUtils.min(operands)));
 
-		addConstant("i", Complex.I);
-	}
+		expressionDictionary.addFunction(new Function<>("mean", (operands) -> ComplexUtils.average(operands)));
+		expressionDictionary.addFunction(new Function<>("average", (operands) -> ComplexUtils.average(operands)));
 
-	/**
-	 * Define operation of unary plus.
-	 * 
-	 * @param operand Operand of unary plus operation
-	 * @return Result of unary plus operation
-	 */
-	@Override
-	protected Complex unaryPlus(Complex operand) {
-		return operand;
-	}
+		expressionDictionary.addFunction(new Function<>("rand", 0, (operands) -> new Complex(Math.random(), Math.random())));
 
-	/**
-	 * Define operation of unary minus.
-	 * 
-	 * @param operand Operand of unary minus operation
-	 * @return Result of unary minus operation
-	 */
-	@Override
-	protected Complex unaryMinus(Complex operand) {
-		return Complex.ZERO.subtract(operand);
-	}
-	
-	/**
-	 * Define operation of implicit multiplication operation.
-	 * 
-	 * @param operand0 First operand of implicit multiplication operation
-	 * @param operand1 Second operand of implicit multiplication operation
-	 * @return Result of implicit multiplication operation
-	 */
-	@Override
-	protected Complex implicitMultiplication(Complex operand0, Complex operand1) {
-		return operand0.multiply(operand1);
+		expressionDictionary.addConstant("pi", new Complex(Math.PI));
+		expressionDictionary.addConstant("e", new Complex(Math.E));
+
+		expressionDictionary.addConstant("i", Complex.I);
 	}
 	
 	/**
@@ -140,7 +114,12 @@ public class ComplexExpressionBuilder extends ExpressionBuilder<Complex> {
 	 */
 	@Override
 	protected Complex stringToOperand(String operand) {
-		return new Complex(Double.parseDouble(operand), 0);
+		if (!operand.contains("i")) {
+			return new Complex(Double.parseDouble(operand), 0);
+		}
+		else {
+			return new Complex(0, Double.parseDouble(operand.replaceAll("\\s*i", "")));
+		}
 	}
 
 	/**
@@ -161,8 +140,14 @@ public class ComplexExpressionBuilder extends ExpressionBuilder<Complex> {
 		if (imaginary != 0.0) {
 			if (imaginary == (int) imaginary) representation.append((int) imaginary);
 			else representation.append(imaginary);
+			representation.append("i");
 		}
 		return representation.toString();
+	}
+
+	@Override
+	protected List<String> getNumberPattern() {
+		return Arrays.asList("(-?\\d+)(\\.\\d+)?(e-|e\\+|e|\\d+)\\d+(\\s*i)?", "\\d*\\.?\\d+(\\s*i)?");
 	}
 	
 }

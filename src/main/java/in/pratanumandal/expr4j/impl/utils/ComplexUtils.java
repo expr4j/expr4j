@@ -73,6 +73,26 @@ public class ComplexUtils {
     }
 
     /**
+     * Convert operand from radians to degrees.
+     *
+     * @param x The operand in radians
+     * @return The operand in degrees
+     */
+    public static Complex toDegrees(Complex x) {
+        return new Complex(Math.toDegrees(x.getReal()), Math.toDegrees(x.getImaginary()));
+    }
+
+    /**
+     * Convert operand from degrees to radians.
+     *
+     * @param x The operand in degrees
+     * @return The operand in radians
+     */
+    public static Complex toRadians(Complex x) {
+        return new Complex(Math.toRadians(x.getReal()), Math.toRadians(x.getImaginary()));
+    }
+
+    /**
      * Calculate the log of x to the base 10.
      *
      * @param x The operand

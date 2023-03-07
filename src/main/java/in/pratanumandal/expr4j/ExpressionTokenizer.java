@@ -21,7 +21,8 @@ import in.pratanumandal.expr4j.exception.Expr4jException;
 import in.pratanumandal.expr4j.token.*;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -32,18 +33,29 @@ import java.util.stream.Collectors;
  * @author Pratanu Mandal
  * @since 1.0
  *
- * @param <T> The type of operand for this parser
+ * @param <T> The type of operand for this tokenizer
  */
 public abstract class ExpressionTokenizer<T> {
+
+    /** Expression dictionary */
+    private final ExpressionDictionary<T> expressionDictionary;
+
+    /**
+     * Parameterized constructor.
+     *
+     * @param expressionDictionary The expression dictionary
+     */
+    public ExpressionTokenizer(ExpressionDictionary<T> expressionDictionary) {
+        this.expressionDictionary = expressionDictionary;
+    }
 
     /**
      * Tokenize an expression.
      *
      * @param expr The expression
-     * @param executables Map of executables
      * @return The list of tokens
      */
-    public List<Token> tokenize(String expr, Map<String, Executable<T>> executables) {
+    public List<Token> tokenize(String expr) {
         // do not allow blank expressions
         if (StringUtils.isBlank(expr)) {
             throw new Expr4jException("Invalid expression");
@@ -52,26 +64,8 @@ public abstract class ExpressionTokenizer<T> {
         // list of tokens
         List<Token> tokenList = new ArrayList<>();
 
-        // separate executables into functions and operators
-        Map<String, Function<T>> functions = new HashMap<>();
-        Map<String, Operator<T>> operators = new HashMap<>();
-
-        Iterator<Map.Entry<String, Executable<T>>> iterator = executables.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Executable<T> executable = iterator.next().getValue();
-
-            if (executable instanceof Function) {
-                Function<T> function = (Function<T>) executable;
-                functions.put(function.label, function);
-            }
-            else if (executable instanceof Operator) {
-                Operator<T> operator = (Operator<T>) executable;
-                operators.put(operator.label, operator);
-            }
-        }
-
         // initialize patterns
-        Pattern functionAndOperatorPattern = Pattern.compile(executables.keySet()
+        Pattern executablePattern = Pattern.compile(expressionDictionary.getExecutables()
                 .stream()
                 .map(Pattern::quote)
                 .sorted((e1, e2) -> (e2.length() - e1.length()))
@@ -107,7 +101,7 @@ public abstract class ExpressionTokenizer<T> {
                 Separator separator = Separator.getSeparator(match);
 
                 if (separator == Separator.OPEN_BRACKET) {
-                    addImplicitMultiplication(tokenList, lastToken, operators);
+                    addImplicitMultiplication(tokenList, lastToken);
                     probableUnary = true;
                 }
                 else if (separator == Separator.CLOSE_BRACKET) {
@@ -129,7 +123,7 @@ public abstract class ExpressionTokenizer<T> {
                 String match = matcher.group();
                 index += match.length();
 
-                Operator<T> operator = operators.get(match.equals("+") ? Operator.UNARY_PLUS : Operator.UNARY_MINUS);
+                Operator<T> operator = expressionDictionary.getPrefixOperator(match);
                 tokenList.add(operator);
 
                 probableUnary = false;
@@ -138,17 +132,17 @@ public abstract class ExpressionTokenizer<T> {
                 continue;
             }
 
-            // check for functions and operators
-            matcher = functionAndOperatorPattern.matcher(expr.substring(index));
+            // check for executables
+            matcher = executablePattern.matcher(expr.substring(index));
             if (matcher.lookingAt()) {
                 String match = matcher.group();
                 index += match.length();
 
                 // encountered a function
-                if (functions.containsKey(match)) {
-                    Function<T> function = functions.get(match);
+                if (expressionDictionary.hasFunction(match)) {
+                    Function<T> function = expressionDictionary.getFunction(match);
 
-                    addImplicitMultiplication(tokenList, lastToken, operators);
+                    addImplicitMultiplication(tokenList, lastToken);
                     tokenList.add(function);
 
                     probableUnary = false;
@@ -157,14 +151,29 @@ public abstract class ExpressionTokenizer<T> {
 
                 // encountered an operator
                 else {
-                    Operator<T> operator = operators.get(match);
+                    Operator<T> operator;
 
-                    if (operator.operatorType == Operator.OperatorType.PREFIX) {
-                        addImplicitMultiplication(tokenList, lastToken, operators);
+                    if (infixOperatorAllowed(lastToken) &&
+                            expressionDictionary.hasInfixOperator(match)) {
+                        operator = expressionDictionary.getInfixOperator(match);
+                    }
+                    else if (postfixOperatorAllowed(lastToken) &&
+                            expressionDictionary.hasPostfixOperator(match)) {
+                        operator = expressionDictionary.getPostfixOperator(match);
+                    }
+                    else if (expressionDictionary.hasPrefixOperator(match)) {
+                        operator = expressionDictionary.getPrefixOperator(match);
+                    }
+                    else {
+                        throw new Expr4jException("Undefined symbol: " + match);
+                    }
+
+                    if (operator.type == OperatorType.PREFIX) {
+                        addImplicitMultiplication(tokenList, lastToken);
                     }
                     tokenList.add(operator);
 
-                    probableUnary = operator.operatorType != Operator.OperatorType.SUFFIX;
+                    probableUnary = operator.type != OperatorType.POSTFIX;
                     lastToken = operator;
                 }
 
@@ -178,7 +187,7 @@ public abstract class ExpressionTokenizer<T> {
                     String match = matcher.group();
                     index += match.length();
 
-                    addImplicitMultiplication(tokenList, lastToken, operators);
+                    addImplicitMultiplication(tokenList, lastToken);
 
                     Operand<T> operand = new Operand<T>(this.stringToOperand(match));
                     tokenList.add(operand);
@@ -196,7 +205,7 @@ public abstract class ExpressionTokenizer<T> {
                 String match = matcher.group();
                 index += match.length();
 
-                addImplicitMultiplication(tokenList, lastToken, operators);
+                addImplicitMultiplication(tokenList, lastToken);
 
                 Variable variable = new Variable(match);
                 tokenList.add(variable);
@@ -228,22 +237,73 @@ public abstract class ExpressionTokenizer<T> {
      *
      * @param tokenList The token list
      * @param lastToken The last token encountered
-     * @param operators The list of operators
      */
-    private void addImplicitMultiplication(List<Token> tokenList, Token lastToken, Map<String, Operator<T>> operators) {
+    private void addImplicitMultiplication(List<Token> tokenList, Token lastToken) {
         if (lastToken instanceof Operator) {
             Operator<T> operator = (Operator<T>) lastToken;
-            if (operator.operatorType == Operator.OperatorType.SUFFIX){
-                tokenList.add(operators.get(Operator.IMPLICIT_MULTIPLICATION));
+            if (operator.type == OperatorType.POSTFIX) {
+                tokenList.add(expressionDictionary.getInfixOperator("*"));
             }
         } else if (lastToken instanceof Separator) {
             Separator lastSeparator = (Separator) lastToken;
             if (lastSeparator == Separator.CLOSE_BRACKET) {
-                tokenList.add(operators.get(Operator.IMPLICIT_MULTIPLICATION));
+                tokenList.add(expressionDictionary.getInfixOperator("*"));
             }
         } else if (lastToken instanceof Operand || lastToken instanceof Variable) {
-            tokenList.add(operators.get(Operator.IMPLICIT_MULTIPLICATION));
+            tokenList.add(expressionDictionary.getInfixOperator("*"));
         }
+    }
+
+    /**
+     * Check if postfix operator is allowed at current position.
+     *
+     * @param lastToken Last token encountered
+     * @return True if postfix operator is allowed, false otherwise
+     */
+    private boolean postfixOperatorAllowed(Token lastToken) {
+        if (lastToken == null) {
+            return false;
+        }
+
+        if (lastToken instanceof Separator) {
+            Separator separator = (Separator) lastToken;
+            return (separator == Separator.CLOSE_BRACKET);
+        }
+        else if (lastToken instanceof Operator) {
+            Operator<T> operator = (Operator<T>) lastToken;
+            return (operator.type == OperatorType.POSTFIX);
+        }
+        else if (lastToken instanceof Operand || lastToken instanceof Variable) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if infix operator is allowed at current position.
+     *
+     * @param lastToken Last token encountered
+     * @return True if infix operator is allowed, false otherwise
+     */
+    private boolean infixOperatorAllowed(Token lastToken) {
+        if (lastToken == null) {
+            return false;
+        }
+
+        if (lastToken instanceof Separator) {
+            Separator separator = (Separator) lastToken;
+            return (separator == Separator.CLOSE_BRACKET);
+        }
+        else if (lastToken instanceof Operator) {
+            Operator<T> operator = (Operator<T>) lastToken;
+            return (operator.type == OperatorType.POSTFIX);
+        }
+        else if (lastToken instanceof Operand || lastToken instanceof Variable) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

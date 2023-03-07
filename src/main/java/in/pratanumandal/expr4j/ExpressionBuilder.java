@@ -19,13 +19,14 @@ package in.pratanumandal.expr4j;
 
 import in.pratanumandal.expr4j.Expression.Node;
 import in.pratanumandal.expr4j.exception.Expr4jException;
-import in.pratanumandal.expr4j.token.Executable;
 import in.pratanumandal.expr4j.token.Function;
 import in.pratanumandal.expr4j.token.Operator;
-import in.pratanumandal.expr4j.token.Operator.OperatorType;
+import in.pratanumandal.expr4j.token.OperatorType;
 import in.pratanumandal.expr4j.token.Token;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Stack;
 
 /**
  * The <code>ExpressionBuilder&lt;T&gt;</code> class provides a partial implementation to build expressions independent of the type of operand.<br>
@@ -44,14 +45,9 @@ public abstract class ExpressionBuilder<T> {
 	private Expression<T> expression;
 	
 	/**
-	 * Map to hold the executables.
+	 * Expression dictionary.
 	 */
-	private Map<String, Executable<T>> executables;
-	
-	/**
-	 * Map to hold the constants.
-	 */
-	private Map<String, T> constants;
+	private ExpressionDictionary<T> expressionDictionary;
 	
 	/**
 	 * No-Argument Constructor.
@@ -64,12 +60,7 @@ public abstract class ExpressionBuilder<T> {
 	 * Reset the parser.
 	 */
 	public void reset() {
-		executables = new TreeMap<>();
-		constants = new TreeMap<>();
-
-		this.addExecutableWithoutCheck(new Operator<T>(Operator.UNARY_PLUS, OperatorType.PREFIX, Integer.MAX_VALUE, (operands) -> unaryPlus(operands.get(0))));
-		this.addExecutableWithoutCheck(new Operator<T>(Operator.UNARY_MINUS, OperatorType.PREFIX, Integer.MAX_VALUE, (operands) -> unaryMinus(operands.get(0))));
-		this.addExecutableWithoutCheck(new Operator<T>(Operator.IMPLICIT_MULTIPLICATION, OperatorType.INFIX, 2, (operands) -> implicitMultiplication(operands.get(0), operands.get(1))));
+		expressionDictionary = new ExpressionDictionary<>();
 	}
 
 	/**
@@ -97,7 +88,7 @@ public abstract class ExpressionBuilder<T> {
 		else if (node.token instanceof Operator) {
 			Operator<T> operator = (Operator<T>) node.token;
 
-			int operandCount = (operator.operatorType == OperatorType.INFIX || operator.operatorType == OperatorType.INFIX_RTL) ? 2 : 1;
+			int operandCount = (operator.type == OperatorType.INFIX || operator.type == OperatorType.INFIX_RTL) ? 2 : 1;
 
 			if (node.children.size() > 0 && formTree(node.children.get(0), token)) {
 				return true;
@@ -142,10 +133,10 @@ public abstract class ExpressionBuilder<T> {
 	public Expression<T> build(String expr) {
 		try {
 			// initialize expression
-			this.expression = new Expression<>(constants, this::operandToString);
+			this.expression = new Expression<>(expressionDictionary, this::operandToString);
 
 			// tokenize the expression
-			ExpressionTokenizer<T> tokenizer = new ExpressionTokenizer<T>() {
+			ExpressionTokenizer<T> tokenizer = new ExpressionTokenizer<T>(expressionDictionary) {
 				@Override
 				protected T stringToOperand(String operand) {
 					return ExpressionBuilder.this.stringToOperand(operand);
@@ -156,7 +147,7 @@ public abstract class ExpressionBuilder<T> {
 					return ExpressionBuilder.this.getNumberPattern();
 				}
 			};
-			List<Token> tokenList = tokenizer.tokenize(expr, executables);
+			List<Token> tokenList = tokenizer.tokenize(expr);
 
 			// form the postfix expression
 			ExpressionParser<T> parser = new ExpressionParser<T>();
@@ -172,143 +163,15 @@ public abstract class ExpressionBuilder<T> {
 			this.expression = null;
 		}
 	}
-	
+
 	/**
-	 * Get unmodifiable list of executables present in the parser.
-	 * 
-	 * @return List of executables
+	 * Get the expression dictionary.
+	 *
+	 * @return The expression dictionary
 	 */
-	public List<Executable<T>> getExecutables() {
-		return Collections.unmodifiableList(new ArrayList<>(executables.values()));
+	public ExpressionDictionary<T> getExpressionDictionary() {
+		return expressionDictionary;
 	}
-	
-	/**
-	 * Get executable present in the parser for the specified label.
-	 * 
-	 * @param label Label of the executable
-	 * @return Executable for the specified label if present, else null
-	 */
-	public Executable<T> getExecutable(String label) {
-		return executables.get(label);
-	}
-	
-	/**
-	 * Add an executable to the parser without checking.
-	 * 
-	 * @param executable Executable to be added
-	 */
-	private void addExecutableWithoutCheck(Executable<T> executable) {
-		executables.put(executable.label, executable);
-	}
-	
-	/**
-	 * Add an executable to the parser.
-	 * 
-	 * @param executable Executable to be added
-	 */
-	public void addExecutable(Executable<T> executable) {
-		if (executable.label.equals(Operator.UNARY_PLUS) ||
-				executable.label.equals(Operator.UNARY_MINUS) ||
-				executable.label.equals(Operator.IMPLICIT_MULTIPLICATION)) {
-			throw new Expr4jException("Overriding of predefined operators is forbidden");
-		}
-		
-		executables.put(executable.label, executable);
-	}
-	
-	/**
-	 * Add a list of executables to the parser.
-	 * 
-	 * @param executableList List of executables to be added
-	 */
-	public void addExecutable(List<Executable<T>> executableList) {
-		for (Executable<T> executable : executableList) {
-			addExecutable(executable);
-		}
-	}
-	
-	/**
-	 * Remove executable from the parser for the specified label if present.
-	 * 
-	 * @param label Label of the executable
-	 * @return Executable for the specified label if present, else null
-	 */
-	public Executable<T> removeExecutable(String label) {
-		if (label.equals(Operator.UNARY_PLUS) ||
-				label.equals(Operator.UNARY_MINUS) ||
-				label.equals(Operator.IMPLICIT_MULTIPLICATION)) {
-			throw new Expr4jException("Removal of predefined operators is forbidden");
-		}
-		
-		return executables.remove(label);
-	}
-	
-	/**
-	 * Get unmodifiable map of constants present in the parser.
-	 * 
-	 * @return Map of constants
-	 */
-	public Map<String, T> getConstants() {
-		return Collections.unmodifiableMap(constants);
-	}
-	
-	/**
-	 * Get constant present in the parser for the specified label.
-	 * 
-	 * @param label Label of the constant
-	 * @return Constant for the specified label if present, else null
-	 */
-	public T getConstant(String label) {
-		if (!constants.containsKey(label)) {
-			throw new Expr4jException("Constant not found: " + label);
-		}
-		return constants.get(label);
-	}
-	
-	/**
-	 * Add a constant to the parser.
-	 * 
-	 * @param label Label of the constant
-	 * @param value Value of the constant
-	 */
-	public void addConstant(String label, T value) {
-		constants.put(label, value);
-	}
-	
-	/**
-	 * Remove constant from the parser for the specified label if present.
-	 * 
-	 * @param label Label of the constant
-	 * @return Constant for the specified label if present, else null
-	 */
-	public T removeConstant(String label) {
-		return constants.remove(label);
-	}
-	
-	/**
-	 * Method to define operation of unary plus.
-	 * 
-	 * @param operand Operand of unary plus operation
-	 * @return Result of unary plus operation
-	 */
-	protected abstract T unaryPlus(T operand);
-	
-	/**
-	 * Method to define operation of unary minus.
-	 * 
-	 * @param operand Operand of unary minus operation
-	 * @return Result of unary minus operation
-	 */
-	protected abstract T unaryMinus(T operand);
-	
-	/**
-	 * Method to define operation of implicit multiplication operation.
-	 * 
-	 * @param operand0 First operand of implicit multiplication operation
-	 * @param operand1 Second operand of implicit multiplication operation
-	 * @return Result of implicit multiplication operation
-	 */
-	protected abstract T implicitMultiplication(T operand0, T operand1);
 	
 	/**
 	 * Method to define procedure to obtain operand from string representation.

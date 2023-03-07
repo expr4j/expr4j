@@ -19,9 +19,11 @@ package in.pratanumandal.expr4j;
 
 import in.pratanumandal.expr4j.exception.Expr4jException;
 import in.pratanumandal.expr4j.token.*;
-import in.pratanumandal.expr4j.token.Operator.OperatorType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -74,30 +76,25 @@ public class Expression<T> {
 	public Node root;
 	
 	/**
-	 * Map to hold the constants.
+	 * Expression dictionary.
 	 */
-	private final Map<String, T> constants;
-	
+	private final ExpressionDictionary<T> expressionDictionary;
+
+	/**
+	 * Operand representation.
+	 */
 	private final OperandRepresentation<T> operandRepresentation;
 	
 	/**
 	 * Parameterized constructor.
 	 * 
-	 * @param constants Map of constants
+	 * @param expressionDictionary Expression dictionary
 	 * @param operandRepresentation Instance of <code>OperandRepresentation</code>
 	 */
-	public Expression(Map<String, T> constants, OperandRepresentation<T> operandRepresentation) {
-		this.constants = new HashMap<>(constants);
+	public Expression(ExpressionDictionary<T> expressionDictionary,
+					  OperandRepresentation<T> operandRepresentation) {
+		this.expressionDictionary = expressionDictionary;
 		this.operandRepresentation = operandRepresentation;
-	}
-
-	/**
-	 * Get unmodifiable map of constants for this expression.
-	 * 
-	 * @return Map of constants
-	 */
-	public Map<String, T> getConstants() {
-		return Collections.unmodifiableMap(constants);
 	}
 	
 	/**
@@ -141,7 +138,7 @@ public class Expression<T> {
 		else if (node.token instanceof Operator) {
 			Operator<T> operator = (Operator<T>) node.token;
 			
-			int operandCount = (operator.operatorType == OperatorType.INFIX || operator.operatorType == OperatorType.INFIX_RTL) ? 2 : 1;
+			int operandCount = (operator.type == OperatorType.INFIX || operator.type == OperatorType.INFIX_RTL) ? 2 : 1;
 			if (node.children.size() != operandCount) {
 				throw new Expr4jException("Invalid expression");
 			}
@@ -172,7 +169,7 @@ public class Expression<T> {
 			throw new Expr4jException("Invalid expression");
 		}
 		
-		Map<String, T> constantsAndVariables = new HashMap<>(constants);
+		Map<String, T> constantsAndVariables = new HashMap<>(expressionDictionary.constants);
 		if (variables != null) constantsAndVariables.putAll(variables);
 		
 		return evaluate(root, constantsAndVariables).value;
@@ -219,42 +216,13 @@ public class Expression<T> {
 		else if (node.token instanceof Operator) {
 			Operator<T> operator = (Operator<T>) node.token;
 			
-			int operandCount = (operator.operatorType == OperatorType.INFIX || operator.operatorType == OperatorType.INFIX_RTL) ? 2 : 1;
+			int operandCount = (operator.type == OperatorType.INFIX || operator.type == OperatorType.INFIX_RTL) ? 2 : 1;
 			if (node.children.size() != operandCount) {
 				throw new Expr4jException("Invalid expression");
 			}
 			
 			String label;
-			if (operator.label.equals(Operator.UNARY_PLUS)) label = "+";
-			else if (operator.label.equals(Operator.UNARY_MINUS)) label = "-";
-			else if (operator.label.equals(Operator.IMPLICIT_MULTIPLICATION)) {
-				Token left = node.children.get(0).token;
-				Token right = node.children.get(1).token;
-
-				if (left instanceof Operand && right instanceof Operand) {
-					label = " * ";
-				}
-				else if (left instanceof Operand && right instanceof Operator) {
-					Operator<T> rightOperator = (Operator<T>) right;
-					if (rightOperator.label.equals(Operator.UNARY_PLUS) || rightOperator.label.equals(Operator.UNARY_MINUS)) {
-						label = " * ";
-					}
-					else {
-						label = " ";
-					}
-				}
-				else if (left instanceof Operator && right instanceof Operand) {
-					Operator<T> leftOperator = (Operator<T>) left;
-					if (leftOperator.label.equals(Operator.UNARY_PLUS) || leftOperator.label.equals(Operator.UNARY_MINUS)) {
-						label = " * ";
-					}
-					else {
-						label = " ";
-					}
-				}
-				else label = " ";
-			}
-			else if (operandCount == 2) label = " " + operator.label + " ";
+			if (operandCount == 2) label = " " + operator.label + " ";
 			else label = operator.label;
 			
 			if (operandCount == 2) {
@@ -265,8 +233,8 @@ public class Expression<T> {
 
 				if (left.token instanceof Operator) {
 					Operator<T> leftOperator = (Operator<T>) left.token;
-					if (leftOperator.label != Operator.IMPLICIT_MULTIPLICATION &&
-							(leftOperator.operatorType == OperatorType.INFIX || leftOperator.operatorType == OperatorType.INFIX_RTL) &&
+					if (!leftOperator.label.equals("*") &&
+							(leftOperator.type == OperatorType.INFIX || leftOperator.type == OperatorType.INFIX_RTL) &&
 							operator.compareTo(leftOperator) < 0) {
 						sb.append("(");
 						sb.append(this.toString(left));
@@ -284,8 +252,8 @@ public class Expression<T> {
 
 				if (right.token instanceof Operator) {
 					Operator<T> rightOperator = (Operator<T>) right.token;
-					if (rightOperator.label != Operator.IMPLICIT_MULTIPLICATION &&
-							(rightOperator.operatorType == OperatorType.INFIX || rightOperator.operatorType == OperatorType.INFIX_RTL) &&
+					if (!rightOperator.label.equals("*") &&
+							(rightOperator.type == OperatorType.INFIX || rightOperator.type == OperatorType.INFIX_RTL) &&
 							operator.compareTo(rightOperator) < 0) {
 						sb.append("(");
 						sb.append(this.toString(right));
@@ -303,10 +271,10 @@ public class Expression<T> {
 			}
 			else {
 				Node child = node.children.get(0);
-				if (operator.label.equals(Operator.UNARY_PLUS) || operator.label.equals(Operator.UNARY_MINUS)) {
+				if (operator.label.equals("+") || operator.label.equals("-")) {
 					if (child.token instanceof Operator) {
 						Operator<T> childOperator = (Operator<T>) child.token;
-						if (childOperator.operatorType == OperatorType.PREFIX) {
+						if (childOperator.type == OperatorType.PREFIX) {
 							return label + this.toString(child);
 						}
 						else {
@@ -318,7 +286,7 @@ public class Expression<T> {
 					}
 				}
 				else if (child.token instanceof Operator || child.token instanceof Function) {
-					if (operator.operatorType == OperatorType.PREFIX) {
+					if (operator.type == OperatorType.PREFIX) {
 						return label + "(" + this.toString(child) + ")";
 					}
 					else {
@@ -326,7 +294,7 @@ public class Expression<T> {
 					}
 				}
 				else {
-					if (operator.operatorType == OperatorType.PREFIX) {
+					if (operator.type == OperatorType.PREFIX) {
 						return label + " " + this.toString(child);
 					}
 					else {

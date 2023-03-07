@@ -20,7 +20,7 @@ package in.pratanumandal.expr4j;
 import in.pratanumandal.expr4j.impl.DoubleExpressionBuilder;
 import in.pratanumandal.expr4j.token.Function;
 import in.pratanumandal.expr4j.token.Operator;
-import in.pratanumandal.expr4j.token.Operator.OperatorType;
+import in.pratanumandal.expr4j.token.OperatorType;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -32,6 +32,8 @@ public class DoubleAssertionTest {
 	public static double DELTA = 0.00000000001;
 	
 	protected DoubleExpressionBuilder builder = new DoubleExpressionBuilder();
+
+	protected ExpressionDictionary<Double> expressionDictionary = builder.getExpressionDictionary();
 
 	private void assertEquals(double expected, double actual) {
 		Assert.assertEquals(expected, actual, DELTA);
@@ -221,7 +223,7 @@ public class DoubleAssertionTest {
 	
 	@Test
 	public void test14() {
-		builder.addExecutable(new Function<>("avg", (operands) -> {
+		expressionDictionary.addFunction(new Function<>("avg", (operands) -> {
     		double sum = 0;
     		for (Double operand : operands) {
     			sum += operand;
@@ -240,12 +242,12 @@ public class DoubleAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		builder.removeExecutable("avg");
+		expressionDictionary.removeFunction("avg");
 	}
 
 	@Test
 	public void test15() {
-		builder.addExecutable(new Function<>("ee", (operands) -> {
+		expressionDictionary.addFunction(new Function<>("ee", (operands) -> {
     		double sum = 0;
     		for (Double operand : operands) {
     			sum += operand;
@@ -264,12 +266,12 @@ public class DoubleAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		builder.removeExecutable("ee");
+		expressionDictionary.removeFunction("ee");
 	}
 
 	@Test
 	public void test16() {
-		builder.addExecutable(new Function<>("esume", (operands) -> {
+		expressionDictionary.addFunction(new Function<>("esume", (operands) -> {
     		double sum = 0;
     		for (Double operand : operands) {
     			sum += operand;
@@ -288,12 +290,12 @@ public class DoubleAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		builder.removeExecutable("esume");
+		expressionDictionary.removeFunction("esume");
 	}
 
 	@Test
 	public void test17() {
-		builder.addExecutable(new Function<>("pisumpi", (operands) -> {
+		expressionDictionary.addFunction(new Function<>("pisumpi", (operands) -> {
     		double sum = 0;
     		for (Double operand : operands) {
     			sum += operand;
@@ -312,12 +314,12 @@ public class DoubleAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		builder.removeExecutable("pisumpi");
+		expressionDictionary.removeFunction("pisumpi");
 	}
 
 	@Test
 	public void test18() {
-		builder.addExecutable(new Function<>("esumpi", (operands) -> {
+		expressionDictionary.addFunction(new Function<>("esumpi", (operands) -> {
     		double sum = 0;
     		for (Double operand : operands) {
     			sum += operand;
@@ -336,12 +338,12 @@ public class DoubleAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		builder.removeExecutable("esumpi");
+		expressionDictionary.removeFunction("esumpi");
 	}
 
 	@Test
 	public void test19() {
-		builder.addExecutable(new Function<>("uminusFunc", (operands) -> {
+		expressionDictionary.addFunction(new Function<>("uminusFunc", (operands) -> {
     		double sum = 0;
     		for (Double operand : operands) {
     			sum += operand;
@@ -360,12 +362,12 @@ public class DoubleAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		builder.removeExecutable("uminusFunc");
+		expressionDictionary.removeFunction("uminusFunc");
 	}
 
 	@Test
 	public void test20() {
-		builder.addExecutable(new Function<>("uplusFunc", (operands) -> {
+		expressionDictionary.addFunction(new Function<>("uplusFunc", (operands) -> {
     		double sum = 0;
     		for (Double operand : operands) {
     			sum += operand;
@@ -384,12 +386,12 @@ public class DoubleAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		builder.removeExecutable("uplusFunc");
+		expressionDictionary.removeFunction("uplusFunc");
 	}
 
 	@Test
 	public void test21() {
-		builder.addExecutable(new Function<>("Funcuminus", (operands) -> {
+		expressionDictionary.addFunction(new Function<>("Funcuminus", (operands) -> {
     		double sum = 0;
     		for (Double operand : operands) {
     			sum += operand;
@@ -408,12 +410,12 @@ public class DoubleAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		builder.removeExecutable("Funcuminus");
+		expressionDictionary.removeFunction("Funcuminus");
 	}
 
 	@Test
 	public void test22() {
-		builder.addExecutable(new Function<>("Funcuplus", (operands) -> {
+		expressionDictionary.addFunction(new Function<>("Funcuplus", (operands) -> {
     		double sum = 0;
     		for (Double operand : operands) {
     			sum += operand;
@@ -432,12 +434,12 @@ public class DoubleAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		builder.removeExecutable("Funcuplus");
+		expressionDictionary.removeFunction("Funcuplus");
 	}
 
 	@Test
 	public void test23() {
-		builder.addExecutable(new Function<>("uminusFuncuminus", (operands) -> {
+		expressionDictionary.addFunction(new Function<>("uminusFuncuminus", (operands) -> {
     		double sum = 0;
     		for (Double operand : operands) {
     			sum += operand;
@@ -456,12 +458,12 @@ public class DoubleAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		builder.removeExecutable("uminusFuncuminus");
+		expressionDictionary.removeFunction("uminusFuncuminus");
 	}
 
 	@Test
 	public void test24() {
-		builder.addExecutable(new Function<>("uplusFuncuplus", (operands) -> {
+		expressionDictionary.addFunction(new Function<>("uplusFuncuplus", (operands) -> {
     		double sum = 0;
     		for (Double operand : operands) {
     			sum += operand;
@@ -480,7 +482,7 @@ public class DoubleAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		builder.removeExecutable("uplusFuncuplus");
+		expressionDictionary.removeFunction("uplusFuncuplus");
 	}
 
 	@Test
@@ -514,7 +516,7 @@ public class DoubleAssertionTest {
 	@Test
 	public void test27() {
 		double expected = 15;
-		String expectedString = "5 max(1, 2, 3)";
+		String expectedString = "5 * max(1, 2, 3)";
 
 		Expression<Double> expression = builder.build("5 max(1, 2, 3)");
 
@@ -531,7 +533,7 @@ public class DoubleAssertionTest {
 		variables.put("x", 5.0);
 
 		double expected = 25;
-		String expectedString = "5 x";
+		String expectedString = "5 * x";
 
 		Expression<Double> expression = builder.build("5x");
 
@@ -603,7 +605,7 @@ public class DoubleAssertionTest {
 
 	@Test
 	public void test33() {
-		builder.addExecutable(new Operator<>("incr", OperatorType.SUFFIX, 5,
+		expressionDictionary.addOperator(new Operator<>("incr", OperatorType.POSTFIX, 5,
 				(operands) -> operands.get(0) + 1));
 
 		double expected = 121;
@@ -617,7 +619,7 @@ public class DoubleAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		builder.removeExecutable("incr");
+		expressionDictionary.removeOperator("incr", OperatorType.POSTFIX);
 	}
 	
 	@Test
@@ -679,7 +681,7 @@ public class DoubleAssertionTest {
 	@Test
 	public void test38() {
 		double expected = -4.79462137332;
-		String expectedString = "5 sin 5";
+		String expectedString = "5 * sin 5";
 		
 		Expression<Double> expression = builder.build("5 sin 5");
 		
@@ -805,9 +807,23 @@ public class DoubleAssertionTest {
 	@Test
 	public void test47() {
 		double expected = 33614;
-		String expectedString = "2 (3 + 4) ^ 5";
+		String expectedString = "2 * (3 + 4) ^ 5";
 
 		Expression<Double> expression = builder.build("2 (3 + 4) ^ 5");
+
+		double actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test48() {
+		double expected = -0.27201055544;
+		String expectedString = "sin 5 * cos 5";
+
+		Expression<Double> expression = builder.build("sin 5 cos 5");
 
 		double actual = expression.evaluate();
 		String actualString = expression.toString();

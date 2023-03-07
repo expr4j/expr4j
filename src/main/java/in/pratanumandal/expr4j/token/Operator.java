@@ -18,7 +18,6 @@
 package in.pratanumandal.expr4j.token;
 
 import in.pratanumandal.expr4j.exception.Expr4jException;
-import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  * The <code>Operator&lt;T&gt;</code> class represents operators in the expression.
@@ -29,20 +28,11 @@ import org.apache.commons.lang3.RandomStringUtils;
  * @param <T> The type of operand
  */
 public class Operator<T> extends Executable<T> implements Comparable<Operator<T>> {
-
-	/** Unary plus operator label */
-	public static final String UNARY_PLUS = generateRandom();
-
-	/** Unary minus operator label */
-	public static final String UNARY_MINUS = generateRandom();
-
-	/** Implicit multiplication operator label */
-	public static final String IMPLICIT_MULTIPLICATION = generateRandom();
 	
 	/**
 	 * The type of operator.
 	 */
-	public final OperatorType operatorType;
+	public final OperatorType type;
 	
 	/**
 	 * The precedence of this operator.<br>
@@ -60,7 +50,7 @@ public class Operator<T> extends Executable<T> implements Comparable<Operator<T>
 	 */
 	public Operator(String label, OperatorType operatorType, int precedence, Operation<T> operation) {
 		super(label, operation);
-		this.operatorType = operatorType;
+		this.type = operatorType;
 		this.precedence = precedence;
 		
 		if (this.precedence < 1) {
@@ -75,7 +65,7 @@ public class Operator<T> extends Executable<T> implements Comparable<Operator<T>
 	public int compareTo(Operator<T> other) {
 		// compare the precedences and associativity of the two operators
 		return (this.precedence == other.precedence) ?
-				(this.operatorType == OperatorType.INFIX || this.operatorType == OperatorType.SUFFIX ? 1 : -1)
+				(this.type == OperatorType.INFIX || this.type == OperatorType.POSTFIX ? 1 : -1)
 				: other.precedence - this.precedence;
 	}
 
@@ -84,40 +74,4 @@ public class Operator<T> extends Executable<T> implements Comparable<Operator<T>
 		return label;
 	}
 
-	/**
-	 * Generate strings with random characters to be used as placeholders for predefined operators.
-	 *
-	 * @return Strings with random characters
-	 */
-	private static String generateRandom() {
-		return RandomStringUtils.random(100);
-	}
-
-	/**
-	 * The <code>OperatorType</code> enum represents the type of an operator.<br>
-	 * It can be of four types: PREFIX, SUFFIX, INFIX, and INFIX_RTL.<br><br>
-	 * 
-	 * PREFIX - must be applied before an operand, right associative.<br>
-	 * SUFFIX - must be applied after an operand, left associative.<br>
-	 * INFIX - must be applied in between two operands, left associative.<br>
-	 * INFIX_RTL - must be applied in between two operands, right associative.
-	 * 
-	 * @author Pratanu Mandal
-	 * @since 1.0
-	 *
-	 */
-	public enum OperatorType {
-		/** Prefix operators */
-		PREFIX,
-
-		/** Suffix operators */
-		SUFFIX,
-
-		/** Infix operators (left to right) */
-		INFIX, 
-
-		/** Infix operators (right to left) */
-		INFIX_RTL
-	}
-	
 }

@@ -19,7 +19,6 @@ package in.pratanumandal.expr4j;
 
 import in.pratanumandal.expr4j.exception.Expr4jException;
 import in.pratanumandal.expr4j.token.*;
-import in.pratanumandal.expr4j.token.Operator.OperatorType;
 
 import java.util.List;
 import java.util.Stack;
@@ -86,7 +85,7 @@ public class ExpressionParser<T> {
 
 				// close bracket
 				else if (separator == Separator.CLOSE_BRACKET) {
-					throwIfNotSuffix(lastToken);
+					throwIfNotPostfix(lastToken);
 					throwIfOpenBracketOrComma(lastToken);
 
 					if (probableZeroFunction) {
@@ -103,7 +102,7 @@ public class ExpressionParser<T> {
 				// comma
 				else if (separator == Separator.COMMA) {
 					throwIfFunction(lastToken);
-					throwIfNotSuffix(lastToken);
+					throwIfNotPostfix(lastToken);
 					throwIfOpenBracketOrComma(lastToken);
 
 					while (!operatorStack.isEmpty() && !(operatorStack.peek() instanceof Function)) {
@@ -140,16 +139,16 @@ public class ExpressionParser<T> {
 			else if (token instanceof Operator) {
 				Operator<T> operator = (Operator<T>) token;
 
-				if (operator.operatorType == OperatorType.INFIX ||
-						operator.operatorType == OperatorType.INFIX_RTL) {
+				if (operator.type == OperatorType.INFIX ||
+						operator.type == OperatorType.INFIX_RTL) {
 					throwIfNull(lastToken);
 					throwIfFunction(lastToken);
-					throwIfNotSuffix(lastToken);
+					throwIfNotPostfix(lastToken);
 					throwIfOpenBracketOrComma(lastToken);
 				}
-				else if (operator.operatorType == OperatorType.SUFFIX) {
+				else if (operator.type == OperatorType.POSTFIX) {
 					throwIfNull(lastToken);
-					throwIfNotSuffix(lastToken);
+					throwIfNotPostfix(lastToken);
 				}
 
 				pushOperator(operator);
@@ -188,14 +187,14 @@ public class ExpressionParser<T> {
 	 * @param operator The operator to push
 	 */
 	private void pushOperator(Operator<T> operator) {
-		if (operator.operatorType != OperatorType.PREFIX) {
+		if (operator.type != OperatorType.PREFIX) {
 			while (!operatorStack.isEmpty() &&
 					(operatorStack.peek() instanceof Operator &&
 							operator.compareTo((Operator<T>) operatorStack.peek()) > 0)) {
 				postfix.push(operatorStack.pop());
 			}
 		}
-		if (operator.operatorType == OperatorType.SUFFIX) {
+		if (operator.type == OperatorType.POSTFIX) {
 			postfix.push(operator);
 		}
 		else {
@@ -241,7 +240,7 @@ public class ExpressionParser<T> {
 
 				if (!operatorStack.isEmpty() && operatorStack.peek() instanceof Operator) {
 					Operator<T> operator = (Operator<T>) operatorStack.peek();
-					if (operator.operatorType == OperatorType.PREFIX) {
+					if (operator.type == OperatorType.PREFIX) {
 						postfix.push(operatorStack.pop());
 					}
 				}
@@ -282,14 +281,14 @@ public class ExpressionParser<T> {
 	}
 
 	/**
-	 * Throw exception if token is an operator but not of type SUFFIX.
+	 * Throw exception if token is an operator but not of type POSTFIX.
 	 *
 	 * @param token The token
 	 */
-	private void throwIfNotSuffix(Token token) {
+	private void throwIfNotPostfix(Token token) {
 		if (token instanceof Operator) {
 			Operator<T> operator = (Operator<T>) token;
-			if (operator.operatorType != OperatorType.SUFFIX) {
+			if (operator.type != OperatorType.POSTFIX) {
 				throw new Expr4jException("Invalid expression");
 			}
 		}

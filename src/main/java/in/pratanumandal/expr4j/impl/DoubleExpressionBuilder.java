@@ -18,12 +18,12 @@
 package in.pratanumandal.expr4j.impl;
 
 import in.pratanumandal.expr4j.ExpressionBuilder;
+import in.pratanumandal.expr4j.ExpressionDictionary;
 import in.pratanumandal.expr4j.impl.utils.DoubleUtils;
 import in.pratanumandal.expr4j.token.Function;
 import in.pratanumandal.expr4j.token.Operator;
-import in.pratanumandal.expr4j.token.Operator.OperatorType;
+import in.pratanumandal.expr4j.token.OperatorType;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 /**
@@ -47,97 +47,66 @@ public class DoubleExpressionBuilder extends ExpressionBuilder<Double> {
 	 * Initialize the operators, functions, and constants.
 	 */
 	protected void initialize() {
-		addExecutable(Arrays.asList(
-			new Operator<>("+", OperatorType.INFIX, 1, (operands) -> operands.get(0) + operands.get(1)),
-			new Operator<>("-", OperatorType.INFIX, 1, (operands) -> operands.get(0) - operands.get(1)),
-			
-			new Operator<>("*", OperatorType.INFIX, 2, (operands) -> operands.get(0) * operands.get(1)),
-			new Operator<>("/", OperatorType.INFIX, 2, (operands) -> operands.get(0) / operands.get(1)),
-			new Operator<>("%", OperatorType.INFIX, 2, (operands) -> operands.get(0) % operands.get(1)),
-			
-			new Operator<>("^", OperatorType.INFIX_RTL, 3, (operands) -> Math.pow(operands.get(0), operands.get(1))),
-			
-			new Operator<>("!", OperatorType.SUFFIX, 5, (operands) -> DoubleUtils.factorial(operands.get(0))),
+		ExpressionDictionary<Double> expressionDictionary = this.getExpressionDictionary();
 
-			new Operator<>("abs", OperatorType.PREFIX, 4, (operands) -> Math.abs(operands.get(0))),
-			
-			new Operator<>("sin", OperatorType.PREFIX, 4, (operands) -> Math.sin(operands.get(0))),
-			new Operator<>("cos", OperatorType.PREFIX, 4, (operands) -> Math.cos(operands.get(0))),
-			new Operator<>("tan", OperatorType.PREFIX, 4, (operands) -> Math.tan(operands.get(0))),
-			
-			new Operator<>("asin", OperatorType.PREFIX, 4, (operands) -> Math.asin(operands.get(0))),
-			new Operator<>("acos", OperatorType.PREFIX, 4, (operands) -> Math.acos(operands.get(0))),
-			new Operator<>("atan", OperatorType.PREFIX, 4, (operands) -> Math.atan(operands.get(0))),
-			
-			new Operator<>("sinh", OperatorType.PREFIX, 4, (operands) -> Math.sinh(operands.get(0))),
-			new Operator<>("cosh", OperatorType.PREFIX, 4, (operands) -> Math.cosh(operands.get(0))),
-			new Operator<>("tanh", OperatorType.PREFIX, 4, (operands) -> Math.tanh(operands.get(0))),
-			
-			new Operator<>("asinh", OperatorType.PREFIX, 4, (operands) -> DoubleUtils.asinh(operands.get(0))),
-			new Operator<>("acosh", OperatorType.PREFIX, 4, (operands) -> DoubleUtils.acosh(operands.get(0))),
-			new Operator<>("atanh", OperatorType.PREFIX, 4, (operands) -> DoubleUtils.atanh(operands.get(0))),
-			
-			new Function<>("deg", 1, (operands) -> Math.toDegrees(operands.get(0))),
-			new Function<>("rad", 1, (operands) -> Math.toRadians(operands.get(0))),
-			
-			new Operator<>("round", OperatorType.PREFIX, 4, (operands) -> (double) Math.round(operands.get(0))),
-			new Operator<>("floor", OperatorType.PREFIX, 4, (operands) -> Math.floor(operands.get(0))),
-			new Operator<>("ceil", OperatorType.PREFIX, 4, (operands) -> Math.ceil(operands.get(0))),
-			
-			new Operator<>("ln", OperatorType.PREFIX, 4, (operands) -> Math.log(operands.get(0))),
-			new Operator<>("log10", OperatorType.PREFIX, 4, (operands) -> Math.log10(operands.get(0))),
-			new Function<>("log", 2, (operands) -> DoubleUtils.log(operands.get(1), operands.get(0))),
-			
-			new Operator<>("sqrt", OperatorType.PREFIX, 4, (operands) -> Math.sqrt(operands.get(0))),
-			new Operator<>("cbrt", OperatorType.PREFIX, 4, (operands) -> Math.cbrt(operands.get(0))),
-			
-			new Function<>("exp", 1, (operands) -> Math.exp(operands.get(0))),
-			
-			new Function<>("max", (operands) -> operands.isEmpty() ? 0.0 : Collections.max(operands)),
-			new Function<>("min", (operands) -> operands.isEmpty() ? 0.0 : Collections.min(operands)),
-			
-			new Function<>("mean", (operands) -> DoubleUtils.average(operands)),
-			new Function<>("average", (operands) -> DoubleUtils.average(operands)),
-			
-			new Function<>("rand", 0, (operands) -> Math.random())
-		));
-		
-		addConstant("pi", Math.PI);
-		addConstant("e", Math.E);
-	}
+		expressionDictionary.addOperator(new Operator<>("+", OperatorType.PREFIX, Integer.MAX_VALUE, (operands) -> operands.get(0)));
+		expressionDictionary.addOperator(new Operator<>("-", OperatorType.PREFIX, Integer.MAX_VALUE, (operands) -> -operands.get(0)));
 
-	/**
-	 * Define operation of unary plus.
-	 * 
-	 * @param operand Operand of unary plus operation
-	 * @return Result of unary plus operation
-	 */
-	@Override
-	protected Double unaryPlus(Double operand) {
-		return operand;
-	}
+		expressionDictionary.addOperator(new Operator<>("+", OperatorType.INFIX, 1, (operands) -> operands.get(0) + operands.get(1)));
+		expressionDictionary.addOperator(new Operator<>("-", OperatorType.INFIX, 1, (operands) -> operands.get(0) - operands.get(1)));
 
-	/**
-	 * Define operation of unary minus.
-	 * 
-	 * @param operand Operand of unary minus operation
-	 * @return Result of unary minus operation
-	 */
-	@Override
-	protected Double unaryMinus(Double operand) {
-		return -operand;
-	}
-	
-	/**
-	 * Define operation of implicit multiplication operation.
-	 * 
-	 * @param operand0 First operand of implicit multiplication operation
-	 * @param operand1 Second operand of implicit multiplication operation
-	 * @return Result of implicit multiplication operation
-	 */
-	@Override
-	protected Double implicitMultiplication(Double operand0, Double operand1) {
-		return operand0 * operand1;
+		expressionDictionary.addOperator(new Operator<>("*", OperatorType.INFIX, 2, (operands) -> operands.get(0) * operands.get(1)));
+		expressionDictionary.addOperator(new Operator<>("/", OperatorType.INFIX, 2, (operands) -> operands.get(0) / operands.get(1)));
+		expressionDictionary.addOperator(new Operator<>("%", OperatorType.INFIX, 2, (operands) -> operands.get(0) % operands.get(1)));
+
+		expressionDictionary.addOperator(new Operator<>("^", OperatorType.INFIX_RTL, 3, (operands) -> Math.pow(operands.get(0), operands.get(1))));
+
+		expressionDictionary.addOperator(new Operator<>("!", OperatorType.POSTFIX, 5, (operands) -> DoubleUtils.factorial(operands.get(0))));
+
+		expressionDictionary.addOperator(new Operator<>("abs", OperatorType.PREFIX, 4, (operands) -> Math.abs(operands.get(0))));
+
+		expressionDictionary.addOperator(new Operator<>("sin", OperatorType.PREFIX, 4, (operands) -> Math.sin(operands.get(0))));
+		expressionDictionary.addOperator(new Operator<>("cos", OperatorType.PREFIX, 4, (operands) -> Math.cos(operands.get(0))));
+		expressionDictionary.addOperator(new Operator<>("tan", OperatorType.PREFIX, 4, (operands) -> Math.tan(operands.get(0))));
+
+		expressionDictionary.addOperator(new Operator<>("asin", OperatorType.PREFIX, 4, (operands) -> Math.asin(operands.get(0))));
+		expressionDictionary.addOperator(new Operator<>("acos", OperatorType.PREFIX, 4, (operands) -> Math.acos(operands.get(0))));
+		expressionDictionary.addOperator(new Operator<>("atan", OperatorType.PREFIX, 4, (operands) -> Math.atan(operands.get(0))));
+
+		expressionDictionary.addOperator(new Operator<>("sinh", OperatorType.PREFIX, 4, (operands) -> Math.sinh(operands.get(0))));
+		expressionDictionary.addOperator(new Operator<>("cosh", OperatorType.PREFIX, 4, (operands) -> Math.cosh(operands.get(0))));
+		expressionDictionary.addOperator(new Operator<>("tanh", OperatorType.PREFIX, 4, (operands) -> Math.tanh(operands.get(0))));
+
+		expressionDictionary.addOperator(new Operator<>("asinh", OperatorType.PREFIX, 4, (operands) -> DoubleUtils.asinh(operands.get(0))));
+		expressionDictionary.addOperator(new Operator<>("acosh", OperatorType.PREFIX, 4, (operands) -> DoubleUtils.acosh(operands.get(0))));
+		expressionDictionary.addOperator(new Operator<>("atanh", OperatorType.PREFIX, 4, (operands) -> DoubleUtils.atanh(operands.get(0))));
+
+		expressionDictionary.addFunction(new Function<>("deg", 1, (operands) -> Math.toDegrees(operands.get(0))));
+		expressionDictionary.addFunction(new Function<>("rad", 1, (operands) -> Math.toRadians(operands.get(0))));
+
+		expressionDictionary.addOperator(new Operator<>("round", OperatorType.PREFIX, 4, (operands) -> (double) Math.round(operands.get(0))));
+		expressionDictionary.addOperator(new Operator<>("floor", OperatorType.PREFIX, 4, (operands) -> Math.floor(operands.get(0))));
+		expressionDictionary.addOperator(new Operator<>("ceil", OperatorType.PREFIX, 4, (operands) -> Math.ceil(operands.get(0))));
+
+		expressionDictionary.addOperator(new Operator<>("ln", OperatorType.PREFIX, 4, (operands) -> Math.log(operands.get(0))));
+		expressionDictionary.addOperator(new Operator<>("log10", OperatorType.PREFIX, 4, (operands) -> Math.log10(operands.get(0))));
+		expressionDictionary.addFunction(new Function<>("log", 2, (operands) -> DoubleUtils.log(operands.get(1), operands.get(0))));
+
+		expressionDictionary.addOperator(new Operator<>("sqrt", OperatorType.PREFIX, 4, (operands) -> Math.sqrt(operands.get(0))));
+		expressionDictionary.addOperator(new Operator<>("cbrt", OperatorType.PREFIX, 4, (operands) -> Math.cbrt(operands.get(0))));
+
+		expressionDictionary.addFunction(new Function<>("exp", 1, (operands) -> Math.exp(operands.get(0))));
+
+		expressionDictionary.addFunction(new Function<>("max", (operands) -> operands.isEmpty() ? 0.0 : Collections.max(operands)));
+		expressionDictionary.addFunction(new Function<>("min", (operands) -> operands.isEmpty() ? 0.0 : Collections.min(operands)));
+
+		expressionDictionary.addFunction(new Function<>("mean", (operands) -> DoubleUtils.average(operands)));
+		expressionDictionary.addFunction(new Function<>("average", (operands) -> DoubleUtils.average(operands)));
+
+		expressionDictionary.addFunction(new Function<>("rand", 0, (operands) -> Math.random()));
+
+		expressionDictionary.addConstant("pi", Math.PI);
+		expressionDictionary.addConstant("e", Math.E);
 	}
 	
 	/**

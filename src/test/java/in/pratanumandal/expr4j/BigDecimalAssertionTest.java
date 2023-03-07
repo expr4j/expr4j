@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  */
 
 package in.pratanumandal.expr4j;
@@ -21,6 +21,7 @@ import in.pratanumandal.expr4j.impl.BigDecimalExpressionBuilder;
 import in.pratanumandal.expr4j.impl.utils.BigDecimalUtils;
 import in.pratanumandal.expr4j.token.Function;
 import in.pratanumandal.expr4j.token.Operator;
+import in.pratanumandal.expr4j.token.OperatorType;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -29,15 +30,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BigDecimalAssertionTest {
-	
+
 	public static int PRECISION = 10;
-	
+
 	protected BigDecimalExpressionBuilder builder = new BigDecimalExpressionBuilder();
+
+    protected ExpressionDictionary<BigDecimal> expressionDictionary = builder.getExpressionDictionary();
 
 	private void assertEquals(BigDecimal expected, BigDecimal actual) {
 		Assert.assertTrue(BigDecimalUtils.equals(expected, actual, PRECISION));
 	}
-	
+
 	@Test
 	public void test1() {
 		BigDecimal expected = new BigDecimal(8.02981363726);
@@ -222,7 +225,7 @@ public class BigDecimalAssertionTest {
 
 	@Test
 	public void test14() {
-		builder.addExecutable(new Function<>("avg", (operands) -> {
+		expressionDictionary.addFunction(new Function<>("avg", (operands) -> {
     		BigDecimal sum = new BigDecimal(0);
     		for (BigDecimal operand : operands) {
     			sum = sum.add(operand);
@@ -241,12 +244,12 @@ public class BigDecimalAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		builder.removeExecutable("avg");
+		expressionDictionary.removeFunction("avg");
 	}
 
 	@Test
 	public void test15() {
-		builder.addExecutable(new Function<>("ee", (operands) -> {
+		expressionDictionary.addFunction(new Function<>("ee", (operands) -> {
     		BigDecimal sum = new BigDecimal(0);
     		for (BigDecimal operand : operands) {
     			sum = sum.add(operand);
@@ -265,12 +268,12 @@ public class BigDecimalAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		builder.removeExecutable("ee");
+		expressionDictionary.removeFunction("ee");
 	}
 
 	@Test
 	public void test16() {
-		builder.addExecutable(new Function<>("esume", (operands) -> {
+		expressionDictionary.addFunction(new Function<>("esume", (operands) -> {
     		BigDecimal sum = new BigDecimal(0);
     		for (BigDecimal operand : operands) {
 				sum = sum.add(operand);
@@ -289,12 +292,12 @@ public class BigDecimalAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		builder.removeExecutable("esume");
+		expressionDictionary.removeFunction("esume");
 	}
 
 	@Test
 	public void test17() {
-		builder.addExecutable(new Function<>("pisumpi", (operands) -> {
+		expressionDictionary.addFunction(new Function<>("pisumpi", (operands) -> {
 			BigDecimal sum = new BigDecimal(0);
 			for (BigDecimal operand : operands) {
 				sum = sum.add(operand);
@@ -313,12 +316,12 @@ public class BigDecimalAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		builder.removeExecutable("pisumpi");
+		expressionDictionary.removeFunction("pisumpi");
 	}
 
 	@Test
 	public void test18() {
-		builder.addExecutable(new Function<>("esumpi", (operands) -> {
+		expressionDictionary.addFunction(new Function<>("esumpi", (operands) -> {
 			BigDecimal sum = new BigDecimal(0);
 			for (BigDecimal operand : operands) {
 				sum = sum.add(operand);
@@ -337,12 +340,12 @@ public class BigDecimalAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		builder.removeExecutable("esumpi");
+		expressionDictionary.removeFunction("esumpi");
 	}
 
 	@Test
 	public void test19() {
-		builder.addExecutable(new Function<>("uminusFunc", (operands) -> {			BigDecimal sum = new BigDecimal(0);
+		expressionDictionary.addFunction(new Function<>("uminusFunc", (operands) -> {			BigDecimal sum = new BigDecimal(0);
 			for (BigDecimal operand : operands) {
 				sum = sum.add(operand);
 			}
@@ -360,12 +363,12 @@ public class BigDecimalAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		builder.removeExecutable("uminusFunc");
+		expressionDictionary.removeFunction("uminusFunc");
 	}
 
 	@Test
 	public void test20() {
-		builder.addExecutable(new Function<>("uplusFunc", (operands) -> {
+		expressionDictionary.addFunction(new Function<>("uplusFunc", (operands) -> {
 			BigDecimal sum = new BigDecimal(0);
 			for (BigDecimal operand : operands) {
 				sum = sum.add(operand);
@@ -384,12 +387,12 @@ public class BigDecimalAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		builder.removeExecutable("uplusFunc");
+		expressionDictionary.removeFunction("uplusFunc");
 	}
 
 	@Test
 	public void test21() {
-		builder.addExecutable(new Function<>("Funcuminus", (operands) -> {
+		expressionDictionary.addFunction(new Function<>("Funcuminus", (operands) -> {
 			BigDecimal sum = new BigDecimal(0);
 			for (BigDecimal operand : operands) {
 				sum = sum.add(operand);
@@ -408,12 +411,12 @@ public class BigDecimalAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		builder.removeExecutable("Funcuminus");
+		expressionDictionary.removeFunction("Funcuminus");
 	}
 
 	@Test
 	public void test22() {
-		builder.addExecutable(new Function<>("Funcuplus", (operands) -> {
+		expressionDictionary.addFunction(new Function<>("Funcuplus", (operands) -> {
 			BigDecimal sum = new BigDecimal(0);
 			for (BigDecimal operand : operands) {
 				sum = sum.add(operand);
@@ -432,12 +435,12 @@ public class BigDecimalAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		builder.removeExecutable("Funcuplus");
+		expressionDictionary.removeFunction("Funcuplus");
 	}
 
 	@Test
 	public void test23() {
-		builder.addExecutable(new Function<>("uminusFuncuminus", (operands) -> {
+		expressionDictionary.addFunction(new Function<>("uminusFuncuminus", (operands) -> {
 			BigDecimal sum = new BigDecimal(0);
 			for (BigDecimal operand : operands) {
 				sum = sum.add(operand);
@@ -456,12 +459,12 @@ public class BigDecimalAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		builder.removeExecutable("uminusFuncuminus");
+		expressionDictionary.removeFunction("uminusFuncuminus");
 	}
 
 	@Test
 	public void test24() {
-		builder.addExecutable(new Function<>("uplusFuncuplus", (operands) -> {
+		expressionDictionary.addFunction(new Function<>("uplusFuncuplus", (operands) -> {
     		BigDecimal sum = new BigDecimal(0);
     		for (BigDecimal operand : operands) {
     			sum = sum.add(operand);
@@ -480,7 +483,7 @@ public class BigDecimalAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		builder.removeExecutable("uplusFuncuplus");
+		expressionDictionary.removeFunction("uplusFuncuplus");
 	}
 
 	@Test
@@ -514,7 +517,7 @@ public class BigDecimalAssertionTest {
 	@Test
 	public void test27() {
 		BigDecimal expected = new BigDecimal(15);
-		String expectedString = "5 max(1, 2, 3)";
+		String expectedString = "5 * max(1, 2, 3)";
 
 		Expression<BigDecimal> expression = builder.build("5 max(1, 2, 3)");
 
@@ -531,7 +534,7 @@ public class BigDecimalAssertionTest {
 		variables.put("x", new BigDecimal(5.0));
 
 		BigDecimal expected = new BigDecimal(25);
-		String expectedString = "5 x";
+		String expectedString = "5 * x";
 
 		Expression<BigDecimal> expression = builder.build("5x");
 
@@ -603,7 +606,7 @@ public class BigDecimalAssertionTest {
 
 	@Test
 	public void test33() {
-		builder.addExecutable(new Operator<>("incr", Operator.OperatorType.SUFFIX, 5,
+		expressionDictionary.addOperator(new Operator<>("incr", OperatorType.POSTFIX, 5,
 				(operands) -> operands.get(0).add(BigDecimal.ONE)));
 
 		BigDecimal expected = new BigDecimal(121);
@@ -617,7 +620,7 @@ public class BigDecimalAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		builder.removeExecutable("incr");
+		expressionDictionary.removeOperator("incr", OperatorType.POSTFIX);
 	}
 
 	@Test
@@ -679,7 +682,7 @@ public class BigDecimalAssertionTest {
 	@Test
 	public void test38() {
 		BigDecimal expected = new BigDecimal(-4.79462137332);
-		String expectedString = "5 sin 5";
+		String expectedString = "5 * sin 5";
 
 		Expression<BigDecimal> expression = builder.build("5 sin 5");
 
@@ -805,7 +808,7 @@ public class BigDecimalAssertionTest {
 	@Test
 	public void test47() {
 		BigDecimal expected = new BigDecimal(33614);
-		String expectedString = "2 (3 + 4) ^ 5";
+		String expectedString = "2 * (3 + 4) ^ 5";
 
 		Expression<BigDecimal> expression = builder.build("2 (3 + 4) ^ 5");
 
