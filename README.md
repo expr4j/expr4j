@@ -27,16 +27,20 @@ The expressions are evaluated using [Dijkstra's Shunting Yard algorithm](https:/
 ## Dependency Management
 
 ### Maven
-    <dependency>
-        <groupId>in.pratanumandal</groupId>
-        <artifactId>expr4j</artifactId>
-        <version>1.0</version>
-    </dependency>
+```xml
+<dependency>
+    <groupId>in.pratanumandal</groupId>
+    <artifactId>expr4j</artifactId>
+    <version>1.0</version>
+</dependency>
+```
 
 ### Gradle
-    dependencies {
-        implementation 'in.pratanumandal:expr4j:1.0'
-    }
+```gradle
+dependencies {
+    implementation 'in.pratanumandal:expr4j:1.0'
+}
+```
 
 <br/>
 
@@ -45,6 +49,6 @@ Three predefined implementations are provided. However, the library is completel
 
 | Implementation | Description |
 | -------------- | ----------- |
-| Double         | Implementation for double operands. It is the fastest implementation provided. |
+| Double         | Implementation for Double operands. It is the fastest implementation provided. |
 | BigDecimal     | Implementation for BigDecimal operands. It is slower than the Double implementation but allows for high precision. |
-| Complex        | Implementation for complex numbers. It uses the Complex type from [Apache Commons Math](https://commons.apache.org/proper/commons-math/javadocs/api-3.6.1/org/apache/commons/math3/complex/Complex.html). |
+| Complex        | Implementation for complex numbers. It uses the [Complex](https://commons.apache.org/proper/commons-math/javadocs/api-3.6.1/org/apache/commons/math3/complex/Complex.html) type from [Apache Commons Math](https://commons.apache.org/proper/commons-math/). |
