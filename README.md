@@ -47,4 +47,4 @@ Three predefined implementations are provided. However, the library is completel
 | -------------- | ----------- |
 | Double         | Implementation for double operands. It is the fastest implementation provided. |
 | BigDecimal     | Implementation for BigDecimal operands. It is slower than the Double implementation but allows for high precision. |
-| Complex        | Implementation for complex numbers. It uses the Complex type from [Apache Commons Math](https://commons.apache.org/proper/commons-math/javadocs/api-3.6.1/org/apache/commons/math3/complex/Complex.html). |
+| Complex        | Implementation for complex numbers. It uses the [Complex](https://commons.apache.org/proper/commons-math/javadocs/api-3.6.1/org/apache/commons/math3/complex/Complex.html) type from [Apache Commons Math](https://commons.apache.org/proper/commons-math/). |
