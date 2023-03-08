@@ -27,16 +27,20 @@ The expressions are evaluated using [Dijkstra's Shunting Yard algorithm](https:/
 ## Dependency Management
 
 ### Maven
-    <dependency>
-        <groupId>in.pratanumandal</groupId>
-        <artifactId>expr4j</artifactId>
-        <version>1.0</version>
-    </dependency>
+```xml
+<dependency>
+    <groupId>in.pratanumandal</groupId>
+    <artifactId>expr4j</artifactId>
+    <version>1.0</version>
+</dependency>
+```
 
 ### Gradle
-    dependencies {
-        implementation 'in.pratanumandal:expr4j:1.0'
-    }
+```gradle
+dependencies {
+    implementation 'in.pratanumandal:expr4j:1.0'
+}
+```
 
 <br/>
 
