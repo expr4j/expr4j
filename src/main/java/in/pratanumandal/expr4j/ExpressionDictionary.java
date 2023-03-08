@@ -11,7 +11,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
- * The <code>ExpressionDictionary&lt;T&gt;</code> stores all operators, functions and constants of a specified type.
+ * The <code>ExpressionDictionary&lt;T&gt;</code> class stores all operators, functions and constants of a specified type.
  *
  * @author Pratanu Mandal
  * @since 1.0
