@@ -832,4 +832,88 @@ public class DoubleAssertionTest {
 		Assert.assertEquals(expectedString, actualString);
 	}
 
+	@Test
+	public void test49() {
+		double expected = 2.31243834127;
+		String expectedString = "asinh 5";
+
+		Expression<Double> expression = builder.build("asinh 5");
+
+		double actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test50() {
+		double expected = 2.29243166956;
+		String expectedString = "acosh 5";
+
+		Expression<Double> expression = builder.build("acosh 5");
+
+		double actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test51() {
+		double expected = 0.54930614433;
+		String expectedString = "atanh 0.5";
+
+		Expression<Double> expression = builder.build("atanh 0.5");
+
+		double actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test52() {
+		double expected = 2.4;
+		String expectedString = "average(1, 2, 2, 3, 4)";
+
+		Expression<Double> expression = builder.build("average(1, 2, 2, 3, 4)");
+
+		double actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test53() {
+		double expected = 3;
+		String expectedString = "cbrt 27";
+
+		Expression<Double> expression = builder.build("cbrt(27)");
+
+		double actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test54() {
+		double expected = -115.070912959576616;
+		String expectedString = "5 ! * sin 5";
+
+		Expression<Double> expression = builder.build("5! sin 5");
+
+		double actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
 }

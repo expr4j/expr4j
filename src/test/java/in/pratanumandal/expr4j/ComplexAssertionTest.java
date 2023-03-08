@@ -503,4 +503,122 @@ public class ComplexAssertionTest {
 		Assert.assertEquals(expectedString, actualString);
 	}
 
+	@Test
+	public void test31() {
+		Complex expected = new Complex(1.968637925793096, 0.964658504407602);
+		String expectedString = "asinh(2 + 3i)";
+
+		Expression<Complex> expression = builder.build("asinh(2 + 3i)");
+
+		Complex actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test32() {
+		Complex expected = new Complex(1.983387029916535, 1.000143542473797);
+		String expectedString = "acosh(2 + 3i)";
+
+		Expression<Complex> expression = builder.build("acosh(2 + 3i)");
+
+		Complex actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test33() {
+		Complex expected = new Complex(0.146946666225529, 1.338972522294493);
+		String expectedString = "atanh(2 + 3i)";
+
+		Expression<Complex> expression = builder.build("atanh(2 + 3i)");
+
+		Complex actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test34() {
+		Complex expected = new Complex(2, 2);
+		String expectedString = "average(1 + i, 2 + 3i, 3 + 2i)";
+
+		Expression<Complex> expression = builder.build("average(1 + i, 2 + 3i, 3 + 2i)");
+
+		Complex actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test35() {
+		Complex expected = new Complex(1.77076747665, 0.32248154192);
+		String expectedString = "cbrt(5 + 3i)";
+
+		Expression<Complex> expression = builder.build("cbrt(5 + 3i)");
+
+		Complex actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test36() {
+		Complex expected = new Complex(286.47889756541, 171.88733853924);
+		String expectedString = "deg(5 + 3i)";
+
+		Expression<Complex> expression = builder.build("deg(5 + 3i)");
+
+		Complex actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test37() {
+		Complex expected = new Complex(0.08726646259, 0.05235987755);
+		String expectedString = "rad(5 + 3i)";
+
+		Expression<Complex> expression = builder.build("rad(5 + 3i)");
+
+		Complex actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test38() {
+		expressionDictionary.addConstant("TestConst", new Complex(0.5, 0.4));
+
+		Complex expected = new Complex(0.5, 0.4);
+		String expectedString = "TestConst";
+
+		Expression<Complex> expression = builder.build("TestConst");
+
+		Complex fetched = expressionDictionary.getConstant("TestConst");
+		Complex actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, fetched);
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+
+		expressionDictionary.removeConstant("TestConst");
+	}
+
 }

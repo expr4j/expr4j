@@ -219,6 +219,16 @@ public class ExpressionDictionary<T> {
     }
 
     /**
+     * Remove constant from the parser for the specified label if present.
+     *
+     * @param label Label of the constant
+     * @return Constant for the specified label if present, else null
+     */
+    public T removeConstant(String label) {
+        return constants.remove(label);
+    }
+
+    /**
      * Get constant present in the parser for the specified label.
      *
      * @param label Label of the constant
@@ -229,16 +239,6 @@ public class ExpressionDictionary<T> {
             throw new Expr4jException("Constant not found: " + label);
         }
         return constants.get(label);
-    }
-
-    /**
-     * Remove constant from the parser for the specified label if present.
-     *
-     * @param label Label of the constant
-     * @return Constant for the specified label if present, else null
-     */
-    public T removeConstant(String label) {
-        return constants.remove(label);
     }
 
 }

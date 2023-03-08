@@ -620,7 +620,7 @@ public class BigDecimalAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		expressionDictionary.removeOperator("incr", OperatorType.POSTFIX);
+		expressionDictionary.removeOperator("incr");
 	}
 
 	@Test
@@ -811,6 +811,104 @@ public class BigDecimalAssertionTest {
 		String expectedString = "2 * (3 + 4) ^ 5";
 
 		Expression<BigDecimal> expression = builder.build("2 (3 + 4) ^ 5");
+
+		BigDecimal actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test48() {
+		BigDecimal expected = new BigDecimal(-0.27201055544);
+		String expectedString = "sin 5 * cos 5";
+
+		Expression<BigDecimal> expression = builder.build("sin 5 cos 5");
+
+		BigDecimal actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test49() {
+		BigDecimal expected = new BigDecimal(2.31243834127);
+		String expectedString = "asinh 5";
+
+		Expression<BigDecimal> expression = builder.build("asinh 5");
+
+		BigDecimal actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test50() {
+		BigDecimal expected = new BigDecimal(2.29243166956);
+		String expectedString = "acosh 5";
+
+		Expression<BigDecimal> expression = builder.build("acosh 5");
+
+		BigDecimal actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test51() {
+		BigDecimal expected = new BigDecimal(0.54930614433);
+		String expectedString = "atanh 0.5";
+
+		Expression<BigDecimal> expression = builder.build("atanh 0.5");
+
+		BigDecimal actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test52() {
+		BigDecimal expected = new BigDecimal(2.4);
+		String expectedString = "average(1, 2, 2, 3, 4)";
+
+		Expression<BigDecimal> expression = builder.build("average(1, 2, 2, 3, 4)");
+
+		BigDecimal actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test53() {
+		BigDecimal expected = new BigDecimal(3);
+		String expectedString = "cbrt 27";
+
+		Expression<BigDecimal> expression = builder.build("cbrt(27)");
+
+		BigDecimal actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test54() {
+		BigDecimal expected = new BigDecimal(-115.070912959576616);
+		String expectedString = "5 ! * sin 5";
+
+		Expression<BigDecimal> expression = builder.build("5! sin 5");
 
 		BigDecimal actual = expression.evaluate();
 		String actualString = expression.toString();
