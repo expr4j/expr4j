@@ -39,11 +39,8 @@ import java.util.Collections;
  */
 public class BigDecimalExpressionBuilder extends ExpressionBuilder<BigDecimal> {
 
-	/** Default precision */
-	public static final int DEFAULT_PRECISION = 20;
-
-	/** Default rounding mode */
-	public static final RoundingMode DEFAULT_ROUNDING_MODE = RoundingMode.HALF_UP;
+	/** Default math context */
+	public static final MathContext DEFAULT_CONTEXT = new MathContext(20, RoundingMode.HALF_UP);
 
 	/** Math context */
 	private MathContext mathContext;
@@ -52,7 +49,7 @@ public class BigDecimalExpressionBuilder extends ExpressionBuilder<BigDecimal> {
 	 * No-Argument Constructor.
 	 */
 	public BigDecimalExpressionBuilder() {
-		this(DEFAULT_PRECISION);
+		this(DEFAULT_CONTEXT);
 	}
 
 	/**
@@ -61,7 +58,7 @@ public class BigDecimalExpressionBuilder extends ExpressionBuilder<BigDecimal> {
 	 * @param precision Precision
 	 */
 	public BigDecimalExpressionBuilder(int precision) {
-		this(precision, DEFAULT_ROUNDING_MODE);
+		this(precision, DEFAULT_CONTEXT.getRoundingMode());
 	}
 
 	/**

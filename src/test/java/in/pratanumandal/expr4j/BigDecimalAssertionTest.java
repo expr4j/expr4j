@@ -26,6 +26,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -915,6 +917,24 @@ public class BigDecimalAssertionTest {
 
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
+	}
+
+	@Test
+	public void test55() {
+		builder.setMathContext(new MathContext(5, RoundingMode.HALF_UP));
+
+		BigDecimal expected = new BigDecimal(-115.07);
+		String expectedString = "5 ! * sin 5";
+
+		Expression<BigDecimal> expression = builder.build("5! sin 5");
+
+		BigDecimal actual = expression.evaluate();
+		String actualString = expression.toString();
+
+		this.assertEquals(expected, actual);
+		Assert.assertEquals(expectedString, actualString);
+
+		builder.setMathContext(BigDecimalExpressionBuilder.DEFAULT_CONTEXT);
 	}
 
 }

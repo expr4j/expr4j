@@ -146,7 +146,7 @@ public class ComplexExpressionBuilder extends ExpressionBuilder<Complex> {
 	}
 
 	@Override
-	protected List<String> getNumberPattern() {
+	protected List<String> getOperandPattern() {
 		return Arrays.asList("(-?\\d+)(\\.\\d+)?(e-|e\\+|e|\\d+)\\d+(\\s*i)?", "\\d*\\.?\\d+(\\s*i)?");
 	}
 	

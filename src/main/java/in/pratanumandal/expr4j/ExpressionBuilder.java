@@ -143,8 +143,8 @@ public abstract class ExpressionBuilder<T> {
 				}
 
 				@Override
-				protected List<String> getNumberPattern() {
-					return ExpressionBuilder.this.getNumberPattern();
+				protected List<String> getOperandPattern() {
+					return ExpressionBuilder.this.getOperandPattern();
 				}
 			};
 			List<Token> tokenList = tokenizer.tokenize(expr);
@@ -190,12 +190,12 @@ public abstract class ExpressionBuilder<T> {
 	protected abstract String operandToString(T operand);
 	
 	/**
-	 * Method to define the patterns to identify numbers.<br>
-	 * Override this method if the patterns to identify numbers need to be customized.
+	 * Method to define the patterns to identify operands.<br>
+	 * Override this method if the patterns to identify operands need to be customized.
 	 * 
-	 * @return List of patterns to identify numbers
+	 * @return List of patterns to identify operands
 	 */
-	protected List<String> getNumberPattern() {
+	protected List<String> getOperandPattern() {
 		return Arrays.asList("(-?\\d+)(\\.\\d+)?(e-|e\\+|e|\\d+)\\d+", "\\d*\\.?\\d+");
 	}
 	

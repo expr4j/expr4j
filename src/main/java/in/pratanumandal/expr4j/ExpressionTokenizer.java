@@ -76,10 +76,10 @@ public abstract class ExpressionTokenizer<T> {
         Pattern variablePattern = Pattern.compile("[a-zA-Z]+[0-9]*[a-zA-Z]*");
         Pattern whitespacePattern = Pattern.compile("\\s+");
 
-        List<Pattern> numberPatternList = new ArrayList<>();
-        for (String patternString : this.getNumberPattern()) {
+        List<Pattern> operandPatternList = new ArrayList<>();
+        for (String patternString : this.getOperandPattern()) {
             Pattern numberPattern = Pattern.compile(patternString);
-            numberPatternList.add(numberPattern);
+            operandPatternList.add(numberPattern);
         }
 
         // initialize parsing variables
@@ -180,8 +180,8 @@ public abstract class ExpressionTokenizer<T> {
                 continue;
             }
 
-            // check for numbers
-            for (Pattern numberPattern : numberPatternList) {
+            // check for operands
+            for (Pattern numberPattern : operandPatternList) {
                 matcher = numberPattern.matcher(expr.substring(index));
                 if (matcher.lookingAt()) {
                     String match = matcher.group();
@@ -315,11 +315,10 @@ public abstract class ExpressionTokenizer<T> {
     protected abstract T stringToOperand(String operand);
 
     /**
-     * Method to define the patterns to identify numbers.<br>
-     * Override this method if the patterns to identify numbers need to be customized.
+     * Method to define the patterns to identify operands.<br>
      *
-     * @return List of patterns to identify numbers
+     * @return List of patterns to identify operands
      */
-    protected abstract List<String> getNumberPattern();
+    protected abstract List<String> getOperandPattern();
 
 }
