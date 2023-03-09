@@ -253,7 +253,7 @@ public class ExpressionDictionary<T> {
      *
      * @return The list of labels
      */
-    protected Set<String> getExecutables() {
+    Set<String> getExecutables() {
         Set<String> executables = new TreeSet<>();
         executables.addAll(prefixMap.keySet());
         executables.addAll(postfixMap.keySet());
