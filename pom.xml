@@ -44,11 +44,6 @@
     <dependencies>
         <dependency>
             <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.12.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
             <artifactId>commons-math3</artifactId>
             <version>3.6.1</version>
         </dependency>
@@ -91,26 +86,6 @@
                 <configuration>
                     <serverId>ossrh</serverId>
                     <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.5.0</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <finalName>${project.artifactId}-${project.version}</finalName>
-                    <appendAssemblyId>false</appendAssemblyId>
                 </configuration>
             </plugin>
             <plugin>

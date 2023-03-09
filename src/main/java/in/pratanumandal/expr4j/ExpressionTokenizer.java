@@ -19,7 +19,6 @@ package in.pratanumandal.expr4j;
 
 import in.pratanumandal.expr4j.exception.Expr4jException;
 import in.pratanumandal.expr4j.token.*;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +56,7 @@ public abstract class ExpressionTokenizer<T> {
      */
     public List<Token> tokenize(String expr) {
         // do not allow blank expressions
-        if (StringUtils.isBlank(expr)) {
+        if (isBlank(expr)) {
             throw new Expr4jException("Invalid expression");
         }
 
@@ -230,6 +229,16 @@ public abstract class ExpressionTokenizer<T> {
         }
         
         return tokenList;
+    }
+
+    /**
+     * Check if a string is blank or not.
+     *
+     * @param str The string
+     * @return True if blank, false otherwise
+     */
+    private boolean isBlank(String str) {
+        return str == null || str.length() == 0 || str.chars().allMatch(Character::isWhitespace);
     }
 
     /**
