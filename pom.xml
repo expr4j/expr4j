@@ -115,7 +115,7 @@
                 </executions>
                 <configuration>
                     <links>
-                        <link>https://commons.apache.org/proper/commons-math/javadocs/api-3.6.1/</link>
+                        <link>https://commons.apache.org/proper/commons-numbers/commons-numbers-complex/javadocs/api-1.1/</link>
                     </links>
                     <bottom>
                         <![CDATA[
