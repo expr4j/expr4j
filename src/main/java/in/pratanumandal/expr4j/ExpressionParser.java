@@ -30,7 +30,7 @@ import java.util.Stack;
  * @author Pratanu Mandal
  * @since 1.0
  *
- * @param <T> The type of operand for this parser
+ * @param <T> The type of operand
  */
 public class ExpressionParser<T> {
 	

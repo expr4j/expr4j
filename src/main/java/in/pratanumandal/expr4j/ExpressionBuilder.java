@@ -24,7 +24,6 @@ import in.pratanumandal.expr4j.token.Operator;
 import in.pratanumandal.expr4j.token.OperatorType;
 import in.pratanumandal.expr4j.token.Token;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
@@ -35,9 +34,9 @@ import java.util.Stack;
  * @author Pratanu Mandal
  * @since 1.0
  *
- * @param <T> The type of operand for this parser
+ * @param <T> The type of operand
  */
-public abstract class ExpressionBuilder<T> {
+public class ExpressionBuilder<T> {
 	
 	/**
 	 * Instance of expression.
@@ -48,11 +47,19 @@ public abstract class ExpressionBuilder<T> {
 	 * Expression dictionary.
 	 */
 	private ExpressionDictionary<T> expressionDictionary;
-	
+
 	/**
-	 * No-Argument Constructor.
+	 * Expression configuration.
 	 */
-	public ExpressionBuilder() {
+	private final ExpressionConfig<T> expressionConfig;
+
+	/**
+	 * Parameterized constructor
+	 *
+	 * @param expressionConfig The expression configuration
+	 */
+	public ExpressionBuilder(ExpressionConfig<T> expressionConfig) {
+		this.expressionConfig = expressionConfig;
 		this.reset();
 	}
 
@@ -133,25 +140,10 @@ public abstract class ExpressionBuilder<T> {
 	public Expression<T> build(String expr) {
 		try {
 			// initialize expression
-			this.expression = new Expression<T>(expressionDictionary) {
-				@Override
-				protected String operandToString(T operand) {
-					return ExpressionBuilder.this.operandToString(operand);
-				}
-			};
+			this.expression = new Expression<T>(expressionDictionary, expressionConfig);
 
 			// tokenize the expression
-			ExpressionTokenizer<T> tokenizer = new ExpressionTokenizer<T>(expressionDictionary) {
-				@Override
-				protected T stringToOperand(String operand) {
-					return ExpressionBuilder.this.stringToOperand(operand);
-				}
-
-				@Override
-				protected List<String> getOperandPattern() {
-					return ExpressionBuilder.this.getOperandPattern();
-				}
-			};
+			ExpressionTokenizer<T> tokenizer = new ExpressionTokenizer<T>(expressionDictionary, expressionConfig);
 			List<Token> tokenList = tokenizer.tokenize(expr);
 
 			// form the postfix expression
@@ -177,31 +169,14 @@ public abstract class ExpressionBuilder<T> {
 	public ExpressionDictionary<T> getExpressionDictionary() {
 		return expressionDictionary;
 	}
-	
+
 	/**
-	 * Method to define procedure to obtain operand from string representation.
-	 * 
-	 * @param operand String representation of operand
-	 * @return Operand
+	 * Get the expression configuration.
+	 *
+	 * @return The expression configuration
 	 */
-	protected abstract T stringToOperand(String operand);
-	
-	/**
-	 * Method to define procedure to obtain string representation of operand.
-	 * 
-	 * @param operand Operand
-	 * @return String representation of operand
-	 */
-	protected abstract String operandToString(T operand);
-	
-	/**
-	 * Method to define the patterns to identify operands.<br>
-	 * Override this method if the patterns to identify operands need to be customized.
-	 * 
-	 * @return List of patterns to identify operands
-	 */
-	protected List<String> getOperandPattern() {
-		return Arrays.asList("(-?\\d+)(\\.\\d+)?(e-|e\\+|e|\\d+)\\d+", "\\d*\\.?\\d+");
+	public ExpressionConfig<T> getExpressionConfig() {
+		return expressionConfig;
 	}
-	
+
 }

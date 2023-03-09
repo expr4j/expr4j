@@ -18,6 +18,7 @@
 package in.pratanumandal.expr4j.impl;
 
 import in.pratanumandal.expr4j.ExpressionBuilder;
+import in.pratanumandal.expr4j.ExpressionConfig;
 import in.pratanumandal.expr4j.ExpressionDictionary;
 import in.pratanumandal.expr4j.impl.utils.DoubleUtils;
 import in.pratanumandal.expr4j.token.Function;
@@ -39,7 +40,17 @@ public class DoubleExpressionBuilder extends ExpressionBuilder<Double> {
 	 * No-Argument Constructor.
 	 */
 	public DoubleExpressionBuilder() {
-		super();
+		super(new ExpressionConfig<Double>() {
+			@Override
+			protected Double stringToOperand(String operand) {
+				return Double.parseDouble(operand);
+			}
+
+			protected String operandToString(Double operand) {
+				return operand == operand.intValue() ? String.valueOf(operand.intValue()) : operand.toString();
+			}
+		});
+
 		this.initialize();
 	}
 	
@@ -107,28 +118,6 @@ public class DoubleExpressionBuilder extends ExpressionBuilder<Double> {
 
 		expressionDictionary.addConstant("pi", Math.PI);
 		expressionDictionary.addConstant("e", Math.E);
-	}
-	
-	/**
-	 * Method to define procedure to parse string representation of operand.
-	 * 
-	 * @param operand String representation of operand
-	 * @return Parsed operand
-	 */
-	@Override
-	protected Double stringToOperand(String operand) {
-		return Double.parseDouble(operand);
-	}
-
-	/**
-	 * Method to define procedure to obtain string representation of operand.
-	 * 
-	 * @param operand Operand
-	 * @return String representation of operand
-	 */
-	@Override
-	protected String operandToString(Double operand) {
-		return operand == operand.intValue() ? String.valueOf(operand.intValue()) : operand.toString();
 	}
 	
 }

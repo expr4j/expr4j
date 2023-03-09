@@ -19,6 +19,7 @@ package in.pratanumandal.expr4j.impl;
 
 import ch.obermuhlner.math.big.BigDecimalMath;
 import in.pratanumandal.expr4j.ExpressionBuilder;
+import in.pratanumandal.expr4j.ExpressionConfig;
 import in.pratanumandal.expr4j.ExpressionDictionary;
 import in.pratanumandal.expr4j.impl.utils.BigDecimalUtils;
 import in.pratanumandal.expr4j.token.Function;
@@ -77,7 +78,18 @@ public class BigDecimalExpressionBuilder extends ExpressionBuilder<BigDecimal> {
 	 * @param mathContext Math context
 	 */
 	public BigDecimalExpressionBuilder(MathContext mathContext) {
-		super();
+		super(new ExpressionConfig<BigDecimal>() {
+			@Override
+			protected BigDecimal stringToOperand(String operand) {
+				return new BigDecimal(operand);
+			}
+
+			@Override
+			protected String operandToString(BigDecimal operand) {
+				return operand.toString();
+			}
+		});
+
 		this.mathContext = mathContext;
 		this.initialize();
 	}
@@ -166,28 +178,6 @@ public class BigDecimalExpressionBuilder extends ExpressionBuilder<BigDecimal> {
 		this.reset();
 		this.mathContext = mathContext;
 		this.initialize();
-	}
-	
-	/**
-	 * Method to define procedure to parse string representation of operand.
-	 * 
-	 * @param operand String representation of operand
-	 * @return Parsed operand
-	 */
-	@Override
-	protected BigDecimal stringToOperand(String operand) {
-		return new BigDecimal(operand);
-	}
-
-	/**
-	 * Method to define procedure to obtain string representation of operand.
-	 * 
-	 * @param operand Operand
-	 * @return String representation of operand
-	 */
-	@Override
-	protected String operandToString(BigDecimal operand) {
-		return operand.toString();
 	}
 	
 }

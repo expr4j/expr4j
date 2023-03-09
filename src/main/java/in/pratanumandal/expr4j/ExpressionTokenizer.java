@@ -32,20 +32,28 @@ import java.util.stream.Collectors;
  * @author Pratanu Mandal
  * @since 1.0
  *
- * @param <T> The type of operand for this tokenizer
+ * @param <T> The type of operand
  */
-public abstract class ExpressionTokenizer<T> {
+public class ExpressionTokenizer<T> {
 
     /** Expression dictionary */
     private final ExpressionDictionary<T> expressionDictionary;
 
     /**
+     * Expression confiuration.
+     */
+    private final ExpressionConfig<T> expressionConfig;
+
+    /**
      * Parameterized constructor.
      *
      * @param expressionDictionary The expression dictionary
+     * @param expressionConfig The expression configuration
      */
-    public ExpressionTokenizer(ExpressionDictionary<T> expressionDictionary) {
+    public ExpressionTokenizer(ExpressionDictionary<T> expressionDictionary,
+                               ExpressionConfig<T> expressionConfig) {
         this.expressionDictionary = expressionDictionary;
+        this.expressionConfig = expressionConfig;
     }
 
     /**
@@ -76,7 +84,7 @@ public abstract class ExpressionTokenizer<T> {
         Pattern whitespacePattern = Pattern.compile("\\s+");
 
         List<Pattern> operandPatternList = new ArrayList<>();
-        for (String patternString : this.getOperandPattern()) {
+        for (String patternString : expressionConfig.getOperandPattern()) {
             Pattern operandPattern = Pattern.compile(patternString);
             operandPatternList.add(operandPattern);
         }
@@ -188,7 +196,7 @@ public abstract class ExpressionTokenizer<T> {
 
                     addImplicitMultiplication(tokenList, lastToken);
 
-                    Operand<T> operand = new Operand<T>(this.stringToOperand(match));
+                    Operand<T> operand = new Operand<T>(expressionConfig.stringToOperand(match));
                     tokenList.add(operand);
 
                     probableUnary = false;
@@ -314,20 +322,5 @@ public abstract class ExpressionTokenizer<T> {
 
         return false;
     }
-
-    /**
-     * Method to define procedure to obtain operand from string representation.
-     *
-     * @param operand String representation of operand
-     * @return Operand
-     */
-    protected abstract T stringToOperand(String operand);
-
-    /**
-     * Method to define the patterns to identify operands.<br>
-     *
-     * @return List of patterns to identify operands
-     */
-    protected abstract List<String> getOperandPattern();
 
 }

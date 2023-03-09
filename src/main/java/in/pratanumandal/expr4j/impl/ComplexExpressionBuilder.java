@@ -18,6 +18,7 @@
 package in.pratanumandal.expr4j.impl;
 
 import in.pratanumandal.expr4j.ExpressionBuilder;
+import in.pratanumandal.expr4j.ExpressionConfig;
 import in.pratanumandal.expr4j.ExpressionDictionary;
 import in.pratanumandal.expr4j.impl.utils.ComplexUtils;
 import in.pratanumandal.expr4j.token.Function;
@@ -41,7 +42,40 @@ public class ComplexExpressionBuilder extends ExpressionBuilder<Complex> {
 	 * No-Argument Constructor.
 	 */
 	public ComplexExpressionBuilder() {
-		super();
+		super(new ExpressionConfig<Complex>() {
+			@Override
+			protected Complex stringToOperand(String operand) {
+				if (!operand.contains("i")) {
+					return Complex.ofCartesian(Double.parseDouble(operand), 0);
+				}
+				else {
+					return Complex.ofCartesian(0, Double.parseDouble(operand.replaceAll("\\s*i", "")));
+				}
+			}
+
+			@Override
+			protected String operandToString(Complex operand) {
+				StringBuilder representation = new StringBuilder();
+				double real = operand.getReal();
+				double imaginary = operand.getImaginary();
+				if (real != 0.0) {
+					if (real == (int) real) representation.append((int) real);
+					else representation.append(real);
+				}
+				if (imaginary != 0.0) {
+					if (imaginary == (int) imaginary) representation.append((int) imaginary);
+					else representation.append(imaginary);
+					representation.append("i");
+				}
+				return representation.toString();
+			}
+
+			@Override
+			protected List<String> getOperandPattern() {
+				return Arrays.asList("(-?\\d+)(\\.\\d+)?(e-|e\\+|e|\\d+)\\d+(\\s*i)?", "\\d*\\.?\\d+(\\s*i)?");
+			}
+		});
+
 		this.initialize();
 	}
 	
@@ -104,50 +138,6 @@ public class ComplexExpressionBuilder extends ExpressionBuilder<Complex> {
 		expressionDictionary.addConstant("e", Complex.ofCartesian(Math.E, 0));
 
 		expressionDictionary.addConstant("i", Complex.I);
-	}
-	
-	/**
-	 * Method to define procedure to parse string representation of operand.
-	 * 
-	 * @param operand String representation of operand
-	 * @return Parsed operand
-	 */
-	@Override
-	protected Complex stringToOperand(String operand) {
-		if (!operand.contains("i")) {
-			return Complex.ofCartesian(Double.parseDouble(operand), 0);
-		}
-		else {
-			return Complex.ofCartesian(0, Double.parseDouble(operand.replaceAll("\\s*i", "")));
-		}
-	}
-
-	/**
-	 * Method to define procedure to obtain string representation of operand.
-	 * 
-	 * @param operand Operand
-	 * @return String representation of operand
-	 */
-	@Override
-	protected String operandToString(Complex operand) {
-		StringBuilder representation = new StringBuilder();
-		double real = operand.getReal();
-		double imaginary = operand.getImaginary();
-		if (real != 0.0) {
-			if (real == (int) real) representation.append((int) real);
-			else representation.append(real);
-		}
-		if (imaginary != 0.0) {
-			if (imaginary == (int) imaginary) representation.append((int) imaginary);
-			else representation.append(imaginary);
-			representation.append("i");
-		}
-		return representation.toString();
-	}
-
-	@Override
-	protected List<String> getOperandPattern() {
-		return Arrays.asList("(-?\\d+)(\\.\\d+)?(e-|e\\+|e|\\d+)\\d+(\\s*i)?", "\\d*\\.?\\d+(\\s*i)?");
 	}
 	
 }

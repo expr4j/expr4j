@@ -32,9 +32,9 @@ import java.util.stream.Collectors;
  * @author Pratanu Mandal
  * @since 1.0
  *
- * @param <T> The type of operand for this expression
+ * @param <T> The type of operand
  */
-public abstract class Expression<T> {
+public class Expression<T> {
 	
 	/**
 	 * The <code>Node</code> class represents a node of the expression tree.<br><br>
@@ -80,14 +80,22 @@ public abstract class Expression<T> {
 	 * Expression dictionary.
 	 */
 	private final ExpressionDictionary<T> expressionDictionary;
+
+	/**
+	 * Expression configuration.
+	 */
+	private final ExpressionConfig<T> expressionConfig;
 	
 	/**
 	 * Parameterized constructor.
-	 * 
-	 * @param expressionDictionary Expression dictionary
+	 *
+	 * @param expressionDictionary The expression dictionary
+	 * @param expressionConfig The expression configuration
 	 */
-	public Expression(ExpressionDictionary<T> expressionDictionary) {
+	public Expression(ExpressionDictionary<T> expressionDictionary,
+					  ExpressionConfig<T> expressionConfig) {
 		this.expressionDictionary = expressionDictionary;
+		this.expressionConfig = expressionConfig;
 	}
 	
 	/**
@@ -300,7 +308,7 @@ public abstract class Expression<T> {
 		// encountered operand
 		else {
 			Operand<T> operand = (Operand<T>) node.token;
-			return operandToString(operand.value);
+			return expressionConfig.operandToString(operand.value);
 		}
 	}
 
@@ -311,13 +319,5 @@ public abstract class Expression<T> {
 	public String toString() {
 		return this.toString(root);
 	}
-
-	/**
-	 * Method to define procedure to obtain string representation of operand.
-	 *
-	 * @param operand Operand
-	 * @return String representation of operand
-	 */
-	protected abstract String operandToString(T operand);
 	
 }

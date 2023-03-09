@@ -28,9 +28,10 @@ public class GeneralTest {
 
 	protected ExpressionBuilder<String> builder;
 	protected ExpressionDictionary<String> expressionDictionary;
+	protected ExpressionConfig<String> expressionConfig;
 
 	public GeneralTest() {
-		builder = new ExpressionBuilder<String>() {
+		builder = new ExpressionBuilder<>(new ExpressionConfig<String>() {
 			@Override
 			protected String stringToOperand(String operand) {
 				return operand.substring(1, operand.length() - 1);
@@ -45,9 +46,10 @@ public class GeneralTest {
 			protected List<String> getOperandPattern() {
 				return Arrays.asList("'.*?'");
 			}
-		};
+		});
 
 		expressionDictionary = builder.getExpressionDictionary();
+		expressionConfig = builder.getExpressionConfig();
 
 		expressionDictionary.addOperator(new Operator<>("+", OperatorType.INFIX, 1, (operands) -> operands.get(0) + operands.get(1)));
 		expressionDictionary.addFunction(new Function<>("add", (operands) -> operands.get(0) + operands.get(1)));
@@ -146,17 +148,7 @@ public class GeneralTest {
 	public void test10() {
 		String[] expected = {"Hello", "Operator{label='+', type=INFIX, precedence=1}", "World"};
 
-		ExpressionTokenizer<String> tokenizer = new ExpressionTokenizer<String>(expressionDictionary) {
-			@Override
-			protected String stringToOperand(String operand) {
-				return operand.substring(1, operand.length() - 1);
-			}
-
-			@Override
-			protected List<String> getOperandPattern() {
-				return Arrays.asList("'.*?'");
-			}
-		};
+		ExpressionTokenizer<String> tokenizer = new ExpressionTokenizer<>(expressionDictionary, expressionConfig);
 
 		String[] actual = tokenizer.tokenize("'Hello' + 'World'")
 				.stream()
