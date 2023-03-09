@@ -33,17 +33,17 @@ public class GeneralTest {
 		builder = new ExpressionBuilder<String>() {
 			@Override
 			protected String stringToOperand(String operand) {
-				return operand;
+				return operand.substring(1, operand.length() - 1);
 			}
 
 			@Override
 			protected String operandToString(String operand) {
-				return operand;
+				return "'" + operand + "'";
 			}
 
 			@Override
 			protected List<String> getOperandPattern() {
-				return Arrays.asList("[A-Za-z]+");
+				return Arrays.asList("'.*?'");
 			}
 		};
 
@@ -56,9 +56,9 @@ public class GeneralTest {
 	@Test
 	public void test1() {
 		String expected = "HelloWorld";
-		String expectedString = "Hello + World";
+		String expectedString = "'Hello' + 'World'";
 		
-		Expression<String> expression = builder.build("Hello + World");
+		Expression<String> expression = builder.build("'Hello' + 'World'");
 		
 		String actual = expression.evaluate();
 		String actualString = expression.toString();
@@ -70,9 +70,9 @@ public class GeneralTest {
 	@Test
 	public void test2() {
 		String expected = "HelloWorld";
-		String expectedString = "add(Hello, World)";
+		String expectedString = "add('Hello', 'World')";
 
-		Expression<String> expression = builder.build("add(Hello, World)");
+		Expression<String> expression = builder.build("add('Hello', 'World')");
 
 		String actual = expression.evaluate();
 		String actualString = expression.toString();
@@ -84,28 +84,40 @@ public class GeneralTest {
 	@Test
 	public void test3() {
 		String[] expected = {"+"};
-		String[] actual = expressionDictionary.getOperators().stream().map(e -> e.label).toArray(String[]::new);
+		String[] actual = expressionDictionary.getOperators()
+				.stream()
+				.map(e -> e.label)
+				.toArray(String[]::new);
 		Assert.assertEquals(expected, actual);
 	}
 
 	@Test
 	public void test4() {
 		String[] expected = {"add"};
-		String[] actual = expressionDictionary.getFunctions().stream().map(e -> e.label).toArray(String[]::new);
+		String[] actual = expressionDictionary.getFunctions()
+				.stream()
+				.map(e -> e.label)
+				.toArray(String[]::new);
 		Assert.assertEquals(expected, actual);
 	}
 
 	@Test
 	public void test5() {
 		String[] expected = {"Operator{label='+', type=INFIX, precedence=1}"};
-		String[] actual = expressionDictionary.getOperators().stream().map(e -> e.toString()).toArray(String[]::new);
+		String[] actual = expressionDictionary.getOperators()
+				.stream()
+				.map(e -> e.toString())
+				.toArray(String[]::new);
 		Assert.assertEquals(expected, actual);
 	}
 
 	@Test
 	public void test6() {
 		String[] expected = {"Function{label='add', parameters=-1}"};
-		String[] actual = expressionDictionary.getFunctions().stream().map(e -> e.toString()).toArray(String[]::new);
+		String[] actual = expressionDictionary.getFunctions()
+				.stream()
+				.map(e -> e.toString())
+				.toArray(String[]::new);
 		Assert.assertEquals(expected, actual);
 	}
 
@@ -127,6 +139,30 @@ public class GeneralTest {
 	public void test9() {
 		String expected = "Hello";
 		String actual = new Variable("Hello").toString();
+		Assert.assertEquals(expected, actual);
+	}
+
+	@Test
+	public void test10() {
+		String[] expected = {"Hello", "Operator{label='+', type=INFIX, precedence=1}", "World"};
+
+		ExpressionTokenizer<String> tokenizer = new ExpressionTokenizer<String>(expressionDictionary) {
+			@Override
+			protected String stringToOperand(String operand) {
+				return operand.substring(1, operand.length() - 1);
+			}
+
+			@Override
+			protected List<String> getOperandPattern() {
+				return Arrays.asList("'.*?'");
+			}
+		};
+
+		String[] actual = tokenizer.tokenize("'Hello' + 'World'")
+				.stream()
+				.map(e -> e.toString())
+				.toArray(String[]::new);
+
 		Assert.assertEquals(expected, actual);
 	}
 
