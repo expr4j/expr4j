@@ -34,12 +34,13 @@ import java.util.stream.Collectors;
  *
  * @param <T> The type of operand for this expression
  */
-public class Expression<T> {
+public abstract class Expression<T> {
 	
 	/**
 	 * The <code>Node</code> class represents a node of the expression tree.<br><br>
 	 * 
 	 * @author Pratanu Mandal
+	 * @since 1.0
 	 *
 	 */
 	public static class Node {
@@ -79,22 +80,14 @@ public class Expression<T> {
 	 * Expression dictionary.
 	 */
 	private final ExpressionDictionary<T> expressionDictionary;
-
-	/**
-	 * Operand representation.
-	 */
-	private final OperandRepresentation<T> operandRepresentation;
 	
 	/**
 	 * Parameterized constructor.
 	 * 
 	 * @param expressionDictionary Expression dictionary
-	 * @param operandRepresentation Instance of <code>OperandRepresentation</code>
 	 */
-	public Expression(ExpressionDictionary<T> expressionDictionary,
-					  OperandRepresentation<T> operandRepresentation) {
+	public Expression(ExpressionDictionary<T> expressionDictionary) {
 		this.expressionDictionary = expressionDictionary;
-		this.operandRepresentation = operandRepresentation;
 	}
 	
 	/**
@@ -307,7 +300,7 @@ public class Expression<T> {
 		// encountered operand
 		else {
 			Operand<T> operand = (Operand<T>) node.token;
-			return operandRepresentation.toString(operand.value);
+			return operandToString(operand.value);
 		}
 	}
 
@@ -318,26 +311,13 @@ public class Expression<T> {
 	public String toString() {
 		return this.toString(root);
 	}
-	
-	/**
-	 * The <code>OperandRepresentation&lt;T&gt;</code> functional interface represents a string representation of an operand.
-	 * 
-	 * @author Pratanu Mandal
-	 * @since 1.0
-	 *
-	 * @param <T> The type of operand
-	 */
-	@FunctionalInterface
-	public interface OperandRepresentation<T> {
-		
-		/**
-		 * Get string representation of operand.
-		 * 
-		 * @param value Value of operand
-		 * @return String representation of operand
-		 */
-		public abstract String toString(T value);
 
-	}
+	/**
+	 * Method to define procedure to obtain string representation of operand.
+	 *
+	 * @param operand Operand
+	 * @return String representation of operand
+	 */
+	protected abstract String operandToString(T operand);
 	
 }

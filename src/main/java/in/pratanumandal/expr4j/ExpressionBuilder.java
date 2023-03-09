@@ -133,7 +133,12 @@ public abstract class ExpressionBuilder<T> {
 	public Expression<T> build(String expr) {
 		try {
 			// initialize expression
-			this.expression = new Expression<>(expressionDictionary, this::operandToString);
+			this.expression = new Expression<T>(expressionDictionary) {
+				@Override
+				protected String operandToString(T operand) {
+					return ExpressionBuilder.this.operandToString(operand);
+				}
+			};
 
 			// tokenize the expression
 			ExpressionTokenizer<T> tokenizer = new ExpressionTokenizer<T>(expressionDictionary) {
