@@ -68,7 +68,10 @@ public class Function<T> extends Executable<T> {
 
 	@Override
 	public String toString() {
-		return label;
+		return "Function{" +
+				"label='" + label + '\'' +
+				", parameters=" + parameters +
+				'}';
 	}
 
 }

@@ -71,7 +71,11 @@ public class Operator<T> extends Executable<T> implements Comparable<Operator<T>
 
 	@Override
 	public String toString() {
-		return label;
+		return "Operator{" +
+				"label='" + label + '\'' +
+				", type=" + type +
+				", precedence=" + precedence +
+				'}';
 	}
 
 }

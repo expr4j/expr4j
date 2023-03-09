@@ -40,7 +40,7 @@ public enum Separator implements Token {
 	/**
 	 * Label of the separator.
 	 */
-	public final String label;
+	private final String label;
 
 	/**
 	 * Parameterized constructor.
@@ -56,13 +56,16 @@ public enum Separator implements Token {
 	 *
 	 * @return The label
 	 */
-	public String getLabel() {
+	public String label() {
 		return label;
 	}
 
 	@Override
 	public String toString() {
-		return label;
+		return "Separator{" +
+				"name='" + name() + '\'' +
+				", label='" + label() + '\'' +
+				'}';
 	}
 
 	/**

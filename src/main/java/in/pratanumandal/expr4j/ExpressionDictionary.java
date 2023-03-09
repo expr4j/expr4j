@@ -5,10 +5,7 @@ import in.pratanumandal.expr4j.token.Function;
 import in.pratanumandal.expr4j.token.Operator;
 import in.pratanumandal.expr4j.token.OperatorType;
 
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * The <code>ExpressionDictionary&lt;T&gt;</code> class stores all operators, functions and constants of a specified type.
@@ -97,21 +94,16 @@ public class ExpressionDictionary<T> {
     }
 
     /**
-     * Add a function.
+     * Get set of all operators available.
      *
-     * @param function The function
+     * @return Set of all operators
      */
-    public void addFunction(Function<T> function) {
-        functionMap.put(function.label, function);
-    }
-
-    /**
-     * Remove a function for a specified label.
-     *
-     * @param label The label of the function
-     */
-    public void removeFunction(String label) {
-        functionMap.remove(label);
+    public Set<Operator<T>> getOperators() {
+        Set<Operator<T>> operatorSet = new HashSet<>();
+        operatorSet.addAll(prefixMap.values());
+        operatorSet.addAll(postfixMap.values());
+        operatorSet.addAll(infixMap.values());
+        return Collections.unmodifiableSet(operatorSet);
     }
 
     /**
@@ -175,6 +167,35 @@ public class ExpressionDictionary<T> {
     }
 
     /**
+     * Add a function.
+     *
+     * @param function The function
+     */
+    public void addFunction(Function<T> function) {
+        functionMap.put(function.label, function);
+    }
+
+    /**
+     * Remove a function for a specified label.
+     *
+     * @param label The label of the function
+     */
+    public void removeFunction(String label) {
+        functionMap.remove(label);
+    }
+
+    /**
+     * Get set of all functions available.
+     *
+     * @return Set of all functions
+     */
+    public Set<Function<T>> getFunctions() {
+        Set<Function<T>> functionSet = new HashSet<>();
+        functionSet.addAll(functionMap.values());
+        return Collections.unmodifiableSet(functionSet);
+    }
+
+    /**
      * Check if a function exists with specified label.
      *
      * @param label The label of the function
@@ -192,20 +213,6 @@ public class ExpressionDictionary<T> {
      */
     public Function<T> getFunction(String label) {
         return functionMap.get(label);
-    }
-
-    /**
-     * Get list of labels of all executables (operators and functions).
-     *
-     * @return The list of labels
-     */
-    public Set<String> getExecutables() {
-        Set<String> executables = new TreeSet<>();
-        executables.addAll(prefixMap.keySet());
-        executables.addAll(postfixMap.keySet());
-        executables.addAll(infixMap.keySet());
-        executables.addAll(functionMap.keySet());
-        return executables;
     }
 
     /**
@@ -239,6 +246,20 @@ public class ExpressionDictionary<T> {
             throw new Expr4jException("Constant not found: " + label);
         }
         return constants.get(label);
+    }
+
+    /**
+     * Get list of labels of all executables (operators and functions).
+     *
+     * @return The list of labels
+     */
+    protected Set<String> getExecutables() {
+        Set<String> executables = new TreeSet<>();
+        executables.addAll(prefixMap.keySet());
+        executables.addAll(postfixMap.keySet());
+        executables.addAll(infixMap.keySet());
+        executables.addAll(functionMap.keySet());
+        return executables;
     }
 
 }
