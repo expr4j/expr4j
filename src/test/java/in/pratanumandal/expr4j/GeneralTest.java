@@ -90,7 +90,7 @@ public class GeneralTest {
 				.stream()
 				.map(e -> e.label)
 				.toArray(String[]::new);
-		Assert.assertEquals(expected, actual);
+		Assert.assertArrayEquals(expected, actual);
 	}
 
 	@Test
@@ -100,7 +100,7 @@ public class GeneralTest {
 				.stream()
 				.map(e -> e.label)
 				.toArray(String[]::new);
-		Assert.assertEquals(expected, actual);
+		Assert.assertArrayEquals(expected, actual);
 	}
 
 	@Test
@@ -110,7 +110,7 @@ public class GeneralTest {
 				.stream()
 				.map(e -> e.toString())
 				.toArray(String[]::new);
-		Assert.assertEquals(expected, actual);
+		Assert.assertArrayEquals(expected, actual);
 	}
 
 	@Test
@@ -120,7 +120,7 @@ public class GeneralTest {
 				.stream()
 				.map(e -> e.toString())
 				.toArray(String[]::new);
-		Assert.assertEquals(expected, actual);
+		Assert.assertArrayEquals(expected, actual);
 	}
 
 	@Test
@@ -155,7 +155,7 @@ public class GeneralTest {
 				.map(e -> e.toString())
 				.toArray(String[]::new);
 
-		Assert.assertEquals(expected, actual);
+		Assert.assertArrayEquals(expected, actual);
 	}
 
 }
