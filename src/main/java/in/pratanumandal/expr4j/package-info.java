@@ -16,7 +16,7 @@
  */
 
 /**
- * The <code>in.pratanumandal.expr4j</code> package is the root package of expr4j library.
+ * The <code>in.pratanumandal.expr4j</code> package is the root package of Expr4j library.
  * 
  * @author Pratanu Mandal
  * @since 1.0
