@@ -17,7 +17,7 @@
 
 package in.pratanumandal.expr4j.impl.utils;
 
-import org.apache.commons.math3.complex.Complex;
+import org.apache.commons.numbers.complex.Complex;
 
 import java.util.List;
 import java.util.Objects;
@@ -79,7 +79,7 @@ public class ComplexUtils {
      * @return The operand in degrees
      */
     public static Complex toDegrees(Complex x) {
-        return new Complex(Math.toDegrees(x.getReal()), Math.toDegrees(x.getImaginary()));
+        return Complex.ofCartesian(Math.toDegrees(x.getReal()), Math.toDegrees(x.getImaginary()));
     }
 
     /**
@@ -89,7 +89,7 @@ public class ComplexUtils {
      * @return The operand in radians
      */
     public static Complex toRadians(Complex x) {
-        return new Complex(Math.toRadians(x.getReal()), Math.toRadians(x.getImaginary()));
+        return Complex.ofCartesian(Math.toRadians(x.getReal()), Math.toRadians(x.getImaginary()));
     }
 
     /**
@@ -99,7 +99,7 @@ public class ComplexUtils {
      * @return Log of x to the base 10
      */
     public static Complex log10(Complex x) {
-        return log(x, new Complex(10));
+        return log(x, Complex.ofCartesian(10, 0));
     }
 
     /**
@@ -165,7 +165,7 @@ public class ComplexUtils {
         Complex sum = list.stream()
                 .map(Objects::requireNonNull)
                 .reduce(Complex.ZERO, Complex::add);
-        return sum.divide(new Complex(list.size()));
+        return sum.divide(Complex.ofCartesian(list.size(), 0));
     }
 
 }

@@ -23,7 +23,7 @@ import in.pratanumandal.expr4j.impl.utils.ComplexUtils;
 import in.pratanumandal.expr4j.token.Function;
 import in.pratanumandal.expr4j.token.Operator;
 import in.pratanumandal.expr4j.token.OperatorType;
-import org.apache.commons.math3.complex.Complex;
+import org.apache.commons.numbers.complex.Complex;
 
 import java.util.Arrays;
 import java.util.List;
@@ -62,7 +62,7 @@ public class ComplexExpressionBuilder extends ExpressionBuilder<Complex> {
 
 		expressionDictionary.addOperator(new Operator<>("^", OperatorType.INFIX_RTL, 3, (operands) -> operands.get(0).pow(operands.get(1))));
 
-		expressionDictionary.addOperator(new Operator<>("abs", OperatorType.PREFIX, 4, (operands) -> new Complex(operands.get(0).abs())));
+		expressionDictionary.addOperator(new Operator<>("abs", OperatorType.PREFIX, 4, (operands) -> Complex.ofCartesian(operands.get(0).abs(), 0)));
 
 		expressionDictionary.addOperator(new Operator<>("sin", OperatorType.PREFIX, 4, (operands) -> operands.get(0).sin()));
 		expressionDictionary.addOperator(new Operator<>("cos", OperatorType.PREFIX, 4, (operands) -> operands.get(0).cos()));
@@ -98,10 +98,10 @@ public class ComplexExpressionBuilder extends ExpressionBuilder<Complex> {
 		expressionDictionary.addFunction(new Function<>("mean", (operands) -> ComplexUtils.average(operands)));
 		expressionDictionary.addFunction(new Function<>("average", (operands) -> ComplexUtils.average(operands)));
 
-		expressionDictionary.addFunction(new Function<>("rand", 0, (operands) -> new Complex(Math.random(), Math.random())));
+		expressionDictionary.addFunction(new Function<>("rand", 0, (operands) -> Complex.ofCartesian(Math.random(), Math.random())));
 
-		expressionDictionary.addConstant("pi", new Complex(Math.PI));
-		expressionDictionary.addConstant("e", new Complex(Math.E));
+		expressionDictionary.addConstant("pi", Complex.ofCartesian(Math.PI, 0));
+		expressionDictionary.addConstant("e", Complex.ofCartesian(Math.E, 0));
 
 		expressionDictionary.addConstant("i", Complex.I);
 	}
@@ -115,10 +115,10 @@ public class ComplexExpressionBuilder extends ExpressionBuilder<Complex> {
 	@Override
 	protected Complex stringToOperand(String operand) {
 		if (!operand.contains("i")) {
-			return new Complex(Double.parseDouble(operand), 0);
+			return Complex.ofCartesian(Double.parseDouble(operand), 0);
 		}
 		else {
-			return new Complex(0, Double.parseDouble(operand.replaceAll("\\s*i", "")));
+			return Complex.ofCartesian(0, Double.parseDouble(operand.replaceAll("\\s*i", "")));
 		}
 	}
 
