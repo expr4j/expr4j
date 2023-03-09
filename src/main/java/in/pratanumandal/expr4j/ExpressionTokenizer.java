@@ -78,8 +78,8 @@ public abstract class ExpressionTokenizer<T> {
 
         List<Pattern> operandPatternList = new ArrayList<>();
         for (String patternString : this.getOperandPattern()) {
-            Pattern numberPattern = Pattern.compile(patternString);
-            operandPatternList.add(numberPattern);
+            Pattern operandPattern = Pattern.compile(patternString);
+            operandPatternList.add(operandPattern);
         }
 
         // initialize parsing variables
