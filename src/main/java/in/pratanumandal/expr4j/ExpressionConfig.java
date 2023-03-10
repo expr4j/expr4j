@@ -31,6 +31,12 @@ import java.util.List;
 public abstract class ExpressionConfig<T> {
 
     /**
+     * No-Argument Constructor.
+     */
+    public ExpressionConfig() {
+    }
+
+    /**
      * Method to define procedure to obtain operand from string representation.
      *
      * @param operand String representation of operand
