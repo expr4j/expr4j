@@ -145,8 +145,19 @@ public class ExpressionTokenizer<T> {
                 String match = matcher.group();
                 index += match.length();
 
+                // encountered a branch
+                if (expressionDictionary.hasBranch(match)) {
+                    Branch<T> branch = expressionDictionary.getBranch(match);
+
+                    addImplicitMultiplication(tokenList, lastToken);
+                    tokenList.add(branch);
+
+                    probableUnary = false;
+                    lastToken = branch;
+                }
+
                 // encountered a function
-                if (expressionDictionary.hasFunction(match)) {
+                else if (expressionDictionary.hasFunction(match)) {
                     Function<T> function = expressionDictionary.getFunction(match);
 
                     addImplicitMultiplication(tokenList, lastToken);

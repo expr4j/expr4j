@@ -19,6 +19,8 @@ package in.pratanumandal.expr4j.token;
 
 import in.pratanumandal.expr4j.exception.Expr4jException;
 
+import java.util.List;
+
 /**
  * The <code>Operator&lt;T&gt;</code> class represents operators in the expression.
  * 
@@ -27,7 +29,12 @@ import in.pratanumandal.expr4j.exception.Expr4jException;
  *
  * @param <T> The type of operand
  */
-public class Operator<T> extends Executable<T> implements Comparable<Operator<T>> {
+public class Operator<T> implements Token, Comparable<Operator<T>> {
+
+	/**
+	 * Label of the operator.
+	 */
+	public final String label;
 	
 	/**
 	 * The type of operator.
@@ -41,6 +48,11 @@ public class Operator<T> extends Executable<T> implements Comparable<Operator<T>
 	public final int precedence;
 
 	/**
+	 * Operation performed by the operation.
+	 */
+	public final Operation<T> operation;
+
+	/**
 	 * Parameterized constructor.
 	 * 
 	 * @param label Label of the operator
@@ -49,13 +61,24 @@ public class Operator<T> extends Executable<T> implements Comparable<Operator<T>
 	 * @param operation Operation performed by the operator
 	 */
 	public Operator(String label, OperatorType operatorType, int precedence, Operation<T> operation) {
-		super(label, operation);
+		this.label = label;
 		this.type = operatorType;
 		this.precedence = precedence;
+		this.operation = operation;
 		
 		if (this.precedence < 1) {
 			throw new Expr4jException("Invalid precedence: " + this.precedence);
 		}
+	}
+
+	/**
+	 * Evaluate the operator.
+	 *
+	 * @param operands List of operands
+	 * @return Evaluated result
+	 */
+	public T evaluate(List<T> operands) {
+		return this.operation.execute(operands);
 	}
 
 	/**

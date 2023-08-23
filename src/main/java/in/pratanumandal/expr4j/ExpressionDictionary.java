@@ -18,6 +18,7 @@
 package in.pratanumandal.expr4j;
 
 import in.pratanumandal.expr4j.exception.Expr4jException;
+import in.pratanumandal.expr4j.token.Branch;
 import in.pratanumandal.expr4j.token.Function;
 import in.pratanumandal.expr4j.token.Operator;
 import in.pratanumandal.expr4j.token.OperatorType;
@@ -46,6 +47,9 @@ public class ExpressionDictionary<T> {
     /** Map of functions */
     protected final Map<String, Function<T>> functionMap;
 
+    /** Map of branch */
+    protected final Map<String, Branch<T>> branchMap;
+
     /** Map of constants */
     protected Map<String, T> constants;
 
@@ -57,6 +61,7 @@ public class ExpressionDictionary<T> {
         this.postfixMap = new TreeMap<>();
         this.infixMap = new TreeMap<>();
         this.functionMap = new TreeMap<>();
+        this.branchMap = new TreeMap<>();
         this.constants = new TreeMap<>();
     }
 
@@ -233,6 +238,55 @@ public class ExpressionDictionary<T> {
     }
 
     /**
+     * Add a branch.
+     *
+     * @param branch The branch
+     */
+    public void addBranch(Branch<T> branch) {
+        branchMap.put(branch.label, branch);
+    }
+
+    /**
+     * Remove a branch for a specified label.
+     *
+     * @param label The label of the branch
+     */
+    public void removeBranch(String label) {
+        branchMap.remove(label);
+    }
+
+    /**
+     * Get set of all branches available.
+     *
+     * @return Set of all branches
+     */
+    public Set<Branch<T>> getBranches() {
+        Set<Branch<T>> branchSet = new HashSet<>();
+        branchSet.addAll(branchMap.values());
+        return Collections.unmodifiableSet(branchSet);
+    }
+
+    /**
+     * Check if a branch exists with specified label.
+     *
+     * @param label The label of the branch
+     * @return True if found, false otherwise
+     */
+    public boolean hasBranch(String label) {
+        return branchMap.containsKey(label);
+    }
+
+    /**
+     * Get the branch with specified label.
+     *
+     * @param label The label of the branch
+     * @return The branch if found, null otherwise
+     */
+    public Branch<T> getBranch(String label) {
+        return branchMap.get(label);
+    }
+
+    /**
      * Add a constant to the parser.
      *
      * @param label Label of the constant
@@ -266,7 +320,7 @@ public class ExpressionDictionary<T> {
     }
 
     /**
-     * Get list of labels of all executables (operators and functions).
+     * Get list of labels of all executables (operators, functions, and branches).
      *
      * @return The list of labels
      */
@@ -276,6 +330,7 @@ public class ExpressionDictionary<T> {
         executables.addAll(postfixMap.keySet());
         executables.addAll(infixMap.keySet());
         executables.addAll(functionMap.keySet());
+        executables.addAll(branchMap.keySet());
         return executables;
     }
 

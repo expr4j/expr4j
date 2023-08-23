@@ -17,6 +17,7 @@
 
 package in.pratanumandal.expr4j;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -59,7 +60,10 @@ public abstract class ExpressionConfig<T> {
      * @return List of patterns to identify operands
      */
     protected List<String> getOperandPattern() {
-        return Arrays.asList("(-?\\d+)(\\.\\d+)?(e-|e\\+|e|\\d+)\\d+", "\\d*\\.?\\d+");
+        List<String> list = new ArrayList<>();
+        list.add("(-?\\d+)(\\.\\d+)?(e-|e\\+|e|\\d+)\\d+");
+        list.add("\\d*\\.?\\d+");
+        return list;
     }
 
 }

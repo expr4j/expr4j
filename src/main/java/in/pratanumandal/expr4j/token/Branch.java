@@ -19,79 +19,77 @@ package in.pratanumandal.expr4j.token;
 
 import in.pratanumandal.expr4j.exception.Expr4jException;
 
-import java.util.List;
-
 /**
- * The <code>Function&lt;T&gt;</code> class represents functions in the expression.
+ * The <code>Branch&lt;T&gt;</code> class represents branches in the expression.
  * 
  * @author Pratanu Mandal
  * @since 1.0
  *
  * @param <T> The type of operand
  */
-public class Function<T> implements Token {
-	
+public class Branch<T> implements Token {
+
 	/**
-	 * Constant to indicate that the function supports variable number of parameters.
+	 * Constant to indicate that the branch supports variable number of parameters.
 	 */
 	public static final int VARIABLE_PARAMETERS = -1;
 
 	/**
-	 * Label of the function.
+	 * Label of the branch.
 	 */
 	public final String label;
-	
+
 	/**
 	 * Number of parameters.
 	 */
 	public final int parameters;
 
 	/**
-	 * Operation performed by the function.
+	 * Choice evaluated by the branch.
 	 */
-	public final Operation<T> operation;
-	
+	public final Choice<T> choice;
+
 	/**
 	 * Parameterized constructor.
-	 * 
-	 * @param label Label of the function
+	 *
+	 * @param label Label of the branch
 	 * @param parameters Number of parameters
-	 * @param operation Operation performed by the function
+	 * @param choice Choice evaluated by the branch
 	 */
-	public Function(String label, int parameters, Operation<T> operation) {
+	public Branch(String label, int parameters, Choice<T> choice) {
 		this.label = label;
 		this.parameters = parameters;
-		this.operation = operation;
-		
-		if (this.parameters < Function.VARIABLE_PARAMETERS) {
+		this.choice = choice;
+
+		if (this.parameters != Branch.VARIABLE_PARAMETERS && this.parameters < 3) {
 			throw new Expr4jException("Invalid number of parameters: " + this.parameters);
 		}
 	}
-	
+
 	/**
 	 * Parameterized constructor.<br>
-	 * This constructor creates a function with variable number of parameters.
-	 * 
-	 * @param label Label of the function
-	 * @param operation Operation performed by the function
+	 * This constructor creates a branch with variable number of parameters.
+	 *
+	 * @param label Label of the branch
+	 * @param choice Choice evaluated by the branch
 	 */
-	public Function(String label, Operation<T> operation) {
-		this(label, VARIABLE_PARAMETERS, operation);
+	public Branch(String label, Choice<T> choice) {
+		this(label, VARIABLE_PARAMETERS, choice);
 	}
 
 	/**
-	 * Evaluate the function.
+	 * Evaluate the branch.
 	 *
-	 * @param operands List of operands
+	 * @param operand The operand
 	 * @return Evaluated result
 	 */
-	public T evaluate(List<T> operands) {
-		return this.operation.execute(operands);
+	public int evaluate(T operand) {
+		return this.choice.choose(operand);
 	}
 
 	@Override
 	public String toString() {
-		return "Function{" +
+		return "Branch{" +
 				"label='" + label + '\'' +
 				", parameters=" + parameters +
 				'}';

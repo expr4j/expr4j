@@ -62,7 +62,7 @@ public class Expression<T> {
 		 */
 		public Node(Token token) {
 			this.token = token;
-			if (token instanceof Function || token instanceof Operator) {
+			if (token instanceof Branch || token instanceof Function || token instanceof Operator) {
 				this.children = new ArrayList<>();
 			}
 			else {
@@ -116,6 +116,23 @@ public class Expression<T> {
 			}
 			
 			return new Operand<T>(variables.get(variable.label));
+		}
+
+		// encountered function
+		else if (node.token instanceof Branch) {
+			Branch<T> branch = (Branch<T>) node.token;
+
+			int operandCount = branch.parameters;
+			if (node.children.size() != operandCount) {
+				throw new Expr4jException("Invalid expression");
+			}
+
+			int choice = branch.evaluate(evaluate(node.children.get(0), variables).value);
+			if (choice < 1 || choice >= branch.parameters) {
+				throw new Expr4jException("Invalid choice: Must be between 1 and " + (branch.parameters - 1));
+			}
+
+			return new Operand<T>(evaluate(node.children.get(choice), variables).value);
 		}
 		
 		// encountered function
@@ -197,6 +214,20 @@ public class Expression<T> {
 		if (node.token instanceof Variable) {
 			Variable variable = (Variable) node.token;
 			return variable.label;
+		}
+
+		// encountered branch
+		else if (node.token instanceof Branch) {
+			Branch<T> branch = (Branch<T>) node.token;
+
+			int operandCount = branch.parameters;
+			if (node.children.size() != operandCount) {
+				throw new Expr4jException("Invalid expression");
+			}
+
+			String operands = node.children.stream().map(this::toString).collect(Collectors.joining(", "));
+
+			return branch.label + "(" + operands + ")";
 		}
 		
 		// encountered function
