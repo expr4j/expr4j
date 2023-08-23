@@ -22,6 +22,7 @@ The expressions are evaluated using [Dijkstra's Shunting Yard algorithm](https:/
 - Supports implicit multiplication, ex: `2x` is treated as `2*x` and `(a+b)(a-b)` is treated as `(a+b)*(a-b)`.
 - Supports asynchronous evaluation for improved performance.
 - Supports scientific notations of numbers.
+- Supports greedy and lazy evaluation of functions and operators.
 
 <br/>
 
