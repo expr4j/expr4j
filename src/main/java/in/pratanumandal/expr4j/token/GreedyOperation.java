@@ -17,8 +17,10 @@
 
 package in.pratanumandal.expr4j.token;
 
+import java.util.List;
+
 /**
- * The <code>Choice&lt;T&gt;</code> functional interface represents a choice that can be executed.
+ * The <code>GreedyOperation&lt;T&gt;</code> functional interface represents an operation that can be executed greedily.
  *
  * @author Pratanu Mandal
  * @since 1.0
@@ -26,14 +28,14 @@ package in.pratanumandal.expr4j.token;
  * @param <T> The type of operand
  */
 @FunctionalInterface
-public interface Choice<T> {
+public interface GreedyOperation<T> extends Operation<T> {
 
     /**
-     * Execute the choice.
+     * Execute the operation.
      *
-     * @param operand The operand
-     * @return Evaluated choice
+     * @param operands List of operands
+     * @return Evaluated result
      */
-    int choose(T operand);
+    T execute(List<T> operands);
 
 }

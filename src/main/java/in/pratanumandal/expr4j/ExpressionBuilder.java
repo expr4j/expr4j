@@ -19,7 +19,10 @@ package in.pratanumandal.expr4j;
 
 import in.pratanumandal.expr4j.Expression.Node;
 import in.pratanumandal.expr4j.exception.Expr4jException;
-import in.pratanumandal.expr4j.token.*;
+import in.pratanumandal.expr4j.token.Function;
+import in.pratanumandal.expr4j.token.Operator;
+import in.pratanumandal.expr4j.token.OperatorType;
+import in.pratanumandal.expr4j.token.Token;
 
 import java.util.List;
 import java.util.Stack;
@@ -76,20 +79,7 @@ public class ExpressionBuilder<T> {
 	 */
 	@SuppressWarnings("unchecked")
 	private boolean formTree(Node node, Token token) {
-		if (node.token instanceof Branch) {
-			Branch<T> branch = (Branch<T>) node.token;
-
-			int operandCount = branch.parameters;
-
-			if (node.children.size() > 0 && formTree(node.children.get(0), token)) {
-				return true;
-			}
-			else if (node.children.size() < operandCount) {
-				node.children.add(0, new Node(token));
-				return true;
-			}
-		}
-		else if (node.token instanceof Function) {
+		if (node.token instanceof Function) {
 			Function<T> function = (Function<T>) node.token;
 
 			int operandCount = function.parameters;

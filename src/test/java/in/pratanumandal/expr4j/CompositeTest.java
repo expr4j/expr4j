@@ -1,6 +1,6 @@
 package in.pratanumandal.expr4j;
 
-import in.pratanumandal.expr4j.token.Branch;
+import in.pratanumandal.expr4j.token.Function;
 import in.pratanumandal.expr4j.token.Operator;
 import in.pratanumandal.expr4j.token.OperatorType;
 import org.junit.Assert;
@@ -115,9 +115,20 @@ public class CompositeTest {
         expressionDictionary.addOperator(new Operator<>("<", OperatorType.INFIX, 1,
                 (operands) -> new Composite(operands.get(0).doubleValue() < operands.get(1).doubleValue())));
 
-        expressionDictionary.addBranch(new Branch<>("if", 3, operand -> operand.booleanValue() ? 1 : 2));
+        expressionDictionary.addFunction(new Function<>("if", 3, (expression, nodes, variables) -> {
+            Composite choice = expression.evaluate(nodes.get(0), variables).value;
+            if (choice.booleanValue()) {
+                return expression.evaluate(nodes.get(1), variables).value;
+            }
+            else {
+                return expression.evaluate(nodes.get(2), variables).value;
+            }
+        }));
 
-        expressionDictionary.addBranch(new Branch<>("switch", operand -> operand.intValue()));
+        expressionDictionary.addFunction(new Function<>("switch",  (expression, nodes, variables) -> {
+            Composite choice = expression.evaluate(nodes.get(0), variables).value;
+            return expression.evaluate(nodes.get(choice.intValue()), variables).value;
+        }));
     }
 
     private void assertEquals(double expected, double actual) {

@@ -18,7 +18,6 @@
 package in.pratanumandal.expr4j;
 
 import in.pratanumandal.expr4j.impl.DoubleExpressionBuilder;
-import in.pratanumandal.expr4j.token.Branch;
 import in.pratanumandal.expr4j.token.Function;
 import in.pratanumandal.expr4j.token.Operator;
 import in.pratanumandal.expr4j.token.OperatorType;
@@ -919,9 +918,14 @@ public class DoubleAssertionTest {
 
 	@Test
 	public void test55() {
-		expressionDictionary.addBranch(new Branch<>("gt10", 3, (operand) -> {
-			if (operand > 10) return 1;
-			return 2;
+		expressionDictionary.addFunction(new Function<>("gt10", 3, (expression, nodes, variables) -> {
+			Double choice = expression.evaluate(nodes.get(0), variables).value;
+			if (choice > 10) {
+				return expression.evaluate(nodes.get(1), variables).value;
+			}
+			else {
+				return expression.evaluate(nodes.get(2), variables).value;
+			}
 		}));
 
 		double expected = 0;
@@ -935,12 +939,15 @@ public class DoubleAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		expressionDictionary.removeBranch("gt10");
+		expressionDictionary.removeFunction("gt10");
 	}
 
 	@Test
 	public void test56() {
-		expressionDictionary.addBranch(new Branch<>("switch", (operand) -> operand.intValue()));
+		expressionDictionary.addFunction(new Function<>("switch", (expression, nodes, variables) -> {
+			Double choice = expression.evaluate(nodes.get(0), variables).value;
+			return expression.evaluate(nodes.get(choice.intValue()), variables).value;
+		}));
 
 		double expected = 35;
 		String expectedString = "switch(3, 25, 30, 35, 40)";
@@ -953,7 +960,7 @@ public class DoubleAssertionTest {
 		this.assertEquals(expected, actual);
 		Assert.assertEquals(expectedString, actualString);
 
-		expressionDictionary.removeBranch("switch");
+		expressionDictionary.removeFunction("switch");
 	}
 
 }

@@ -18,7 +18,13 @@
 package in.pratanumandal.expr4j;
 
 import in.pratanumandal.expr4j.exception.Expr4jException;
-import in.pratanumandal.expr4j.token.*;
+import in.pratanumandal.expr4j.token.Function;
+import in.pratanumandal.expr4j.token.Operand;
+import in.pratanumandal.expr4j.token.Operator;
+import in.pratanumandal.expr4j.token.OperatorType;
+import in.pratanumandal.expr4j.token.Separator;
+import in.pratanumandal.expr4j.token.Token;
+import in.pratanumandal.expr4j.token.Variable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -145,19 +151,8 @@ public class ExpressionTokenizer<T> {
                 String match = matcher.group();
                 index += match.length();
 
-                // encountered a branch
-                if (expressionDictionary.hasBranch(match)) {
-                    Branch<T> branch = expressionDictionary.getBranch(match);
-
-                    addImplicitMultiplication(tokenList, lastToken);
-                    tokenList.add(branch);
-
-                    probableUnary = false;
-                    lastToken = branch;
-                }
-
                 // encountered a function
-                else if (expressionDictionary.hasFunction(match)) {
+                if (expressionDictionary.hasFunction(match)) {
                     Function<T> function = expressionDictionary.getFunction(match);
 
                     addImplicitMultiplication(tokenList, lastToken);
@@ -272,12 +267,14 @@ public class ExpressionTokenizer<T> {
             if (operator.type == OperatorType.POSTFIX) {
                 tokenList.add(expressionDictionary.getInfixOperator("*"));
             }
-        } else if (lastToken instanceof Separator) {
+        }
+        else if (lastToken instanceof Separator) {
             Separator lastSeparator = (Separator) lastToken;
             if (lastSeparator == Separator.CLOSE_BRACKET) {
                 tokenList.add(expressionDictionary.getInfixOperator("*"));
             }
-        } else if (lastToken instanceof Operand || lastToken instanceof Variable) {
+        }
+        else if (lastToken instanceof Operand || lastToken instanceof Variable) {
             tokenList.add(expressionDictionary.getInfixOperator("*"));
         }
     }

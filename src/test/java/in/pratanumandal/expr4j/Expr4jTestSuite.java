@@ -29,6 +29,7 @@ import org.junit.runners.Suite;
 		BigDecimalExceptionTest.class,
 		ComplexAssertionTest.class,
 		ComplexExceptionTest.class,
+		CompositeTest.class
 })
 public class Expr4jTestSuite {
 	

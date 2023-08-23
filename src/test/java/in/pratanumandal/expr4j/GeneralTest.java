@@ -17,7 +17,12 @@
 
 package in.pratanumandal.expr4j;
 
-import in.pratanumandal.expr4j.token.*;
+import in.pratanumandal.expr4j.token.Function;
+import in.pratanumandal.expr4j.token.Operand;
+import in.pratanumandal.expr4j.token.Operator;
+import in.pratanumandal.expr4j.token.OperatorType;
+import in.pratanumandal.expr4j.token.Separator;
+import in.pratanumandal.expr4j.token.Variable;
 import org.junit.Assert;
 import org.junit.Test;
 

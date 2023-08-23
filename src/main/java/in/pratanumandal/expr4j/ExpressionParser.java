@@ -18,7 +18,13 @@
 package in.pratanumandal.expr4j;
 
 import in.pratanumandal.expr4j.exception.Expr4jException;
-import in.pratanumandal.expr4j.token.*;
+import in.pratanumandal.expr4j.token.Function;
+import in.pratanumandal.expr4j.token.Operand;
+import in.pratanumandal.expr4j.token.Operator;
+import in.pratanumandal.expr4j.token.OperatorType;
+import in.pratanumandal.expr4j.token.Separator;
+import in.pratanumandal.expr4j.token.Token;
+import in.pratanumandal.expr4j.token.Variable;
 
 import java.util.List;
 import java.util.Stack;
@@ -45,9 +51,9 @@ public class ExpressionParser<T> {
 	private Stack<Token> operatorStack;
 	
 	/**
-	 * Stack to hold the count of branch and function parameters.
+	 * Stack to hold the count of function parameters.
 	 */
-	private Stack<Integer> branchAndFunctionStack;
+	private Stack<Integer> functionStack;
 	
 	/**
 	 * No-Argument Constructor.
@@ -65,7 +71,7 @@ public class ExpressionParser<T> {
 		// initialize members
 		postfix = new Stack<>();
 		operatorStack = new Stack<>();
-		branchAndFunctionStack = new Stack<>();
+		functionStack = new Stack<>();
 
 		boolean probableZeroFunction = false;
 
@@ -89,11 +95,11 @@ public class ExpressionParser<T> {
 					throwIfOpenBracketOrComma(lastToken);
 
 					if (probableZeroFunction) {
-						if (branchAndFunctionStack.isEmpty()) {
+						if (functionStack.isEmpty()) {
 							throw new Expr4jException("Invalid expression");
 						}
-						branchAndFunctionStack.pop();
-						branchAndFunctionStack.push(0);
+						functionStack.pop();
+						functionStack.push(0);
 					}
 
 					evaluateParenthesis();
@@ -101,36 +107,21 @@ public class ExpressionParser<T> {
 
 				// comma
 				else if (separator == Separator.COMMA) {
-					throwIfBranchOrFunction(lastToken);
+					throwIfFunction(lastToken);
 					throwIfNotPostfix(lastToken);
 					throwIfOpenBracketOrComma(lastToken);
 
-					while (!operatorStack.isEmpty() &&
-							!(operatorStack.peek() instanceof Branch) &&
-							!(operatorStack.peek() instanceof Function)) {
+					while (!operatorStack.isEmpty() && !(operatorStack.peek() instanceof Function)) {
 						postfix.push(operatorStack.pop());
 					}
 
-					if (branchAndFunctionStack.isEmpty()) {
+					if (functionStack.isEmpty()) {
 						throw new Expr4jException("Invalid expression");
 					}
-					branchAndFunctionStack.push(branchAndFunctionStack.pop() + 1);
+					functionStack.push(functionStack.pop() + 1);
 				}
 
 				probableZeroFunction = false;
-			}
-
-			// branches
-			else if (token instanceof Branch) {
-				Branch<T> branch = (Branch<T>) token;
-
-				Token nextToken = i != tokenList.size() - 1 ? tokenList.get(i + 1) : null;
-				throwIfNoOpenBracket(nextToken, branch);
-
-				i++;
-
-				operatorStack.push(branch);
-				branchAndFunctionStack.push(1);
 			}
 
 			// functions
@@ -144,8 +135,8 @@ public class ExpressionParser<T> {
 
 				operatorStack.push(function);
 
-				if (function.parameters == 0) branchAndFunctionStack.push(0);
-				else branchAndFunctionStack.push(1);
+				if (function.parameters == 0) functionStack.push(0);
+				else functionStack.push(1);
 
 				if (function.parameters == Function.VARIABLE_PARAMETERS) probableZeroFunction = true;
 			}
@@ -156,7 +147,7 @@ public class ExpressionParser<T> {
 
 				if (operator.type == OperatorType.INFIX || operator.type == OperatorType.INFIX_RTL) {
 					throwIfNull(lastToken);
-					throwIfBranchOrFunction(lastToken);
+					throwIfFunction(lastToken);
 					throwIfNotPostfix(lastToken);
 					throwIfOpenBracketOrComma(lastToken);
 				}
@@ -186,7 +177,7 @@ public class ExpressionParser<T> {
 		// process operator stack
 		while (!operatorStack.isEmpty()) {
 			Token token = operatorStack.peek();
-			if (token instanceof Branch || token instanceof Function || token instanceof Separator) {
+			if (token instanceof Function || token instanceof Separator) {
 				throw new Expr4jException("Unmatched number of parenthesis");
 			}
 			postfix.push(operatorStack.pop());
@@ -217,7 +208,7 @@ public class ExpressionParser<T> {
 	}
 
 	/**
-	 * Method to evaluate operators at the top of the operator stack until a left parenthesis, a branch, or a function is encountered.
+	 * Method to evaluate operators at the top of the operator stack until a left parenthesis or a function is encountered.
 	 */
 	private void evaluateParenthesis() {
 		boolean flag = false;
@@ -226,36 +217,14 @@ public class ExpressionParser<T> {
 		while (!operatorStack.isEmpty()) {
 			Token token = operatorStack.peek();
 
-			// encountered a branch
-			if (token instanceof Branch) {
-				Branch<T> branch = (Branch<T>) operatorStack.pop();
-
-				if (branchAndFunctionStack.isEmpty()) {
-					throw new Expr4jException("Invalid expression");
-				}
-				int actualParameters = branchAndFunctionStack.pop();
-
-				if (branch.parameters == Function.VARIABLE_PARAMETERS) {
-					branch = new Branch<>(branch.label, actualParameters, branch.choice);
-				}
-				else if (branch.parameters != actualParameters) {
-					throw new Expr4jException("Incorrect number of parameters for branch: " + branch.label);
-				}
-
-				postfix.push(branch);
-
-				flag = true;
-				break;
-			}
-
 			// encountered a function
 			if (token instanceof Function) {
 				Function<T> function = (Function<T>) operatorStack.pop();
 
-				if (branchAndFunctionStack.isEmpty()) {
+				if (functionStack.isEmpty()) {
 					throw new Expr4jException("Invalid expression");
 				}
-				int actualParameters = branchAndFunctionStack.pop();
+				int actualParameters = functionStack.pop();
 
 				if (function.parameters == Function.VARIABLE_PARAMETERS) {
 					function = new Function<T>(function.label, actualParameters, function.operation);
@@ -310,8 +279,8 @@ public class ExpressionParser<T> {
 	 *
 	 * @param token The token
 	 */
-	private void throwIfBranchOrFunction(Token token) {
-		if (token instanceof Branch || token instanceof Function) {
+	private void throwIfFunction(Token token) {
+		if (token instanceof Function) {
 			throw new Expr4jException("Invalid expression");
 		}
 	}
@@ -336,7 +305,7 @@ public class ExpressionParser<T> {
 	 * @param token The token
 	 * @param function The function
 	 */
-	private void throwIfNoOpenBracket(Token token, Function function) {
+	private void throwIfNoOpenBracket(Token token, Function<T> function) {
 		if (token instanceof Separator) {
 			Separator separator = (Separator) token;
 			if (separator != Separator.OPEN_BRACKET) {
@@ -345,24 +314,6 @@ public class ExpressionParser<T> {
 		}
 		else {
 			throw new Expr4jException("Missing open bracket for function: " + function.label);
-		}
-	}
-
-	/**
-	 * Throw exception if branch is not followed by open bracket.
-	 *
-	 * @param token The token
-	 * @param branch The branch
-	 */
-	private void throwIfNoOpenBracket(Token token, Branch branch) {
-		if (token instanceof Separator) {
-			Separator separator = (Separator) token;
-			if (separator != Separator.OPEN_BRACKET) {
-				throw new Expr4jException("Missing open bracket for branch: " + branch.label);
-			}
-		}
-		else {
-			throw new Expr4jException("Missing open bracket for branch: " + branch.label);
 		}
 	}
 

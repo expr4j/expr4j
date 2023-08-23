@@ -18,7 +18,6 @@
 package in.pratanumandal.expr4j;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

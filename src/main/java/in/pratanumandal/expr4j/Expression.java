@@ -18,7 +18,14 @@
 package in.pratanumandal.expr4j;
 
 import in.pratanumandal.expr4j.exception.Expr4jException;
-import in.pratanumandal.expr4j.token.*;
+import in.pratanumandal.expr4j.token.Function;
+import in.pratanumandal.expr4j.token.GreedyOperation;
+import in.pratanumandal.expr4j.token.LazyOperation;
+import in.pratanumandal.expr4j.token.Operand;
+import in.pratanumandal.expr4j.token.Operator;
+import in.pratanumandal.expr4j.token.OperatorType;
+import in.pratanumandal.expr4j.token.Token;
+import in.pratanumandal.expr4j.token.Variable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,7 +69,7 @@ public class Expression<T> {
 		 */
 		public Node(Token token) {
 			this.token = token;
-			if (token instanceof Branch || token instanceof Function || token instanceof Operator) {
+			if (token instanceof Function || token instanceof Operator) {
 				this.children = new ArrayList<>();
 			}
 			else {
@@ -117,23 +124,6 @@ public class Expression<T> {
 			
 			return new Operand<T>(variables.get(variable.label));
 		}
-
-		// encountered function
-		else if (node.token instanceof Branch) {
-			Branch<T> branch = (Branch<T>) node.token;
-
-			int operandCount = branch.parameters;
-			if (node.children.size() != operandCount) {
-				throw new Expr4jException("Invalid expression");
-			}
-
-			int choice = branch.evaluate(evaluate(node.children.get(0), variables).value);
-			if (choice < 1 || choice >= branch.parameters) {
-				throw new Expr4jException("Invalid choice: Must be between 1 and " + (branch.parameters - 1));
-			}
-
-			return new Operand<T>(evaluate(node.children.get(choice), variables).value);
-		}
 		
 		// encountered function
 		else if (node.token instanceof Function) {
@@ -143,13 +133,18 @@ public class Expression<T> {
 			if (node.children.size() != operandCount) {
 				throw new Expr4jException("Invalid expression");
 			}
-			
-			List<T> operands = new ArrayList<>();
-			for (int i = 0; i < operandCount; i++) {
-				operands.add(evaluate(node.children.get(i), variables).value);
+
+			if (function.operation instanceof GreedyOperation) {
+				List<T> operands = new ArrayList<>();
+				for (int i = 0; i < operandCount; i++) {
+					operands.add(evaluate(node.children.get(i), variables).value);
+				}
+				return new Operand<T>(function.evaluateGreedily(operands));
 			}
-			
-			return new Operand<T>(function.evaluate(operands));
+			else if (function.operation instanceof LazyOperation) {
+				return new Operand<T>(function.evaluateLazily(this, node.children, variables));
+			}
+			else return null;
 		}
 		
 		// encountered operator
@@ -160,13 +155,18 @@ public class Expression<T> {
 			if (node.children.size() != operandCount) {
 				throw new Expr4jException("Invalid expression");
 			}
-			
-			List<T> operands = new ArrayList<>();
-			for (int i = 0; i < operandCount; i++) {
-				operands.add(evaluate(node.children.get(i), variables).value);
+
+			if (operator.operation instanceof GreedyOperation) {
+				List<T> operands = new ArrayList<>();
+				for (int i = 0; i < operandCount; i++) {
+					operands.add(evaluate(node.children.get(i), variables).value);
+				}
+				return new Operand<T>(operator.evaluateGreedily(operands));
 			}
-			
-			return new Operand<T>(operator.evaluate(operands));
+			else if (operator.operation instanceof LazyOperation) {
+				return new Operand<T>(operator.evaluateLazily(this, node.children, variables));
+			}
+			else return null;
 		}
 		
 		// encountered operand
@@ -214,20 +214,6 @@ public class Expression<T> {
 		if (node.token instanceof Variable) {
 			Variable variable = (Variable) node.token;
 			return variable.label;
-		}
-
-		// encountered branch
-		else if (node.token instanceof Branch) {
-			Branch<T> branch = (Branch<T>) node.token;
-
-			int operandCount = branch.parameters;
-			if (node.children.size() != operandCount) {
-				throw new Expr4jException("Invalid expression");
-			}
-
-			String operands = node.children.stream().map(this::toString).collect(Collectors.joining(", "));
-
-			return branch.label + "(" + operands + ")";
 		}
 		
 		// encountered function
