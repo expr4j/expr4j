@@ -28,17 +28,44 @@ import java.util.Map;
  */
 public class ExpressionParameter<T> {
 
+    /**
+     * Expression to which this parameter belongs.
+     */
     private Expression<T> expression;
+
+    /**
+     * Node of the expression related to this parameter.
+     */
     private ExpressionNode node;
+
+    /**
+     * Map of variables.
+     */
     private Map<String, T> variables;
+
+    /**
+     * Result of evaluating this parameter.
+     */
     private T result;
 
+    /**
+     * Parameterized constructor.
+     *
+     * @param expression The expression
+     * @param node The node
+     * @param variables Map of variables
+     */
     public ExpressionParameter(Expression<T> expression, ExpressionNode node, Map<String, T> variables) {
         this.expression = expression;
         this.node = node;
         this.variables = variables;
     }
 
+    /**
+     * Get the evaluated result of this parameter.
+     *
+     * @return The evaluated result
+     */
     public T value() {
         if (this.result == null) {
             this.result = this.expression.evaluate(this.node, this.variables).value;

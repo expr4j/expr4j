@@ -32,6 +32,7 @@ import java.util.List;
  *
  */
 public class ExpressionNode {
+
     /**
      * Children of this node.
      */
@@ -57,4 +58,5 @@ public class ExpressionNode {
             this.children = null;
         }
     }
+
 }
