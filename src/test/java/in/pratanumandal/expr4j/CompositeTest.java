@@ -166,4 +166,21 @@ public class CompositeTest {
         Assert.assertEquals(expectedString, actualString);
     }
 
+    @Test
+    public void test3() {
+        Map<String, Composite> variables = new HashMap<>();
+        variables.put("x", new Composite(0.6));
+
+        Composite expected = new Composite(1.0);
+        String expectedString = "if(x < 0.5, y, 1)";
+
+        Expression<Composite> expression = builder.build("if(x < 0.5, y, 1)");
+
+        Composite actual = expression.evaluate(variables);
+        String actualString = expression.toString();
+
+        this.assertEquals(expected.doubleValue(), actual.doubleValue());
+        Assert.assertEquals(expectedString, actualString);
+    }
+
 }
