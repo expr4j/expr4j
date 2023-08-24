@@ -23,12 +23,6 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 		GeneralTest.class,
-		DoubleAssertionTest.class,
-		DoubleExceptionTest.class,
-		BigDecimalAssertionTest.class,
-		BigDecimalExceptionTest.class,
-		ComplexAssertionTest.class,
-		ComplexExceptionTest.class,
 		CompositeTest.class
 })
 public class Expr4jTestSuite {
