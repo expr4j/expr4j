@@ -15,7 +15,7 @@
  * 
  */
 
-package in.pratanumandal.expr4j;
+package in.pratanumandal.expr4j.expression;
 
 import in.pratanumandal.expr4j.exception.Expr4jException;
 import in.pratanumandal.expr4j.token.Function;

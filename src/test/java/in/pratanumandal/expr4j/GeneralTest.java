@@ -17,6 +17,11 @@
 
 package in.pratanumandal.expr4j;
 
+import in.pratanumandal.expr4j.expression.Expression;
+import in.pratanumandal.expr4j.expression.ExpressionBuilder;
+import in.pratanumandal.expr4j.expression.ExpressionConfig;
+import in.pratanumandal.expr4j.expression.ExpressionDictionary;
+import in.pratanumandal.expr4j.expression.ExpressionTokenizer;
 import in.pratanumandal.expr4j.token.Function;
 import in.pratanumandal.expr4j.token.Operand;
 import in.pratanumandal.expr4j.token.Operator;
@@ -56,8 +61,8 @@ public class GeneralTest {
 		expressionDictionary = builder.getExpressionDictionary();
 		expressionConfig = builder.getExpressionConfig();
 
-		expressionDictionary.addOperator(new Operator<>("+", OperatorType.INFIX, 1, (operands) -> operands.get(0) + operands.get(1)));
-		expressionDictionary.addFunction(new Function<>("add", (operands) -> operands.get(0) + operands.get(1)));
+		expressionDictionary.addOperator(new Operator<>("+", OperatorType.INFIX, 1, (parameters) -> parameters.get(0).value() + parameters.get(1).value()));
+		expressionDictionary.addFunction(new Function<>("add", (parameters) -> parameters.get(0).value() + parameters.get(1).value()));
 	}
 	
 	@Test

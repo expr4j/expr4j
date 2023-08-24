@@ -15,9 +15,8 @@
  * 
  */
 
-package in.pratanumandal.expr4j;
+package in.pratanumandal.expr4j.expression;
 
-import in.pratanumandal.expr4j.Expression.Node;
 import in.pratanumandal.expr4j.exception.Expr4jException;
 import in.pratanumandal.expr4j.token.Function;
 import in.pratanumandal.expr4j.token.Operator;
@@ -78,7 +77,7 @@ public class ExpressionBuilder<T> {
 	 * @return true if token could be inserted, otherwise false
 	 */
 	@SuppressWarnings("unchecked")
-	private boolean formTree(Node node, Token token) {
+	private boolean formTree(ExpressionNode node, Token token) {
 		if (node.token instanceof Function) {
 			Function<T> function = (Function<T>) node.token;
 
@@ -88,7 +87,7 @@ public class ExpressionBuilder<T> {
 				return true;
 			}
 			else if (node.children.size() < operandCount) {
-				node.children.add(0, new Node(token));
+				node.children.add(0, new ExpressionNode(token));
 				return true;
 			}
 		}
@@ -101,7 +100,7 @@ public class ExpressionBuilder<T> {
 				return true;
 			}
 			else if (node.children.size() < operandCount) {
-				node.children.add(0, new Node(token));
+				node.children.add(0, new ExpressionNode(token));
 				return true;
 			}
 		}
@@ -117,7 +116,7 @@ public class ExpressionBuilder<T> {
 			Token token = postfix.pop();
 
 			if (expression.root == null) {
-				Node node = new Node(token);
+				ExpressionNode node = new ExpressionNode(token);
 				expression.root = node;
 			}
 			else {

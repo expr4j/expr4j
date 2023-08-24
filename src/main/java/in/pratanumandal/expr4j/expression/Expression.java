@@ -15,19 +15,15 @@
  * 
  */
 
-package in.pratanumandal.expr4j;
+package in.pratanumandal.expr4j.expression;
 
 import in.pratanumandal.expr4j.exception.Expr4jException;
 import in.pratanumandal.expr4j.token.Function;
-import in.pratanumandal.expr4j.token.GreedyOperation;
-import in.pratanumandal.expr4j.token.LazyOperation;
 import in.pratanumandal.expr4j.token.Operand;
 import in.pratanumandal.expr4j.token.Operator;
 import in.pratanumandal.expr4j.token.OperatorType;
-import in.pratanumandal.expr4j.token.Token;
 import in.pratanumandal.expr4j.token.Variable;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,47 +38,12 @@ import java.util.stream.Collectors;
  * @param <T> The type of operand
  */
 public class Expression<T> {
-	
-	/**
-	 * The <code>Node</code> class represents a node of the expression tree.<br><br>
-	 * 
-	 * @author Pratanu Mandal
-	 * @since 1.0
-	 *
-	 */
-	public static class Node {
-		/**
-		 * Children of this node.
-		 */
-		public final List<Node> children;
-		
-		/**
-		 * Token contained in this node.<br>
-		 * A token can be an operand, operator, function, variable, or constant.
-		 */
-		public final Token token;
 
-		/**
-		 * Parameterized constructor.
-		 * 
-		 * @param token The token in this node
-		 */
-		public Node(Token token) {
-			this.token = token;
-			if (token instanceof Function || token instanceof Operator) {
-				this.children = new ArrayList<>();
-			}
-			else {
-				this.children = null;
-			}
-		}
-	}
-	
 	/**
 	 * Root node of the expression tree.
 	 */
-	public Node root;
-	
+	public ExpressionNode root;
+
 	/**
 	 * Expression dictionary.
 	 */
@@ -92,7 +53,7 @@ public class Expression<T> {
 	 * Expression configuration.
 	 */
 	private final ExpressionConfig<T> expressionConfig;
-	
+
 	/**
 	 * Parameterized constructor.
 	 *
@@ -104,81 +65,67 @@ public class Expression<T> {
 		this.expressionDictionary = expressionDictionary;
 		this.expressionConfig = expressionConfig;
 	}
-	
+
 	/**
 	 * Recursively evaluate the expression tree and return the result.
-	 * 
+	 *
 	 * @param node Current node of the expression tree
 	 * @param variables Map of variables
 	 * @return Result of expression evaluation
 	 */
 	@SuppressWarnings("unchecked")
-	protected Operand<T> evaluate(Node node, Map<String, T> variables) {
+	protected Operand<T> evaluate(ExpressionNode node, Map<String, T> variables) {
 		// encountered variable
 		if (node.token instanceof Variable) {
 			Variable variable = (Variable) node.token;
-			
+
 			if (!variables.containsKey(variable.label)) {
 				throw new Expr4jException("Variable not found: " + variable.label);
 			}
-			
+
 			return new Operand<T>(variables.get(variable.label));
 		}
-		
+
 		// encountered function
 		else if (node.token instanceof Function) {
 			Function<T> function = (Function<T>) node.token;
-			
+
 			int operandCount = function.parameters;
 			if (node.children.size() != operandCount) {
 				throw new Expr4jException("Invalid expression");
 			}
 
-			if (function.operation instanceof GreedyOperation) {
-				List<T> operands = new ArrayList<>();
-				for (int i = 0; i < operandCount; i++) {
-					operands.add(evaluate(node.children.get(i), variables).value);
-				}
-				return new Operand<T>(function.evaluateGreedily(operands));
-			}
-			else if (function.operation instanceof LazyOperation) {
-				return new Operand<T>(function.evaluateLazily(this, node.children, variables));
-			}
-			else return null;
+			List<ExpressionParameter<T>> parameters = node.children.stream()
+					.map(e -> new ExpressionParameter<T>(this, e, variables))
+					.collect(Collectors.toList());
+			return new Operand<T>(function.evaluate(parameters));
 		}
-		
+
 		// encountered operator
 		else if (node.token instanceof Operator) {
 			Operator<T> operator = (Operator<T>) node.token;
-			
+
 			int operandCount = (operator.type == OperatorType.INFIX || operator.type == OperatorType.INFIX_RTL) ? 2 : 1;
 			if (node.children.size() != operandCount) {
 				throw new Expr4jException("Invalid expression");
 			}
 
-			if (operator.operation instanceof GreedyOperation) {
-				List<T> operands = new ArrayList<>();
-				for (int i = 0; i < operandCount; i++) {
-					operands.add(evaluate(node.children.get(i), variables).value);
-				}
-				return new Operand<T>(operator.evaluateGreedily(operands));
-			}
-			else if (operator.operation instanceof LazyOperation) {
-				return new Operand<T>(operator.evaluateLazily(this, node.children, variables));
-			}
-			else return null;
+			List<ExpressionParameter<T>> parameters = node.children.stream()
+					.map(e -> new ExpressionParameter<T>(this, e, variables))
+					.collect(Collectors.toList());
+			return new Operand<T>(operator.evaluate(parameters));
 		}
-		
+
 		// encountered operand
 		else {
 			return (Operand<T>) node.token;
 		}
 	}
-	
+
 	/**
 	 * Evaluate the expression against a set of variables.<br>
 	 * Variables passed to this method override an predefined constants with the same label.
-	 * 
+	 *
 	 * @param variables Map of variables
 	 * @return Evaluated result
 	 */
@@ -186,68 +133,68 @@ public class Expression<T> {
 		if (root == null) {
 			throw new Expr4jException("Invalid expression");
 		}
-		
+
 		Map<String, T> constantsAndVariables = new HashMap<>(expressionDictionary.constants);
 		if (variables != null) constantsAndVariables.putAll(variables);
-		
+
 		return evaluate(root, constantsAndVariables).value;
 	}
-	
+
 	/**
 	 * Evaluate the expression.
-	 * 
+	 *
 	 * @return Evaluated result
 	 */
 	public T evaluate() {
 		return evaluate(new HashMap<String, T>());
 	}
-	
+
 	/**
 	 * Form string representation of expression.
-	 * 
+	 *
 	 * @param node Current node of the expression tree
 	 * @return Result of expression evaluation
 	 */
 	@SuppressWarnings("unchecked")
-	protected String toString(Node node) {
+	protected String toString(ExpressionNode node) {
 		// encountered variable
 		if (node.token instanceof Variable) {
 			Variable variable = (Variable) node.token;
 			return variable.label;
 		}
-		
+
 		// encountered function
 		else if (node.token instanceof Function) {
 			Function<T> function = (Function<T>) node.token;
-			
+
 			int operandCount = function.parameters;
 			if (node.children.size() != operandCount) {
 				throw new Expr4jException("Invalid expression");
 			}
-			
+
 			String operands = node.children.stream().map(this::toString).collect(Collectors.joining(", "));
-			
+
 			return function.label + "(" + operands + ")";
 		}
-		
+
 		// encountered operator
 		else if (node.token instanceof Operator) {
 			Operator<T> operator = (Operator<T>) node.token;
-			
+
 			int operandCount = (operator.type == OperatorType.INFIX || operator.type == OperatorType.INFIX_RTL) ? 2 : 1;
 			if (node.children.size() != operandCount) {
 				throw new Expr4jException("Invalid expression");
 			}
-			
+
 			String label;
 			if (operandCount == 2) label = " " + operator.label + " ";
 			else label = operator.label;
-			
+
 			if (operandCount == 2) {
 				StringBuilder sb = new StringBuilder();
-				
-				Node left = node.children.get(0);
-				Node right = node.children.get(1);
+
+				ExpressionNode left = node.children.get(0);
+				ExpressionNode right = node.children.get(1);
 
 				if (left.token instanceof Operator) {
 					Operator<T> leftOperator = (Operator<T>) left.token;
@@ -257,15 +204,13 @@ public class Expression<T> {
 						sb.append("(");
 						sb.append(this.toString(left));
 						sb.append(")");
-					}
-					else {
+					} else {
 						sb.append(this.toString(left));
 					}
-				}
-				else {
+				} else {
 					sb.append(this.toString(left));
 				}
-				
+
 				sb.append(label);
 
 				if (right.token instanceof Operator) {
@@ -276,52 +221,43 @@ public class Expression<T> {
 						sb.append("(");
 						sb.append(this.toString(right));
 						sb.append(")");
-					}
-					else {
+					} else {
 						sb.append(this.toString(right));
 					}
-				}
-				else {
+				} else {
 					sb.append(this.toString(right));
 				}
-				
+
 				return sb.toString();
-			}
-			else {
-				Node child = node.children.get(0);
+			} else {
+				ExpressionNode child = node.children.get(0);
 				if (operator.label.equals("+") || operator.label.equals("-")) {
 					if (child.token instanceof Operator) {
 						Operator<T> childOperator = (Operator<T>) child.token;
 						if (childOperator.type == OperatorType.PREFIX) {
 							return label + this.toString(child);
-						}
-						else {
+						} else {
 							return label + "(" + this.toString(child) + ")";
 						}
-					}
-					else {
+					} else {
 						return label + this.toString(child);
 					}
-				}
-				else if (child.token instanceof Operator || child.token instanceof Function) {
+				} else if (child.token instanceof Operator || child.token instanceof Function) {
 					if (operator.type == OperatorType.PREFIX) {
 						return label + "(" + this.toString(child) + ")";
-					}
-					else {
+					} else {
 						return "(" + this.toString(child) + ") " + label;
 					}
-				}
-				else {
+				} else {
 					if (operator.type == OperatorType.PREFIX) {
 						return label + " " + this.toString(child);
-					}
-					else {
+					} else {
 						return this.toString(child) + " " + label;
 					}
 				}
 			}
 		}
-		
+
 		// encountered operand
 		else {
 			Operand<T> operand = (Operand<T>) node.token;
@@ -336,5 +272,5 @@ public class Expression<T> {
 	public String toString() {
 		return this.toString(root);
 	}
-	
+
 }

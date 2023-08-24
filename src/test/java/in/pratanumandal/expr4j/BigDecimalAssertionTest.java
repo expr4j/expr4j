@@ -17,6 +17,8 @@
 
 package in.pratanumandal.expr4j;
 
+import in.pratanumandal.expr4j.expression.Expression;
+import in.pratanumandal.expr4j.expression.ExpressionDictionary;
 import in.pratanumandal.expr4j.impl.BigDecimalExpressionBuilder;
 import in.pratanumandal.expr4j.impl.utils.BigDecimalUtils;
 import in.pratanumandal.expr4j.token.Function;
@@ -30,6 +32,7 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class BigDecimalAssertionTest {
 
@@ -227,13 +230,10 @@ public class BigDecimalAssertionTest {
 
 	@Test
 	public void test14() {
-		expressionDictionary.addFunction(new Function<>("avg", (operands) -> {
-    		BigDecimal sum = new BigDecimal(0);
-    		for (BigDecimal operand : operands) {
-    			sum = sum.add(operand);
-    		}
-    		return sum.divide(new BigDecimal(operands.size()), builder.getMathContext());
-    	}));
+		expressionDictionary.addFunction(new Function<>("avg", (parameters) ->
+				parameters.stream().map(e -> e.value())
+						.collect(Collectors.reducing(BigDecimal.ZERO, BigDecimal::add))
+						.divide(new BigDecimal(parameters.size()), builder.getMathContext())));
 
 		BigDecimal expected = new BigDecimal(12.7434874639);
 		String expectedString = "avg(2 + 3, min(5, 8) * 6 + 1 + pi, cos 9)";
@@ -251,13 +251,10 @@ public class BigDecimalAssertionTest {
 
 	@Test
 	public void test15() {
-		expressionDictionary.addFunction(new Function<>("ee", (operands) -> {
-    		BigDecimal sum = new BigDecimal(0);
-    		for (BigDecimal operand : operands) {
-    			sum = sum.add(operand);
-    		}
-			return sum.divide(new BigDecimal(operands.size()), builder.getMathContext());
-    	}));
+		expressionDictionary.addFunction(new Function<>("ee", (parameters) ->
+				parameters.stream().map(e -> e.value())
+						.collect(Collectors.reducing(BigDecimal.ZERO, BigDecimal::add))
+						.divide(new BigDecimal(parameters.size()), builder.getMathContext())));
 
 		BigDecimal expected = new BigDecimal(12.7434874639);
 		String expectedString = "ee(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
@@ -275,13 +272,10 @@ public class BigDecimalAssertionTest {
 
 	@Test
 	public void test16() {
-		expressionDictionary.addFunction(new Function<>("esume", (operands) -> {
-    		BigDecimal sum = new BigDecimal(0);
-    		for (BigDecimal operand : operands) {
-				sum = sum.add(operand);
-    		}
-			return sum.divide(new BigDecimal(operands.size()), builder.getMathContext());
-    	}));
+		expressionDictionary.addFunction(new Function<>("esume", (parameters) ->
+				parameters.stream().map(e -> e.value())
+						.collect(Collectors.reducing(BigDecimal.ZERO, BigDecimal::add))
+						.divide(new BigDecimal(parameters.size()), builder.getMathContext())));
 
 		BigDecimal expected = new BigDecimal(12.7434874639);
 		String expectedString = "esume(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
@@ -299,13 +293,10 @@ public class BigDecimalAssertionTest {
 
 	@Test
 	public void test17() {
-		expressionDictionary.addFunction(new Function<>("pisumpi", (operands) -> {
-			BigDecimal sum = new BigDecimal(0);
-			for (BigDecimal operand : operands) {
-				sum = sum.add(operand);
-			}
-			return sum.divide(new BigDecimal(operands.size()), builder.getMathContext());
-    	}));
+		expressionDictionary.addFunction(new Function<>("pisumpi", (parameters) ->
+				parameters.stream().map(e -> e.value())
+						.collect(Collectors.reducing(BigDecimal.ZERO, BigDecimal::add))
+						.divide(new BigDecimal(parameters.size()), builder.getMathContext())));
 
 		BigDecimal expected = new BigDecimal(12.7434874639);
 		String expectedString = "pisumpi(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
@@ -323,13 +314,10 @@ public class BigDecimalAssertionTest {
 
 	@Test
 	public void test18() {
-		expressionDictionary.addFunction(new Function<>("esumpi", (operands) -> {
-			BigDecimal sum = new BigDecimal(0);
-			for (BigDecimal operand : operands) {
-				sum = sum.add(operand);
-			}
-			return sum.divide(new BigDecimal(operands.size()), builder.getMathContext());
-    	}));
+		expressionDictionary.addFunction(new Function<>("esumpi", (parameters) ->
+				parameters.stream().map(e -> e.value())
+						.collect(Collectors.reducing(BigDecimal.ZERO, BigDecimal::add))
+						.divide(new BigDecimal(parameters.size()), builder.getMathContext())));
 
 		BigDecimal expected = new BigDecimal(12.7434874639);
 		String expectedString = "esumpi(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
@@ -347,12 +335,10 @@ public class BigDecimalAssertionTest {
 
 	@Test
 	public void test19() {
-		expressionDictionary.addFunction(new Function<>("uminusFunc", (operands) -> {			BigDecimal sum = new BigDecimal(0);
-			for (BigDecimal operand : operands) {
-				sum = sum.add(operand);
-			}
-			return sum.divide(new BigDecimal(operands.size()), builder.getMathContext());
-    	}));
+		expressionDictionary.addFunction(new Function<>("uminusFunc", (parameters) ->
+				parameters.stream().map(e -> e.value())
+						.collect(Collectors.reducing(BigDecimal.ZERO, BigDecimal::add))
+						.divide(new BigDecimal(parameters.size()), builder.getMathContext())));
 
 		BigDecimal expected = new BigDecimal(12.7434874639);
 		String expectedString = "uminusFunc(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
@@ -370,13 +356,10 @@ public class BigDecimalAssertionTest {
 
 	@Test
 	public void test20() {
-		expressionDictionary.addFunction(new Function<>("uplusFunc", (operands) -> {
-			BigDecimal sum = new BigDecimal(0);
-			for (BigDecimal operand : operands) {
-				sum = sum.add(operand);
-			}
-			return sum.divide(new BigDecimal(operands.size()), builder.getMathContext());
-    	}));
+		expressionDictionary.addFunction(new Function<>("uplusFunc", (parameters) ->
+				parameters.stream().map(e -> e.value())
+						.collect(Collectors.reducing(BigDecimal.ZERO, BigDecimal::add))
+						.divide(new BigDecimal(parameters.size()), builder.getMathContext())));
 
 		BigDecimal expected = new BigDecimal(12.7434874639);
 		String expectedString = "uplusFunc(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
@@ -394,13 +377,10 @@ public class BigDecimalAssertionTest {
 
 	@Test
 	public void test21() {
-		expressionDictionary.addFunction(new Function<>("Funcuminus", (operands) -> {
-			BigDecimal sum = new BigDecimal(0);
-			for (BigDecimal operand : operands) {
-				sum = sum.add(operand);
-			}
-			return sum.divide(new BigDecimal(operands.size()), builder.getMathContext());
-    	}));
+		expressionDictionary.addFunction(new Function<>("Funcuminus", (parameters) ->
+				parameters.stream().map(e -> e.value())
+						.collect(Collectors.reducing(BigDecimal.ZERO, BigDecimal::add))
+						.divide(new BigDecimal(parameters.size()), builder.getMathContext())));
 
 		BigDecimal expected = new BigDecimal(12.7434874639);
 		String expectedString = "Funcuminus(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
@@ -418,13 +398,10 @@ public class BigDecimalAssertionTest {
 
 	@Test
 	public void test22() {
-		expressionDictionary.addFunction(new Function<>("Funcuplus", (operands) -> {
-			BigDecimal sum = new BigDecimal(0);
-			for (BigDecimal operand : operands) {
-				sum = sum.add(operand);
-			}
-			return sum.divide(new BigDecimal(operands.size()), builder.getMathContext());
-    	}));
+		expressionDictionary.addFunction(new Function<>("Funcuplus", (parameters) ->
+				parameters.stream().map(e -> e.value())
+						.collect(Collectors.reducing(BigDecimal.ZERO, BigDecimal::add))
+						.divide(new BigDecimal(parameters.size()), builder.getMathContext())));
 
 		BigDecimal expected = new BigDecimal(12.7434874639);
 		String expectedString = "Funcuplus(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
@@ -442,13 +419,10 @@ public class BigDecimalAssertionTest {
 
 	@Test
 	public void test23() {
-		expressionDictionary.addFunction(new Function<>("uminusFuncuminus", (operands) -> {
-			BigDecimal sum = new BigDecimal(0);
-			for (BigDecimal operand : operands) {
-				sum = sum.add(operand);
-			}
-			return sum.divide(new BigDecimal(operands.size()), builder.getMathContext());
-    	}));
+		expressionDictionary.addFunction(new Function<>("uminusFuncuminus", (parameters) ->
+				parameters.stream().map(e -> e.value())
+						.collect(Collectors.reducing(BigDecimal.ZERO, BigDecimal::add))
+						.divide(new BigDecimal(parameters.size()), builder.getMathContext())));
 
 		BigDecimal expected = new BigDecimal(12.7434874639);
 		String expectedString = "uminusFuncuminus(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
@@ -466,13 +440,10 @@ public class BigDecimalAssertionTest {
 
 	@Test
 	public void test24() {
-		expressionDictionary.addFunction(new Function<>("uplusFuncuplus", (operands) -> {
-    		BigDecimal sum = new BigDecimal(0);
-    		for (BigDecimal operand : operands) {
-    			sum = sum.add(operand);
-    		}
-    		return sum.divide(new BigDecimal(operands.size()), builder.getMathContext());
-    	}));
+		expressionDictionary.addFunction(new Function<>("uplusFuncuplus", (parameters) ->
+				parameters.stream().map(e -> e.value())
+						.collect(Collectors.reducing(BigDecimal.ZERO, BigDecimal::add))
+						.divide(new BigDecimal(parameters.size()), builder.getMathContext())));
 
 		BigDecimal expected = new BigDecimal(12.7434874639);
 		String expectedString = "uplusFuncuplus(2 + 3, max(5, 2) * 6 + 1 + pi, cos 9)";
@@ -609,7 +580,7 @@ public class BigDecimalAssertionTest {
 	@Test
 	public void test33() {
 		expressionDictionary.addOperator(new Operator<>("incr", OperatorType.POSTFIX, 5,
-				(operands) -> operands.get(0).add(BigDecimal.ONE)));
+				(parameters) -> parameters.get(0).value().add(BigDecimal.ONE)));
 
 		BigDecimal expected = new BigDecimal(121);
 		String expectedString = "(5 !) incr";

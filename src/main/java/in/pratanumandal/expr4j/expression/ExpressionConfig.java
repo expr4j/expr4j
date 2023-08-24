@@ -15,7 +15,7 @@
  *
  */
 
-package in.pratanumandal.expr4j;
+package in.pratanumandal.expr4j.expression;
 
 import java.util.ArrayList;
 import java.util.List;

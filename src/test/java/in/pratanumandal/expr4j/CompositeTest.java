@@ -1,5 +1,9 @@
 package in.pratanumandal.expr4j;
 
+import in.pratanumandal.expr4j.expression.Expression;
+import in.pratanumandal.expr4j.expression.ExpressionBuilder;
+import in.pratanumandal.expr4j.expression.ExpressionConfig;
+import in.pratanumandal.expr4j.expression.ExpressionDictionary;
 import in.pratanumandal.expr4j.token.Function;
 import in.pratanumandal.expr4j.token.Operator;
 import in.pratanumandal.expr4j.token.OperatorType;
@@ -58,8 +62,7 @@ public class CompositeTest {
                 return this.doubleValue() == this.intValue() ?
                         String.valueOf(this.intValue()) :
                         String.valueOf(this.doubleValue());
-            }
-            else if (this.getType() == Type.CONDITION) {
+            } else if (this.getType() == Type.CONDITION) {
                 return String.valueOf(this.booleanValue());
             }
             return null;
@@ -81,11 +84,9 @@ public class CompositeTest {
             protected Composite stringToOperand(String operand) {
                 if (operand.equals("true")) {
                     return new Composite(true);
-                }
-                else if (operand.equals("false")) {
+                } else if (operand.equals("false")) {
                     return new Composite(false);
-                }
-                else {
+                } else {
                     return new Composite(Double.parseDouble(operand));
                 }
             }
@@ -106,28 +107,24 @@ public class CompositeTest {
         expressionDictionary = builder.getExpressionDictionary();
         expressionConfig = builder.getExpressionConfig();
 
-        expressionDictionary.addOperator(new Operator<>("+", OperatorType.INFIX, 1,
-                (operands) -> new Composite(operands.get(0).doubleValue() + operands.get(1).doubleValue())));
+        expressionDictionary.addOperator(new Operator<>("+", OperatorType.INFIX, 1, (parameters) ->
+                new Composite(parameters.get(0).value().doubleValue() + parameters.get(1).value().doubleValue())));
 
-        expressionDictionary.addOperator(new Operator<>("-", OperatorType.INFIX, 1,
-                (operands) -> new Composite(operands.get(0).doubleValue() - operands.get(1).doubleValue())));
+        expressionDictionary.addOperator(new Operator<>("-", OperatorType.INFIX, 1, (parameters) ->
+                new Composite(parameters.get(0).value().doubleValue() - parameters.get(1).value().doubleValue())));
 
-        expressionDictionary.addOperator(new Operator<>("<", OperatorType.INFIX, 1,
-                (operands) -> new Composite(operands.get(0).doubleValue() < operands.get(1).doubleValue())));
+        expressionDictionary.addOperator(new Operator<>("<", OperatorType.INFIX, 1, (parameters) ->
+                new Composite(parameters.get(0).value().doubleValue() < parameters.get(1).value().doubleValue())));
 
-        expressionDictionary.addFunction(new Function<>("if", 3, (expression, nodes, variables) -> {
-            Composite choice = expression.evaluate(nodes.get(0), variables).value;
-            if (choice.booleanValue()) {
-                return expression.evaluate(nodes.get(1), variables).value;
-            }
-            else {
-                return expression.evaluate(nodes.get(2), variables).value;
-            }
+        expressionDictionary.addFunction(new Function<>("if", 3, (parameters) -> {
+            Composite choice = parameters.get(0).value();
+            if (choice.booleanValue()) return parameters.get(1).value();
+            else return parameters.get(2).value();
         }));
 
-        expressionDictionary.addFunction(new Function<>("switch",  (expression, nodes, variables) -> {
-            Composite choice = expression.evaluate(nodes.get(0), variables).value;
-            return expression.evaluate(nodes.get(choice.intValue()), variables).value;
+        expressionDictionary.addFunction(new Function<>("switch", (parameters) -> {
+            Composite choice = parameters.get(0).value();
+            return parameters.get(choice.intValue()).value();
         }));
     }
 

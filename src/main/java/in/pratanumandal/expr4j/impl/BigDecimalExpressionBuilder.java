@@ -18,9 +18,9 @@
 package in.pratanumandal.expr4j.impl;
 
 import ch.obermuhlner.math.big.BigDecimalMath;
-import in.pratanumandal.expr4j.ExpressionBuilder;
-import in.pratanumandal.expr4j.ExpressionConfig;
-import in.pratanumandal.expr4j.ExpressionDictionary;
+import in.pratanumandal.expr4j.expression.ExpressionBuilder;
+import in.pratanumandal.expr4j.expression.ExpressionConfig;
+import in.pratanumandal.expr4j.expression.ExpressionDictionary;
 import in.pratanumandal.expr4j.impl.utils.BigDecimalUtils;
 import in.pratanumandal.expr4j.token.Function;
 import in.pratanumandal.expr4j.token.Operator;
@@ -30,9 +30,10 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 /**
- * The <code>BigDecimalExpressionBuilder</code> class provides an implementation to parse expressions for operands of type {@link BigDecimal}.<br>
+ * The <code>BigDecimalExpressionBuilder</code> class provides an implementation to parse expressions for parameters of type {@link BigDecimal}.<br>
  * 
  * @author Pratanu Mandal
  * @since 1.0
@@ -100,61 +101,61 @@ public class BigDecimalExpressionBuilder extends ExpressionBuilder<BigDecimal> {
 	protected void initialize() {
 		ExpressionDictionary<BigDecimal> expressionDictionary = this.getExpressionDictionary();
 
-		expressionDictionary.addOperator(new Operator<>("+", OperatorType.PREFIX, Integer.MAX_VALUE, (operands) -> operands.get(0)));
-		expressionDictionary.addOperator(new Operator<>("-", OperatorType.PREFIX, Integer.MAX_VALUE, (operands) -> operands.get(0).negate()));
+		expressionDictionary.addOperator(new Operator<>("+", OperatorType.PREFIX, Integer.MAX_VALUE, (parameters) -> parameters.get(0).value()));
+		expressionDictionary.addOperator(new Operator<>("-", OperatorType.PREFIX, Integer.MAX_VALUE, (parameters) -> parameters.get(0).value().negate()));
 
-		expressionDictionary.addOperator(new Operator<>("+", OperatorType.INFIX, 1, (operands) -> operands.get(0).add(operands.get(1), mathContext)));
-		expressionDictionary.addOperator(new Operator<>("-", OperatorType.INFIX, 1, (operands) -> operands.get(0).subtract(operands.get(1), mathContext)));
+		expressionDictionary.addOperator(new Operator<>("+", OperatorType.INFIX, 1, (parameters) -> parameters.get(0).value().add(parameters.get(1).value(), mathContext)));
+		expressionDictionary.addOperator(new Operator<>("-", OperatorType.INFIX, 1, (parameters) -> parameters.get(0).value().subtract(parameters.get(1).value(), mathContext)));
 
-		expressionDictionary.addOperator(new Operator<>("*", OperatorType.INFIX, 2, (operands) -> operands.get(0).multiply(operands.get(1), mathContext)));
-		expressionDictionary.addOperator(new Operator<>("/", OperatorType.INFIX, 2, (operands) -> operands.get(0).divide(operands.get(1), mathContext)));
-		expressionDictionary.addOperator(new Operator<>("%", OperatorType.INFIX, 2, (operands) -> operands.get(0).remainder(operands.get(1), mathContext)));
+		expressionDictionary.addOperator(new Operator<>("*", OperatorType.INFIX, 2, (parameters) -> parameters.get(0).value().multiply(parameters.get(1).value(), mathContext)));
+		expressionDictionary.addOperator(new Operator<>("/", OperatorType.INFIX, 2, (parameters) -> parameters.get(0).value().divide(parameters.get(1).value(), mathContext)));
+		expressionDictionary.addOperator(new Operator<>("%", OperatorType.INFIX, 2, (parameters) -> parameters.get(0).value().remainder(parameters.get(1).value(), mathContext)));
 
-		expressionDictionary.addOperator(new Operator<>("^", OperatorType.INFIX_RTL, 3, (operands) -> BigDecimalMath.pow(operands.get(0), operands.get(1), mathContext)));
+		expressionDictionary.addOperator(new Operator<>("^", OperatorType.INFIX_RTL, 3, (parameters) -> BigDecimalMath.pow(parameters.get(0).value(), parameters.get(1).value(), mathContext)));
 
-		expressionDictionary.addOperator(new Operator<>("!", OperatorType.POSTFIX, 5, (operands) -> BigDecimalUtils.factorial(operands.get(0))));
+		expressionDictionary.addOperator(new Operator<>("!", OperatorType.POSTFIX, 5, (parameters) -> BigDecimalUtils.factorial(parameters.get(0).value())));
 
-		expressionDictionary.addOperator(new Operator<>("abs", OperatorType.PREFIX, 4, (operands) -> operands.get(0).abs(mathContext)));
+		expressionDictionary.addOperator(new Operator<>("abs", OperatorType.PREFIX, 4, (parameters) -> parameters.get(0).value().abs(mathContext)));
 
-		expressionDictionary.addOperator(new Operator<>("sin", OperatorType.PREFIX, 4, (operands) -> BigDecimalMath.sin(operands.get(0), mathContext)));
-		expressionDictionary.addOperator(new Operator<>("cos", OperatorType.PREFIX, 4, (operands) -> BigDecimalMath.cos(operands.get(0), mathContext)));
-		expressionDictionary.addOperator(new Operator<>("tan", OperatorType.PREFIX, 4, (operands) -> BigDecimalMath.tan(operands.get(0), mathContext)));
+		expressionDictionary.addOperator(new Operator<>("sin", OperatorType.PREFIX, 4, (parameters) -> BigDecimalMath.sin(parameters.get(0).value(), mathContext)));
+		expressionDictionary.addOperator(new Operator<>("cos", OperatorType.PREFIX, 4, (parameters) -> BigDecimalMath.cos(parameters.get(0).value(), mathContext)));
+		expressionDictionary.addOperator(new Operator<>("tan", OperatorType.PREFIX, 4, (parameters) -> BigDecimalMath.tan(parameters.get(0).value(), mathContext)));
 
-		expressionDictionary.addOperator(new Operator<>("asin", OperatorType.PREFIX, 4, (operands) -> BigDecimalMath.asin(operands.get(0), mathContext)));
-		expressionDictionary.addOperator(new Operator<>("acos", OperatorType.PREFIX, 4, (operands) -> BigDecimalMath.acos(operands.get(0), mathContext)));
-		expressionDictionary.addOperator(new Operator<>("atan", OperatorType.PREFIX, 4, (operands) -> BigDecimalMath.atan(operands.get(0), mathContext)));
+		expressionDictionary.addOperator(new Operator<>("asin", OperatorType.PREFIX, 4, (parameters) -> BigDecimalMath.asin(parameters.get(0).value(), mathContext)));
+		expressionDictionary.addOperator(new Operator<>("acos", OperatorType.PREFIX, 4, (parameters) -> BigDecimalMath.acos(parameters.get(0).value(), mathContext)));
+		expressionDictionary.addOperator(new Operator<>("atan", OperatorType.PREFIX, 4, (parameters) -> BigDecimalMath.atan(parameters.get(0).value(), mathContext)));
 
-		expressionDictionary.addOperator(new Operator<>("sinh", OperatorType.PREFIX, 4, (operands) -> BigDecimalMath.sinh(operands.get(0), mathContext)));
-		expressionDictionary.addOperator(new Operator<>("cosh", OperatorType.PREFIX, 4, (operands) -> BigDecimalMath.cosh(operands.get(0), mathContext)));
-		expressionDictionary.addOperator(new Operator<>("tanh", OperatorType.PREFIX, 4, (operands) -> BigDecimalMath.tanh(operands.get(0), mathContext)));
+		expressionDictionary.addOperator(new Operator<>("sinh", OperatorType.PREFIX, 4, (parameters) -> BigDecimalMath.sinh(parameters.get(0).value(), mathContext)));
+		expressionDictionary.addOperator(new Operator<>("cosh", OperatorType.PREFIX, 4, (parameters) -> BigDecimalMath.cosh(parameters.get(0).value(), mathContext)));
+		expressionDictionary.addOperator(new Operator<>("tanh", OperatorType.PREFIX, 4, (parameters) -> BigDecimalMath.tanh(parameters.get(0).value(), mathContext)));
 
-		expressionDictionary.addOperator(new Operator<>("asinh", OperatorType.PREFIX, 4, (operands) -> BigDecimalMath.asinh(operands.get(0), mathContext)));
-		expressionDictionary.addOperator(new Operator<>("acosh", OperatorType.PREFIX, 4, (operands) -> BigDecimalMath.acosh(operands.get(0), mathContext)));
-		expressionDictionary.addOperator(new Operator<>("atanh", OperatorType.PREFIX, 4, (operands) -> BigDecimalMath.atanh(operands.get(0), mathContext)));
+		expressionDictionary.addOperator(new Operator<>("asinh", OperatorType.PREFIX, 4, (parameters) -> BigDecimalMath.asinh(parameters.get(0).value(), mathContext)));
+		expressionDictionary.addOperator(new Operator<>("acosh", OperatorType.PREFIX, 4, (parameters) -> BigDecimalMath.acosh(parameters.get(0).value(), mathContext)));
+		expressionDictionary.addOperator(new Operator<>("atanh", OperatorType.PREFIX, 4, (parameters) -> BigDecimalMath.atanh(parameters.get(0).value(), mathContext)));
 
-		expressionDictionary.addFunction(new Function<>("deg", 1, (operands) -> BigDecimalMath.toDegrees(operands.get(0), mathContext)));
-		expressionDictionary.addFunction(new Function<>("rad", 1, (operands) -> BigDecimalMath.toRadians(operands.get(0), mathContext)));
+		expressionDictionary.addFunction(new Function<>("deg", 1, (parameters) -> BigDecimalMath.toDegrees(parameters.get(0).value(), mathContext)));
+		expressionDictionary.addFunction(new Function<>("rad", 1, (parameters) -> BigDecimalMath.toRadians(parameters.get(0).value(), mathContext)));
 
-		expressionDictionary.addOperator(new Operator<>("round", OperatorType.PREFIX, 4, (operands) -> operands.get(0).setScale(0, RoundingMode.HALF_UP)));
-		expressionDictionary.addOperator(new Operator<>("floor", OperatorType.PREFIX, 4, (operands) -> operands.get(0).setScale(0, RoundingMode.FLOOR)));
-		expressionDictionary.addOperator(new Operator<>("ceil", OperatorType.PREFIX, 4, (operands) -> operands.get(0).setScale(0, RoundingMode.CEILING)));
+		expressionDictionary.addOperator(new Operator<>("round", OperatorType.PREFIX, 4, (parameters) -> parameters.get(0).value().setScale(0, RoundingMode.HALF_UP)));
+		expressionDictionary.addOperator(new Operator<>("floor", OperatorType.PREFIX, 4, (parameters) -> parameters.get(0).value().setScale(0, RoundingMode.FLOOR)));
+		expressionDictionary.addOperator(new Operator<>("ceil", OperatorType.PREFIX, 4, (parameters) -> parameters.get(0).value().setScale(0, RoundingMode.CEILING)));
 
-		expressionDictionary.addOperator(new Operator<>("ln", OperatorType.PREFIX, 4, (operands) -> BigDecimalMath.log(operands.get(0), mathContext)));
-		expressionDictionary.addOperator(new Operator<>("log10", OperatorType.PREFIX, 4, (operands) -> BigDecimalMath.log10(operands.get(0), mathContext)));
-		expressionDictionary.addFunction(new Function<>("log", 2, (operands) -> BigDecimalUtils.log(operands.get(1), operands.get(0), mathContext)));
+		expressionDictionary.addOperator(new Operator<>("ln", OperatorType.PREFIX, 4, (parameters) -> BigDecimalMath.log(parameters.get(0).value(), mathContext)));
+		expressionDictionary.addOperator(new Operator<>("log10", OperatorType.PREFIX, 4, (parameters) -> BigDecimalMath.log10(parameters.get(0).value(), mathContext)));
+		expressionDictionary.addFunction(new Function<>("log", 2, (parameters) -> BigDecimalUtils.log(parameters.get(1).value(), parameters.get(0).value(), mathContext)));
 
-		expressionDictionary.addOperator(new Operator<>("sqrt", OperatorType.PREFIX, 4, (operands) -> BigDecimalMath.sqrt(operands.get(0), mathContext)));
-		expressionDictionary.addOperator(new Operator<>("cbrt", OperatorType.PREFIX, 4, (operands) -> BigDecimalUtils.cbrt(operands.get(0), mathContext)));
+		expressionDictionary.addOperator(new Operator<>("sqrt", OperatorType.PREFIX, 4, (parameters) -> BigDecimalMath.sqrt(parameters.get(0).value(), mathContext)));
+		expressionDictionary.addOperator(new Operator<>("cbrt", OperatorType.PREFIX, 4, (parameters) -> BigDecimalUtils.cbrt(parameters.get(0).value(), mathContext)));
 
-		expressionDictionary.addFunction(new Function<>("exp", 1, (operands) -> BigDecimalMath.exp(operands.get(0), mathContext)));
+		expressionDictionary.addFunction(new Function<>("exp", 1, (parameters) -> BigDecimalMath.exp(parameters.get(0).value(), mathContext)));
 
-		expressionDictionary.addFunction(new Function<>("max", (operands) -> operands.isEmpty() ? BigDecimal.ZERO : Collections.max(operands)));
-		expressionDictionary.addFunction(new Function<>("min", (operands) -> operands.isEmpty() ? BigDecimal.ZERO : Collections.min(operands)));
+		expressionDictionary.addFunction(new Function<>("max", (parameters) -> parameters.isEmpty() ? BigDecimal.ZERO : Collections.max(parameters.stream().map(e -> e.value()).collect(Collectors.toList()))));
+		expressionDictionary.addFunction(new Function<>("min", (parameters) -> parameters.isEmpty() ? BigDecimal.ZERO : Collections.min(parameters.stream().map(e -> e.value()).collect(Collectors.toList()))));
 
-		expressionDictionary.addFunction(new Function<>("mean", (operands) -> BigDecimalUtils.average(operands, mathContext)));
-		expressionDictionary.addFunction(new Function<>("average", (operands) -> BigDecimalUtils.average(operands, mathContext)));
+		expressionDictionary.addFunction(new Function<>("mean", (parameters) -> BigDecimalUtils.average(parameters.stream().map(e -> e.value()).collect(Collectors.toList()), mathContext)));
+		expressionDictionary.addFunction(new Function<>("average", (parameters) -> BigDecimalUtils.average(parameters.stream().map(e -> e.value()).collect(Collectors.toList()), mathContext)));
 
-		expressionDictionary.addFunction(new Function<>("rand", 0, (operands) -> new BigDecimal(Math.random())));
+		expressionDictionary.addFunction(new Function<>("rand", 0, (parameters) -> new BigDecimal(Math.random())));
 
 		expressionDictionary.addConstant("pi", BigDecimalMath.pi(mathContext));
 		expressionDictionary.addConstant("e", BigDecimalMath.e(mathContext));

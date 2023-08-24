@@ -17,6 +17,8 @@
 
 package in.pratanumandal.expr4j;
 
+import in.pratanumandal.expr4j.expression.Expression;
+import in.pratanumandal.expr4j.expression.ExpressionDictionary;
 import in.pratanumandal.expr4j.impl.ComplexExpressionBuilder;
 import in.pratanumandal.expr4j.token.Function;
 import org.apache.commons.numbers.complex.Complex;
@@ -25,6 +27,7 @@ import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ComplexAssertionTest {
 
@@ -209,13 +212,10 @@ public class ComplexAssertionTest {
 
 	@Test
 	public void test13() {
-		expressionDictionary.addFunction(new Function<Complex>("avg", (operands) -> {
-    		Complex sum = Complex.ofCartesian(0, 0);
-    		for (Complex operand : operands) {
-    			sum = sum.add(operand);
-    		}
-    		return sum.divide(operands.size());
-    	}));
+		expressionDictionary.addFunction(new Function<>("avg", (parameters) ->
+				parameters.stream().map(e -> e.value())
+						.collect(Collectors.reducing(Complex.ofCartesian(0, 0), Complex::add))
+						.divide(parameters.size())));
 
 		Complex expected = Complex.ofCartesian(11.64958140672138, -3.666666666666666);
 		String expectedString = "avg(e + i, (5 - 2i) * 6 + pi, cos 9)";
@@ -233,13 +233,10 @@ public class ComplexAssertionTest {
 
 	@Test
 	public void test14() {
-		expressionDictionary.addFunction(new Function<Complex>("ee", (operands) -> {
-			Complex sum = Complex.ofCartesian(0, 0);
-			for (Complex operand : operands) {
-				sum = sum.add(operand);
-			}
-			return sum.divide(operands.size());
-		}));
+		expressionDictionary.addFunction(new Function<>("ee", (parameters) ->
+				parameters.stream().map(e -> e.value())
+						.collect(Collectors.reducing(Complex.ofCartesian(0, 0), Complex::add))
+						.divide(parameters.size())));
 
 		Complex expected = Complex.ofCartesian(11.64958140672138, -3.666666666666666);
 		String expectedString = "ee(e + i, (5 - 2i) * 6 + pi, cos 9)";
@@ -257,13 +254,10 @@ public class ComplexAssertionTest {
 
 	@Test
 	public void test15() {
-		expressionDictionary.addFunction(new Function<Complex>("uminusFunc", (operands) -> {
-			Complex sum = Complex.ofCartesian(0, 0);
-			for (Complex operand : operands) {
-				sum = sum.add(operand);
-			}
-			return sum.divide(operands.size());
-    	}));
+		expressionDictionary.addFunction(new Function<>("uminusFunc", (parameters) ->
+				parameters.stream().map(e -> e.value())
+						.collect(Collectors.reducing(Complex.ofCartesian(0, 0), Complex::add))
+						.divide(parameters.size())));
 
 		Complex expected = Complex.ofCartesian(11.64958140672138, -3.666666666666666);
 		String expectedString = "uminusFunc(e + i, (5 - 2i) * 6 + pi, cos 9)";
@@ -281,13 +275,10 @@ public class ComplexAssertionTest {
 
 	@Test
 	public void test16() {
-		expressionDictionary.addFunction(new Function<Complex>("Funcuplus", (operands) -> {
-			Complex sum = Complex.ofCartesian(0, 0);
-			for (Complex operand : operands) {
-				sum = sum.add(operand);
-			}
-			return sum.divide(operands.size());
-		}));
+		expressionDictionary.addFunction(new Function<>("Funcuplus", (parameters) ->
+				parameters.stream().map(e -> e.value())
+						.collect(Collectors.reducing(Complex.ofCartesian(0, 0), Complex::add))
+						.divide(parameters.size())));
 
 		Complex expected = Complex.ofCartesian(11.64958140672138, -3.666666666666666);
 		String expectedString = "Funcuplus(e + i, (5 - 2i) * 6 + pi, cos 9)";

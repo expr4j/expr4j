@@ -17,9 +17,9 @@
 
 package in.pratanumandal.expr4j.impl;
 
-import in.pratanumandal.expr4j.ExpressionBuilder;
-import in.pratanumandal.expr4j.ExpressionConfig;
-import in.pratanumandal.expr4j.ExpressionDictionary;
+import in.pratanumandal.expr4j.expression.ExpressionBuilder;
+import in.pratanumandal.expr4j.expression.ExpressionConfig;
+import in.pratanumandal.expr4j.expression.ExpressionDictionary;
 import in.pratanumandal.expr4j.impl.utils.ComplexUtils;
 import in.pratanumandal.expr4j.token.Function;
 import in.pratanumandal.expr4j.token.Operator;
@@ -28,9 +28,10 @@ import org.apache.commons.numbers.complex.Complex;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * The <code>ComplexExpressionBuilder</code> class provides an implementation to parse expressions for operands of type {@link Complex}.<br>
+ * The <code>ComplexExpressionBuilder</code> class provides an implementation to parse expressions for parameters of type {@link Complex}.<br>
  * 
  * @author Pratanu Mandal
  * @since 1.0
@@ -85,54 +86,54 @@ public class ComplexExpressionBuilder extends ExpressionBuilder<Complex> {
 	protected void initialize() {
 		ExpressionDictionary<Complex> expressionDictionary = this.getExpressionDictionary();
 
-		expressionDictionary.addOperator(new Operator<>("+", OperatorType.PREFIX, Integer.MAX_VALUE, (operands) -> operands.get(0)));
-		expressionDictionary.addOperator(new Operator<>("-", OperatorType.PREFIX, Integer.MAX_VALUE, (operands) -> operands.get(0).negate()));
+		expressionDictionary.addOperator(new Operator<>("+", OperatorType.PREFIX, Integer.MAX_VALUE, (parameters) -> parameters.get(0).value()));
+		expressionDictionary.addOperator(new Operator<>("-", OperatorType.PREFIX, Integer.MAX_VALUE, (parameters) -> parameters.get(0).value().negate()));
 
-		expressionDictionary.addOperator(new Operator<>("+", OperatorType.INFIX, 1, (operands) -> operands.get(0).add(operands.get(1))));
-		expressionDictionary.addOperator(new Operator<>("-", OperatorType.INFIX, 1, (operands) -> operands.get(0).subtract(operands.get(1))));
+		expressionDictionary.addOperator(new Operator<>("+", OperatorType.INFIX, 1, (parameters) -> parameters.get(0).value().add(parameters.get(1).value())));
+		expressionDictionary.addOperator(new Operator<>("-", OperatorType.INFIX, 1, (parameters) -> parameters.get(0).value().subtract(parameters.get(1).value())));
 
-		expressionDictionary.addOperator(new Operator<>("*", OperatorType.INFIX, 2, (operands) -> operands.get(0).multiply(operands.get(1))));
-		expressionDictionary.addOperator(new Operator<>("/", OperatorType.INFIX, 2, (operands) -> operands.get(0).divide(operands.get(1))));
+		expressionDictionary.addOperator(new Operator<>("*", OperatorType.INFIX, 2, (parameters) -> parameters.get(0).value().multiply(parameters.get(1).value())));
+		expressionDictionary.addOperator(new Operator<>("/", OperatorType.INFIX, 2, (parameters) -> parameters.get(0).value().divide(parameters.get(1).value())));
 
-		expressionDictionary.addOperator(new Operator<>("^", OperatorType.INFIX_RTL, 3, (operands) -> operands.get(0).pow(operands.get(1))));
+		expressionDictionary.addOperator(new Operator<>("^", OperatorType.INFIX_RTL, 3, (parameters) -> parameters.get(0).value().pow(parameters.get(1).value())));
 
-		expressionDictionary.addOperator(new Operator<>("abs", OperatorType.PREFIX, 4, (operands) -> Complex.ofCartesian(operands.get(0).abs(), 0)));
+		expressionDictionary.addOperator(new Operator<>("abs", OperatorType.PREFIX, 4, (parameters) -> Complex.ofCartesian(parameters.get(0).value().abs(), 0)));
 
-		expressionDictionary.addOperator(new Operator<>("sin", OperatorType.PREFIX, 4, (operands) -> operands.get(0).sin()));
-		expressionDictionary.addOperator(new Operator<>("cos", OperatorType.PREFIX, 4, (operands) -> operands.get(0).cos()));
-		expressionDictionary.addOperator(new Operator<>("tan", OperatorType.PREFIX, 4, (operands) -> operands.get(0).tan()));
+		expressionDictionary.addOperator(new Operator<>("sin", OperatorType.PREFIX, 4, (parameters) -> parameters.get(0).value().sin()));
+		expressionDictionary.addOperator(new Operator<>("cos", OperatorType.PREFIX, 4, (parameters) -> parameters.get(0).value().cos()));
+		expressionDictionary.addOperator(new Operator<>("tan", OperatorType.PREFIX, 4, (parameters) -> parameters.get(0).value().tan()));
 
-		expressionDictionary.addOperator(new Operator<>("asin", OperatorType.PREFIX, 4, (operands) -> operands.get(0).asin()));
-		expressionDictionary.addOperator(new Operator<>("acos", OperatorType.PREFIX, 4, (operands) -> operands.get(0).acos()));
-		expressionDictionary.addOperator(new Operator<>("atan", OperatorType.PREFIX, 4, (operands) -> operands.get(0).atan()));
+		expressionDictionary.addOperator(new Operator<>("asin", OperatorType.PREFIX, 4, (parameters) -> parameters.get(0).value().asin()));
+		expressionDictionary.addOperator(new Operator<>("acos", OperatorType.PREFIX, 4, (parameters) -> parameters.get(0).value().acos()));
+		expressionDictionary.addOperator(new Operator<>("atan", OperatorType.PREFIX, 4, (parameters) -> parameters.get(0).value().atan()));
 
-		expressionDictionary.addOperator(new Operator<>("sinh", OperatorType.PREFIX, 4, (operands) -> operands.get(0).sinh()));
-		expressionDictionary.addOperator(new Operator<>("cosh", OperatorType.PREFIX, 4, (operands) -> operands.get(0).cosh()));
-		expressionDictionary.addOperator(new Operator<>("tanh", OperatorType.PREFIX, 4, (operands) -> operands.get(0).tanh()));
+		expressionDictionary.addOperator(new Operator<>("sinh", OperatorType.PREFIX, 4, (parameters) -> parameters.get(0).value().sinh()));
+		expressionDictionary.addOperator(new Operator<>("cosh", OperatorType.PREFIX, 4, (parameters) -> parameters.get(0).value().cosh()));
+		expressionDictionary.addOperator(new Operator<>("tanh", OperatorType.PREFIX, 4, (parameters) -> parameters.get(0).value().tanh()));
 
-		expressionDictionary.addOperator(new Operator<>("asinh", OperatorType.PREFIX, 4, (operands) -> ComplexUtils.asinh(operands.get(0))));
-		expressionDictionary.addOperator(new Operator<>("acosh", OperatorType.PREFIX, 4, (operands) -> ComplexUtils.acosh(operands.get(0))));
-		expressionDictionary.addOperator(new Operator<>("atanh", OperatorType.PREFIX, 4, (operands) -> ComplexUtils.atanh(operands.get(0))));
+		expressionDictionary.addOperator(new Operator<>("asinh", OperatorType.PREFIX, 4, (parameters) -> ComplexUtils.asinh(parameters.get(0).value())));
+		expressionDictionary.addOperator(new Operator<>("acosh", OperatorType.PREFIX, 4, (parameters) -> ComplexUtils.acosh(parameters.get(0).value())));
+		expressionDictionary.addOperator(new Operator<>("atanh", OperatorType.PREFIX, 4, (parameters) -> ComplexUtils.atanh(parameters.get(0).value())));
 
-		expressionDictionary.addFunction(new Function<>("deg", 1, (operands) -> ComplexUtils.toDegrees(operands.get(0))));
-		expressionDictionary.addFunction(new Function<>("rad", 1, (operands) -> ComplexUtils.toRadians(operands.get(0))));
+		expressionDictionary.addFunction(new Function<>("deg", 1, (parameters) -> ComplexUtils.toDegrees(parameters.get(0).value())));
+		expressionDictionary.addFunction(new Function<>("rad", 1, (parameters) -> ComplexUtils.toRadians(parameters.get(0).value())));
 
-		expressionDictionary.addOperator(new Operator<>("ln", OperatorType.PREFIX, 4, (operands) -> operands.get(0).log()));
-		expressionDictionary.addOperator(new Operator<>("log10", OperatorType.PREFIX, 4, (operands) -> ComplexUtils.log10(operands.get(0))));
-		expressionDictionary.addFunction(new Function<>("log", 2, (operands) -> ComplexUtils.log(operands.get(1), operands.get(0))));
+		expressionDictionary.addOperator(new Operator<>("ln", OperatorType.PREFIX, 4, (parameters) -> parameters.get(0).value().log()));
+		expressionDictionary.addOperator(new Operator<>("log10", OperatorType.PREFIX, 4, (parameters) -> ComplexUtils.log10(parameters.get(0).value())));
+		expressionDictionary.addFunction(new Function<>("log", 2, (parameters) -> ComplexUtils.log(parameters.get(1).value(), parameters.get(0).value())));
 
-		expressionDictionary.addOperator(new Operator<>("sqrt", OperatorType.PREFIX, 4, (operands) -> operands.get(0).sqrt()));
-		expressionDictionary.addOperator(new Operator<>("cbrt", OperatorType.PREFIX, 4, (operands) -> ComplexUtils.cbrt(operands.get(0))));
+		expressionDictionary.addOperator(new Operator<>("sqrt", OperatorType.PREFIX, 4, (parameters) -> parameters.get(0).value().sqrt()));
+		expressionDictionary.addOperator(new Operator<>("cbrt", OperatorType.PREFIX, 4, (parameters) -> ComplexUtils.cbrt(parameters.get(0).value())));
 
-		expressionDictionary.addFunction(new Function<>("exp", 1, (operands) -> operands.get(0).exp()));
+		expressionDictionary.addFunction(new Function<>("exp", 1, (parameters) -> parameters.get(0).value().exp()));
 
-		expressionDictionary.addFunction(new Function<>("max", (operands) -> operands.isEmpty() ? Complex.ZERO : ComplexUtils.max(operands)));
-		expressionDictionary.addFunction(new Function<>("min", (operands) -> operands.isEmpty() ? Complex.ZERO : ComplexUtils.min(operands)));
+		expressionDictionary.addFunction(new Function<>("max", (parameters) -> parameters.isEmpty() ? Complex.ZERO : ComplexUtils.max(parameters.stream().map(e -> e.value()).collect(Collectors.toList()))));
+		expressionDictionary.addFunction(new Function<>("min", (parameters) -> parameters.isEmpty() ? Complex.ZERO : ComplexUtils.min(parameters.stream().map(e -> e.value()).collect(Collectors.toList()))));
 
-		expressionDictionary.addFunction(new Function<>("mean", (operands) -> ComplexUtils.average(operands)));
-		expressionDictionary.addFunction(new Function<>("average", (operands) -> ComplexUtils.average(operands)));
+		expressionDictionary.addFunction(new Function<>("mean", (parameters) -> ComplexUtils.average(parameters.stream().map(e -> e.value()).collect(Collectors.toList()))));
+		expressionDictionary.addFunction(new Function<>("average", (parameters) -> ComplexUtils.average(parameters.stream().map(e -> e.value()).collect(Collectors.toList()))));
 
-		expressionDictionary.addFunction(new Function<>("rand", 0, (operands) -> Complex.ofCartesian(Math.random(), Math.random())));
+		expressionDictionary.addFunction(new Function<>("rand", 0, (parameters) -> Complex.ofCartesian(Math.random(), Math.random())));
 
 		expressionDictionary.addConstant("pi", Complex.ofCartesian(Math.PI, 0));
 		expressionDictionary.addConstant("e", Complex.ofCartesian(Math.E, 0));

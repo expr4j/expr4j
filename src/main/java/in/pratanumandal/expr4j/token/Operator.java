@@ -17,11 +17,10 @@
 
 package in.pratanumandal.expr4j.token;
 
-import in.pratanumandal.expr4j.Expression;
 import in.pratanumandal.expr4j.exception.Expr4jException;
+import in.pratanumandal.expr4j.expression.ExpressionParameter;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * The <code>Operator&lt;T&gt;</code> class represents operators in the expression.
@@ -74,51 +73,13 @@ public class Operator<T> implements Token, Comparable<Operator<T>> {
 	}
 
 	/**
-	 * Parameterized constructor.
+	 * Evaluate the function lazily.
 	 *
-	 * @param label Label of the operator
-	 * @param operatorType Type of the operator
-	 * @param precedence Precedence of the operator
-	 * @param operation Greedy operation performed by the operator
-	 */
-	public Operator(String label, OperatorType operatorType, int precedence, GreedyOperation<T> operation) {
-		this(label, operatorType, precedence, (Operation<T>) operation);
-	}
-
-	/**
-	 * Parameterized constructor.
-	 *
-	 * @param label Label of the operator
-	 * @param operatorType Type of the operator
-	 * @param precedence Precedence of the operator
-	 * @param operation Lazy operation performed by the operator
-	 */
-	public Operator(String label, OperatorType operatorType, int precedence, LazyOperation<T> operation) {
-		this(label, operatorType, precedence, (Operation<T>) operation);
-	}
-
-	/**
-	 * Evaluate the operator greedily.
-	 *
-	 * @param operands List of operands
+	 * @param parameters List of parameters
 	 * @return Evaluated result
 	 */
-	public T evaluateGreedily(List<T> operands) {
-		GreedyOperation<T> greedyOperation = (GreedyOperation<T>) this.operation;
-		return greedyOperation.execute(operands);
-	}
-
-	/**
-	 * Evaluate the operator lazily.
-	 *
-	 * @param expression The expression
-	 * @param nodes List of nodes
-	 * @param variables Map of variables
-	 * @return Evaluated result
-	 */
-	public T evaluateLazily(Expression<T> expression, List<Expression.Node> nodes, Map<String, T> variables) {
-		LazyOperation<T> lazyOperation = (LazyOperation<T>) this.operation;
-		return lazyOperation.execute(expression, nodes, variables);
+	public T evaluate(List<ExpressionParameter<T>> parameters) {
+		return this.operation.execute(parameters);
 	}
 
 	/**

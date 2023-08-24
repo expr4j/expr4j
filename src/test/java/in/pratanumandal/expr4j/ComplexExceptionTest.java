@@ -18,6 +18,7 @@
 package in.pratanumandal.expr4j;
 
 import in.pratanumandal.expr4j.exception.Expr4jException;
+import in.pratanumandal.expr4j.expression.Expression;
 import in.pratanumandal.expr4j.impl.ComplexExpressionBuilder;
 import org.apache.commons.numbers.complex.Complex;
 import org.junit.Test;
