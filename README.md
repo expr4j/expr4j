@@ -4,7 +4,10 @@
 </p>
 
 # Expression Evaluator for Java
-This is a Java library to parse and evaluate mathematical expression strings.
+
+![Maven](https://github.com/expr4j/expr4j/actions/workflows/maven.yml/badge.svg)
+
+Expr4j is a Java library to parse and evaluate mathematical expression strings.
 
 The expressions are evaluated using [Dijkstra's Shunting Yard algorithm](https://en.wikipedia.org/wiki/Shunting-yard_algorithm). An expression tree is created from the postfix (or RPN) expression which is then parsed to evaluate the expression. The library is written entirely using generics so it can be used with any type of operands.
 
