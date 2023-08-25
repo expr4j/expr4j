@@ -1,6 +1,6 @@
 <p>
-    <img src="https://raw.githubusercontent.com/prat-man/expr4j/main/images/expr4j-rounded.png" height="100px">
-    <img src="https://raw.githubusercontent.com/prat-man/expr4j/main/images/java.png" height="100px" align="right">
+    <img src="https://raw.githubusercontent.com/expr4j/expr4j/main/images/expr4j-rounded.png" height="100px">
+    <img src="https://raw.githubusercontent.com/expr4j/expr4j/main/images/java.png" height="100px" align="right">
 </p>
 
 # Expression Evaluator for Java
