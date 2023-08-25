@@ -16,11 +16,11 @@ The expressions are evaluated using [Dijkstra's Shunting Yard algorithm](https:/
 ## Key Features
 - Supports numerical functions, operations, constants, and variables.
 - Written using generics to allow easy extension for any type of operands including user defined types.
-- Performs lazy evaluation of functions and operators for improved performance.
 - Multiple predefined implementations including BigDecimal and Complex numbers.
 - Supports addition of custom functions and operators.
 - Functions can be defined with a variable number of arguments.
 - Supports implicit multiplication, ex: `2x` is treated as `2*x` and `(a+b)(a-b)` is treated as `(a+b)*(a-b)`.
+- Supports lazy evaluation of functions and operators for improved performance.
 - Supports asynchronous evaluation for improved performance.
 - Supports scientific notations of numbers.
 
