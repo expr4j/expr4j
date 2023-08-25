@@ -17,14 +17,11 @@
 
 package in.pratanumandal.expr4j;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.platform.suite.api.Suite;
 
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
-		GeneralTest.class,
-		CompositeTest.class
-})
+@Suite
+@SelectPackages("in.pratanumandal.expr4j")
 public class Expr4jTestSuite {
 	
 }

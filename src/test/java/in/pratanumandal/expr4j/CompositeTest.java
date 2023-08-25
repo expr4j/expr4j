@@ -7,8 +7,8 @@ import in.pratanumandal.expr4j.expression.ExpressionDictionary;
 import in.pratanumandal.expr4j.token.Function;
 import in.pratanumandal.expr4j.token.Operator;
 import in.pratanumandal.expr4j.token.OperatorType;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -129,7 +129,7 @@ public class CompositeTest {
     }
 
     private void assertEquals(double expected, double actual) {
-        Assert.assertEquals(expected, actual, DELTA);
+        Assertions.assertEquals(expected, actual, DELTA);
     }
 
     @Test
@@ -146,7 +146,7 @@ public class CompositeTest {
         String actualString = expression.toString();
 
         this.assertEquals(expected.doubleValue(), actual.doubleValue());
-        Assert.assertEquals(expectedString, actualString);
+        Assertions.assertEquals(expectedString, actualString);
     }
 
     @Test
@@ -163,7 +163,7 @@ public class CompositeTest {
         String actualString = expression.toString();
 
         this.assertEquals(expected.doubleValue(), actual.doubleValue());
-        Assert.assertEquals(expectedString, actualString);
+        Assertions.assertEquals(expectedString, actualString);
     }
 
     @Test
@@ -180,7 +180,7 @@ public class CompositeTest {
         String actualString = expression.toString();
 
         this.assertEquals(expected.doubleValue(), actual.doubleValue());
-        Assert.assertEquals(expectedString, actualString);
+        Assertions.assertEquals(expectedString, actualString);
     }
 
 }

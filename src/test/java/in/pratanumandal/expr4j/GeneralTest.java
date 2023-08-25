@@ -28,8 +28,8 @@ import in.pratanumandal.expr4j.token.Operator;
 import in.pratanumandal.expr4j.token.OperatorType;
 import in.pratanumandal.expr4j.token.Separator;
 import in.pratanumandal.expr4j.token.Variable;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -75,8 +75,8 @@ public class GeneralTest {
 		String actual = expression.evaluate();
 		String actualString = expression.toString();
 		
-		Assert.assertEquals(expected, actual);
-		Assert.assertEquals(expectedString, actualString);
+		Assertions.assertEquals(expected, actual);
+		Assertions.assertEquals(expectedString, actualString);
 	}
 
 	@Test
@@ -89,8 +89,8 @@ public class GeneralTest {
 		String actual = expression.evaluate();
 		String actualString = expression.toString();
 
-		Assert.assertEquals(expected, actual);
-		Assert.assertEquals(expectedString, actualString);
+		Assertions.assertEquals(expected, actual);
+		Assertions.assertEquals(expectedString, actualString);
 	}
 
 	@Test
@@ -100,7 +100,7 @@ public class GeneralTest {
 				.stream()
 				.map(e -> e.label)
 				.toArray(String[]::new);
-		Assert.assertArrayEquals(expected, actual);
+		Assertions.assertArrayEquals(expected, actual);
 	}
 
 	@Test
@@ -110,7 +110,7 @@ public class GeneralTest {
 				.stream()
 				.map(e -> e.label)
 				.toArray(String[]::new);
-		Assert.assertArrayEquals(expected, actual);
+		Assertions.assertArrayEquals(expected, actual);
 	}
 
 	@Test
@@ -120,7 +120,7 @@ public class GeneralTest {
 				.stream()
 				.map(e -> e.toString())
 				.toArray(String[]::new);
-		Assert.assertArrayEquals(expected, actual);
+		Assertions.assertArrayEquals(expected, actual);
 	}
 
 	@Test
@@ -130,28 +130,28 @@ public class GeneralTest {
 				.stream()
 				.map(e -> e.toString())
 				.toArray(String[]::new);
-		Assert.assertArrayEquals(expected, actual);
+		Assertions.assertArrayEquals(expected, actual);
 	}
 
 	@Test
 	public void test7() {
 		String expected = "Separator{name='COMMA', label=','}";
 		String actual = Separator.COMMA.toString();
-		Assert.assertEquals(expected, actual);
+		Assertions.assertEquals(expected, actual);
 	}
 
 	@Test
 	public void test8() {
 		String expected = "Hello";
 		String actual = new Operand<>("Hello").toString();
-		Assert.assertEquals(expected, actual);
+		Assertions.assertEquals(expected, actual);
 	}
 
 	@Test
 	public void test9() {
 		String expected = "Hello";
 		String actual = new Variable("Hello").toString();
-		Assert.assertEquals(expected, actual);
+		Assertions.assertEquals(expected, actual);
 	}
 
 	@Test
@@ -165,7 +165,7 @@ public class GeneralTest {
 				.map(e -> e.toString())
 				.toArray(String[]::new);
 
-		Assert.assertArrayEquals(expected, actual);
+		Assertions.assertArrayEquals(expected, actual);
 	}
 
 }
