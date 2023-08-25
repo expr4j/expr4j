@@ -10,8 +10,8 @@
     <packaging>jar</packaging>
 
     <name>Expr4j</name>
-    <url>https://github.com/prat-man/expr4j</url>
-    <description>Simple Java library to evaluate mathematical expressions</description>
+    <url>https://github.com/expr4j/expr4j</url>
+    <description>Java library to evaluate mathematical expressions</description>
 
     <developers>
         <developer>
@@ -30,9 +30,9 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/prat-man/expr4j</url>
-        <connection>scm:git:https://github.com/prat-man/expr4j.git</connection>
-        <developerConnection>scm:git:https://github.com/prat-man/expr4j.git</developerConnection>
+        <url>https://github.com/expr4j/expr4j</url>
+        <connection>scm:git:https://github.com/expr4j/expr4j.git</connection>
+        <developerConnection>scm:git:https://github.com/expr4j/expr4j.git</developerConnection>
     </scm>
 
     <properties>
@@ -104,9 +104,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <links>
-                        <link>https://commons.apache.org/proper/commons-numbers/commons-numbers-complex/javadocs/api-1.1/</link>
-                    </links>
                     <bottom>
                         <![CDATA[
                             Copyright &#169; 2023 <a href="https://pratanumandal.in" target="_BLANK">Pratanu Mandal<a>. All rights reserved.
