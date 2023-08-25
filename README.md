@@ -8,6 +8,8 @@ This is a Java library to parse and evaluate mathematical expression strings.
 
 The expressions are evaluated using [Dijkstra's Shunting Yard algorithm](https://en.wikipedia.org/wiki/Shunting-yard_algorithm). An expression tree is created from the postfix (or RPN) expression which is then parsed to evaluate the expression.
 
+Predefined implementations are provided in the package [expr4j-impl](https://github.com/expr4j/expr4j-impl). However, the library is completely written using generics so it can be easily used with any type of operands.
+
 > **Note**<br/>
 > Version 1.x of Expr4j is a complete rewrite of the library. The new API is incompatible with the 0.0.x versions.
 
@@ -43,8 +45,3 @@ dependencies {
     implementation 'in.pratanumandal:expr4j:1.0'
 }
 ```
-
-<br/>
-
-## Implementations
-Predefined implementations are provided in the package [expr4j-impl](https://github.com/expr4j/expr4j-impl). However, the library is completely written using generics so it can be easily used with any type of operands.
