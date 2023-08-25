@@ -47,10 +47,4 @@ dependencies {
 <br/>
 
 ## Implementations
-Three predefined implementations are provided. However, the library is completely written using generics so it can be easily used with any type of operands.
-
-| Implementation | Description                                                                                                                                                                                                                                                                                                           |
-|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Double         | Implementation for Double operands. It is the fastest implementation provided.                                                                                                                                                                                                                                        |
-| BigDecimal     | Implementation for BigDecimal operands. It is slower than the Double implementation but allows for high precision.                                                                                                                                                                                                    |
-| Complex        | Implementation for complex numbers. It uses the [Complex](https://commons.apache.org/proper/commons-numbers/commons-numbers-complex/javadocs/api-1.1/org/apache/commons/numbers/complex/Complex.html) type from [Apache Commons Numbers](https://commons.apache.org/proper/commons-numbers/commons-numbers-complex/). |
+Predefined implementations are provided in the package [expr4j-impl](https://github.com/expr4j/expr4j-impl). However, the library is completely written using generics so it can be easily used with any type of operands.
