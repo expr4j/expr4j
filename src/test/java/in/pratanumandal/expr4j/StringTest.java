@@ -21,6 +21,7 @@ import in.pratanumandal.expr4j.expression.Expression;
 import in.pratanumandal.expr4j.expression.ExpressionBuilder;
 import in.pratanumandal.expr4j.expression.ExpressionConfig;
 import in.pratanumandal.expr4j.expression.ExpressionDictionary;
+import in.pratanumandal.expr4j.expression.ExpressionParameter;
 import in.pratanumandal.expr4j.expression.ExpressionTokenizer;
 import in.pratanumandal.expr4j.token.Function;
 import in.pratanumandal.expr4j.token.Operand;
@@ -34,13 +35,13 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
-public class GeneralTest {
+public class StringTest {
 
 	protected ExpressionBuilder<String> builder;
 	protected ExpressionDictionary<String> expressionDictionary;
 	protected ExpressionConfig<String> expressionConfig;
 
-	public GeneralTest() {
+	public StringTest() {
 		builder = new ExpressionBuilder<>(new ExpressionConfig<String>() {
 			@Override
 			protected String stringToOperand(String operand) {
@@ -62,7 +63,13 @@ public class GeneralTest {
 		expressionConfig = builder.getExpressionConfig();
 
 		expressionDictionary.addOperator(new Operator<>("+", OperatorType.INFIX, 1, (parameters) -> parameters.get(0).value() + parameters.get(1).value()));
-		expressionDictionary.addFunction(new Function<>("add", (parameters) -> parameters.get(0).value() + parameters.get(1).value()));
+		expressionDictionary.addFunction(new Function<>("add", (parameters) -> {
+			StringBuilder sb = new StringBuilder();
+			for (ExpressionParameter<String> parameter : parameters) {
+				sb.append(parameter.value());
+			}
+			return sb.toString();
+		}));
 	}
 	
 	@Test
